@@ -3,12 +3,8 @@
 angular.module('tcApp2App')
   	.controller('documentCtrl', documentCtrl); 
 
-<<<<<<< HEAD
-function documentCtrl($state, $window, $scope, $modal, docsModel, peopleModel, db, tagsModel) {
-=======
 function documentCtrl($state, $window, $http, $scope, $modal, docsModel, peopleModel, db, tagsModel) {
->>>>>>> ac4302a4681cbc3652fba82f04b22ce005345ddd
-
+  
   var v = this;
   v.m = docsModel;
   v.pm = peopleModel;

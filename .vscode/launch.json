@@ -27,15 +27,11 @@
 			// Use JavaScript source maps (if they exist).
 			"sourceMaps": false,
 			// If JavaScript source maps are enabled, the generated code is expected in this directory.
-<<<<<<< HEAD
-			"outDir": null
-=======
 			"outDir": null,
 			
 			"eslint.enable": true,
 			
 			"javascript.validate.enable": false
->>>>>>> ac4302a4681cbc3652fba82f04b22ce005345ddd
 		},
 		{
 			"name": "Attach",

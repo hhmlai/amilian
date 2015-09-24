@@ -5,16 +5,6 @@
     "angular": ">=1.4",
     "angular-bootstrap": ">=0.13",
     "angular-cookies": ">=1.4",
-<<<<<<< HEAD
-    "angular-deckgrid": "~0.5.0",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#>=1.4.5",
-    "angular-leaflet-directive": "~0.8.8",
-    "angular-loading-bar": ">=0.7.1",
-    "angular-medium-editor": "~0.1.0",
-    "angular-openlayers-directive": "~1.0.1",
-    "angular-pouchdb": ">=2.*",
-    "angular-resizable": "~1.2.0",
-=======
     "angular-deckgrid": ">=0.5.0",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#>=1.4.5",
     "angular-leaflet-directive": ">=0.8.8",
@@ -22,28 +12,19 @@
     "angular-medium-editor": ">=0.1.0",
     "angular-pouchdb": ">=2.*",
     "angular-resizable": ">=1.2.0",
->>>>>>> ac4302a4681cbc3652fba82f04b22ce005345ddd
     "angular-resource": ">=1.4",
     "angular-sanitize": ">=1.4",
     "angular-socket-io": ">=0.7.0",
     "angular-touch": ">=1.3.15",
     "angular-ui-router": ">=0.*",
     "angularLocalStorage": ">=0.3.0",
-<<<<<<< HEAD
-    "components-font-awesome": "~4.4.0",
-=======
->>>>>>> ac4302a4681cbc3652fba82f04b22ce005345ddd
     "es5-shim": ">=3.*",
     "font-awesome": ">=4.*",
     "json3": ">=3.*",
     "lodash": ">=2.*",
     "lrDragNDrop": "lorenzofox3/lrDragNDrop#>=1.0.2",
     "medium-editor": ">=4.4",
-<<<<<<< HEAD
-    "ng-img-crop": "ngImgCrop#~0.3.2",
-=======
     "ng-img-crop": "ngImgCrop#>=0.3.2",
->>>>>>> ac4302a4681cbc3652fba82f04b22ce005345ddd
     "ngImageEditor": ">=0.1.4",
     "ocLazyLoad": ">=0.5.2",
     "relational-pouch": ">=1.2.0",
