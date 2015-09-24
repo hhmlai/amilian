@@ -7,10 +7,10 @@ var conf = require('./conf');
 var run = require('gulp-run');
 
 gulp.task('serve', ['watch'], function () {
-   run('electron src').exec();
+   run('node_modules/.bin/electron src').exec();
 });
 
 gulp.task('serve:dist', ['build'], function () {
-   run('electron dist').exec();
+   run('node_modules/.bin/electron dist').exec();
 });
 
