@@ -1,3 +1,4 @@
+{{docVC.doc}}
 <div class="container">
   <div class="row header" checkh>
     <div class="col-sm-6" resizable r-directions="['right']" r-flex="false" style="min-height: 1px">
@@ -131,7 +132,7 @@
                 <ui-select multiple ng-model="docVC.doc.tags" theme="bootstrap" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
                   <ui-select-match placeholder="Select or search a tag in the list..."> {{$item.name}}
                   </ui-select-match>
-                  <ui-select-choices repeat="tag in docC.tm.allTags | filter: $select.search">
+                  <ui-select-choices repeat="tag.ref as tag in docC.tm.allTags | filter: $select.search">
                     <div ng-bind-html="tag.name | highlight: $select.search"></div>
                   </ui-select-choices>
                 </ui-select>
@@ -145,7 +146,7 @@
                 <ui-select multiple ng-model="docVC.doc.places" theme="bootstrap" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
                   <ui-select-match placeholder="Selecione um lugar"> {{$item.name}}
                   </ui-select-match>
-                  <ui-select-choices repeat="place in MC.plm.allPlaces | filter: $select.search">
+                  <ui-select-choices repeat="place.ref as place in MC.plm.allPlaces | filter: $select.search">
                     <div ng-bind-html="place.name | highlight: $select.search"></div>
                   </ui-select-choices>
                 </ui-select>
@@ -168,7 +169,7 @@
                       <div style="overflow: hidden">{{$item.name}}</div>
                     </div>
                   </ui-select-match>
-                  <ui-select-choices repeat="person.id as person in docC.pm.allPeople | filter: $select.search | filter: {$: role}">
+                  <ui-select-choices repeat="person.ref as person in docC.pm.allPeople | filter: $select.search | filter: {$: role}">
                     <div ng-bind-html="person.name | highlight: $select.search">
                     </div>
                   </ui-select-choices>

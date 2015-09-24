@@ -38,7 +38,12 @@ console.log($scope.markers.place)
 
   v.ok = function () {
     if (v.place.name.lenght != 0) {
+      v.place.ref = {
+        id: v.place.id,
+        name: v.place.name
+      }
       $modalInstance.close(v.place);
+      
     } else {
       $window.alert('Dados incompletos')
     }

@@ -6,7 +6,9 @@ angular.module('tcApp2App')
   v.tag = tag;
 
   v.ok = function () {
-    console.log('vou fechar')
+    v.tag.ref = {
+      id: v.tag.id,
+      name:v.tag.name}
     $modalInstance.close(v.tag);
   };
 

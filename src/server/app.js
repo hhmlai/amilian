@@ -147,10 +147,10 @@ try {
 
   main.on('ready', function () {
     win = new BrowserWindow({
-      title: 'playback',
       frame: true,
       show: true,
       title: "Nós as Pessoas",
+      icon: path.join(__dirname, 'icon.ico'),
       "node-integration": false
     })
     win.setMenu(null);

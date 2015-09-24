@@ -10,6 +10,10 @@ angular.module('tcApp2App')
 
   v.ok = function () {
     if ((v.person.name) && (v.person.inicials) && (v.person.roles.length != 0)) {
+      v.person.ref = {
+        id: v.person.id,
+        name: v.person.name
+      }
       $modalInstance.close(v.person);
     } else {
       $window.alert('Dados incompletos')
