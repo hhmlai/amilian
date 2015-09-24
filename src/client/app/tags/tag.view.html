@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <button type="button" class="btn btn-xs pull-right" ng-click="tagVC.deleteTag()">Apagar</button>
+      <button type="button" class="btn btn-xs pull-right btn-primary" ng-click="tagVC.editTag();">Editar</button>
+      <h4>{{tagVC.m.activeTag.name}} </h4>
+      <h6>{{tagVC.m.activeTag.notes}}</h6>
+    </div>
+    <div class="panel-body">
+      <div class="list-group list-group-minimal">
+        <div deckgrid class="deckgrid" source="tagVC.dm.allDocs" filter="{$: tagVC.m.activeTag.id}">
+          <div class="a-card">
+            <a href ui-sref="app.documents.view({docId:card.id})" class="list-group-item">
+              <h3> {{card.name}}  </h3>
+              <img class="img-responsive" ng-src="/app/components/wtp.jpg" ng-show="!card.video.thumbUrl">
+              <img class="img-responsive" ng-src="{{card.video.thumbUrl}}" ng-hide="!card.video.thumbUrl">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

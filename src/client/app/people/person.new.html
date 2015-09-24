@@ -1,0 +1,11 @@
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-1">Funcao</label>
+              <div class="col-sm-5">
+                          <ui-select ng-model="perEC.person.type" theme="bootstrap">
+                            <ui-select-match placeholder="Select type...">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="type in peoC.m.types  | filter: $select.search">
+                              <div ng-bind-html="type | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+              </div>
+            </div>

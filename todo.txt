@@ -1,0 +1,26 @@
+AA Publicar github
+	A. Interface melhorada/GPL
+	    1. eliminar xenon - OK
+		2. novo tema - OK
+		3. melhorar consistência gráfica 
+		4. navegaçao inicial mais intuitiva
+		5. pesquisa de documentos com imagens
+	B. Simplificar edição videos	
+	C. Multi-lingua
+	D. Locais/mapa
+	E. Multi-utilizador
+	K. App desktop p/ mac
+
+BB Lançar portal nós as pessoas (beta)
+	F. Unificacao codigo cliente com servidor electron/remoto 
+	G. sincronização electron/servidor remoto 
+
+CC Lançamento oficial
+	H. Relações entre documentos
+	I. Pesquisa relações (graph search)
+	L. App mobile p/ android
+	N. APP desktop p/ linux
+
+DD Pós lançamento
+	J. App mobile p/ iphone
+	M. App mobile p/ windows

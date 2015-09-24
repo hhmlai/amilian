@@ -1,0 +1,19 @@
+<button popover="Novo lugar" popover-trigger="mouseenter" popover-placement="left" type="button" class="btn-lg btn-round btn-info pull-right"
+ng-click="plcC.m.newPlace()">
+    <span class="glyphicon glyphicon-plus center"></span>
+</button>
+<div class="container">
+    <div class="col-md-3">
+        Lista de lugares
+        <div class="list-group list-group-minimal">
+            <div ng-repeat="doc in plcC.places track by $index">
+                <a href ui-sref="app.places.view({docId:doc.id})" class="list-group-item">
+              {{doc.name}}  
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">Lista de marcadores: {{plcC.markers}}
+        <leaflet lf-center="plcC.dili" markers="plcC.markers" width="100%" height="700px"></leaflet>
+    </div>
+</div>

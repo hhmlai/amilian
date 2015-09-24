@@ -1,0 +1,142 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\iojs\\node.exe',
+1 verbose cli   'C:\\Program Files\\iojs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'i',
+1 verbose cli   'angular-deckgird' ]
+2 info using npm@2.13.3
+3 info using node@v3.0.0
+4 verbose install initial load of c:\dev\wtp2\package.json
+5 warn package.json tcApp2App@0.0.0 No description
+6 warn package.json tcApp2App@0.0.0 No repository field.
+7 warn package.json tcApp2App@0.0.0 No README data
+8 warn package.json tcApp2App@0.0.0 No license field.
+9 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\body-parser\package.json
+10 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\browser-sync\package.json
+11 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\browser-sync-spa\package.json
+12 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\chalk\package.json
+13 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\concat-stream\package.json
+14 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\del\package.json
+15 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\electron-connect\package.json
+16 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp\package.json
+17 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-angular-filesort\package.json
+18 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-angular-templatecache\package.json
+19 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-autoprefixer\package.json
+20 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-csso\package.json
+21 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-filter\package.json
+22 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-flatten\package.json
+23 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-inject\package.json
+24 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-jshint\package.json
+25 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-livereload\package.json
+26 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-load-plugins\package.json
+27 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-minify-html\package.json
+28 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-ng-annotate\package.json
+29 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-protractor\package.json
+30 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-rename\package.json
+31 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-replace\package.json
+32 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-rev\package.json
+33 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-rev-replace\package.json
+34 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-run\package.json
+35 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-size\package.json
+36 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-sourcemaps\package.json
+37 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-uglify\package.json
+38 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-useref\package.json
+39 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\gulp-util\package.json
+40 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\http-proxy-middleware\package.json
+41 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\jasmine-core\package.json
+42 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\jshint-stylish\package.json
+43 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\karma\package.json
+44 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\karma-angular-filesort\package.json
+45 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\karma-jasmine\package.json
+46 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\karma-ng-html2js-preprocessor\package.json
+47 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\karma-phantomjs-launcher\package.json
+48 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\lodash\package.json
+49 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\main-bower-files\package.json
+50 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\merge-stream\package.json
+51 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\phantomjs\package.json
+52 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\require-dir\package.json
+53 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\uglify-save-license\package.json
+54 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\wiredep\package.json
+55 verbose installManyTop reading scoped package data from c:\dev\wtp2\node_modules\wrench\package.json
+56 info package.json gulp-inject@1.3.1 No license field.
+57 info package.json gulp-rename@1.2.2 No license field.
+58 info package.json gulp-ng-annotate@1.0.0 license should be a valid SPDX license expression
+59 info package.json gulp-protractor@1.0.0 No license field.
+60 info package.json uglify-save-license@0.4.1 No license field.
+61 info package.json wiredep@2.2.2 No license field.
+62 info package.json wrench@1.5.8 No license field.
+63 verbose readDependencies loading dependencies from c:\dev\wtp2\package.json
+64 silly cache add args [ 'angular-deckgird', null ]
+65 verbose cache add spec angular-deckgird
+66 silly cache add parsed spec { raw: 'angular-deckgird',
+66 silly cache add   scope: null,
+66 silly cache add   name: 'angular-deckgird',
+66 silly cache add   rawSpec: '',
+66 silly cache add   spec: '*',
+66 silly cache add   type: 'range' }
+67 silly addNamed angular-deckgird@*
+68 verbose addNamed "*" is a valid semver range for angular-deckgird
+69 silly addNameRange { name: 'angular-deckgird', range: '*', hasData: false }
+70 silly mapToRegistry name angular-deckgird
+71 silly mapToRegistry using default registry
+72 silly mapToRegistry registry https://registry.npmjs.org/
+73 silly mapToRegistry uri https://registry.npmjs.org/angular-deckgird
+74 verbose addNameRange registry:https://registry.npmjs.org/angular-deckgird not in flight; fetching
+75 verbose request uri https://registry.npmjs.org/angular-deckgird
+76 verbose request no auth needed
+77 info attempt registry request try #1 at 11:16:49
+78 verbose request id 2a48ddb871353b1d
+79 http request GET https://registry.npmjs.org/angular-deckgird
+80 http 404 https://registry.npmjs.org/angular-deckgird
+81 verbose headers { 'content-type': 'application/json',
+81 verbose headers   'cache-control': 'max-age=0',
+81 verbose headers   'content-length': '2',
+81 verbose headers   'accept-ranges': 'bytes',
+81 verbose headers   date: 'Sat, 12 Sep 2015 02:16:47 GMT',
+81 verbose headers   via: '1.1 varnish',
+81 verbose headers   age: '0',
+81 verbose headers   connection: 'keep-alive',
+81 verbose headers   'x-served-by': 'cache-syd1623-SYD',
+81 verbose headers   'x-cache': 'MISS',
+81 verbose headers   'x-cache-hits': '0',
+81 verbose headers   'x-timer': 'S1442024207.226504,VS0,VE233' }
+82 silly get cb [ 404,
+82 silly get   { 'content-type': 'application/json',
+82 silly get     'cache-control': 'max-age=0',
+82 silly get     'content-length': '2',
+82 silly get     'accept-ranges': 'bytes',
+82 silly get     date: 'Sat, 12 Sep 2015 02:16:47 GMT',
+82 silly get     via: '1.1 varnish',
+82 silly get     age: '0',
+82 silly get     connection: 'keep-alive',
+82 silly get     'x-served-by': 'cache-syd1623-SYD',
+82 silly get     'x-cache': 'MISS',
+82 silly get     'x-cache-hits': '0',
+82 silly get     'x-timer': 'S1442024207.226504,VS0,VE233' } ]
+83 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/angular-deckgird
+83 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\iojs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:239:14)
+83 verbose stack     at Request._callback (C:\Program Files\iojs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:170:14)
+83 verbose stack     at Request.self.callback (C:\Program Files\iojs\node_modules\npm\node_modules\request\request.js:198:22)
+83 verbose stack     at emitTwo (events.js:87:13)
+83 verbose stack     at Request.emit (events.js:172:7)
+83 verbose stack     at Request.<anonymous> (C:\Program Files\iojs\node_modules\npm\node_modules\request\request.js:1057:14)
+83 verbose stack     at emitOne (events.js:82:20)
+83 verbose stack     at Request.emit (events.js:169:7)
+83 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\iojs\node_modules\npm\node_modules\request\request.js:1003:12)
+83 verbose stack     at emitNone (events.js:72:20)
+84 verbose statusCode 404
+85 verbose pkgid angular-deckgird
+86 verbose cwd c:\dev\wtp2
+87 error Windows_NT 6.3.9600
+88 error argv "C:\\Program Files\\iojs\\node.exe" "C:\\Program Files\\iojs\\node_modules\\npm\\bin\\npm-cli.js" "i" "angular-deckgird"
+89 error node v3.0.0
+90 error npm  v2.13.3
+91 error code E404
+92 error 404 Registry returned 404 for GET on https://registry.npmjs.org/angular-deckgird
+92 error 404
+92 error 404 'angular-deckgird' is not in the npm registry.
+92 error 404 You should bug the author to publish it (or use the name yourself!)
+92 error 404 It was specified as a dependency of 'tcApp2App'
+92 error 404
+92 error 404 Note that you can also install from a
+92 error 404 tarball, folder, http url, or git url.
+93 verbose exit [ 1, true ]
