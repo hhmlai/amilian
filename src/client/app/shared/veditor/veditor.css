@@ -1,0 +1,34 @@
+/* Custom button */
+videogular my-start-button, 
+videogular my-end-button {
+    display: table-cell;
+    width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+}
+
+videogular my-start-button a,
+videogular my-start-button a:hover,
+videogular my-start-button a:visited,
+videogular my-end-button a,
+videogular my-end-button a:hover,
+videogular my-end-button a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+videogular div.my-button {
+    display: table-cell;
+    width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+}
+
+videogular div.my-button a,
+videogular div.my-button a:hover,
+videogular div.my-button a:visited {
+    color: white;
+    text-decoration: none;
+}

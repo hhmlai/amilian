@@ -1,0 +1,135 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(src/client) app/vendor.css -->
+      <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.min.css" />
+      <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+      <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+      <link rel="stylesheet" href="bower_components/medium-editor/dist/css/medium-editor.css" />
+      <link rel="stylesheet" href="bower_components/medium-editor/dist/css/themes/default.css" />
+      <link rel="stylesheet" href="bower_components/openlayers3/build/ol.css" />
+      <link rel="stylesheet" href="bower_components/angular-resizable/src/angular-resizable.css" />
+      <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
+      <link rel="stylesheet" href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css" />
+      <link rel="stylesheet" href="bower_components/ui-select/dist/select.css" />
+      <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.css" />
+      <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(src/client) app/app.css -->
+      <!-- inject:css -->
+      <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/documents/documents.css">
+      <link rel="stylesheet" href="app/tags/tag.css">
+      <link rel="stylesheet" href="app/components/themes/wtp-dark.css">
+      <link rel="stylesheet" href="app/shared/veditor/veditor.css">
+      <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+  <body ng-app="tcApp2App">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ui-view=""></div>
+
+    <!-- build:js(src/client) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-deckgrid/angular-deckgrid.js"></script>
+      <script src="bower_components/angular-hotkeys/build/hotkeys.min.js"></script>
+      <script src="bower_components/angular-simple-logger/dist/index.js"></script>
+      <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+      <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+      <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+      <script src="bower_components/medium-editor/dist/js/medium-editor.js"></script>
+      <script src="bower_components/angular-medium-editor/dist/angular-medium-editor.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/openlayers3/build/ol.js"></script>
+      <script src="bower_components/angular-openlayers-directive/dist/angular-openlayers-directive.min.js"></script>
+      <script src="bower_components/pouchdb/dist/pouchdb.js"></script>
+      <script src="bower_components/angular-pouchdb/angular-pouchdb.js"></script>
+      <script src="bower_components/angular-resizable/src/angular-resizable.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-socket-io/socket.js"></script>
+      <script src="bower_components/angular-touch/angular-touch.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/angularLocalStorage/src/angularLocalStorage.js"></script>
+      <script src="bower_components/json3/lib/json3.js"></script>
+      <script src="bower_components/lodash/lodash.js"></script>
+      <script src="bower_components/lrDragNDrop/lrDragNDrop.js"></script>
+      <script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+      <script src="bower_components/ngImageEditor/dist/ngImageEditor.js"></script>
+      <script src="bower_components/ocLazyLoad/dist/ocLazyLoad.js"></script>
+      <script src="bower_components/relational-pouch/dist/pouchdb.relational-pouch.js"></script>
+      <script src="bower_components/ui-select/dist/select.js"></script>
+      <script src="bower_components/videogular/videogular.js"></script>
+      <script src="bower_components/videogular-buffering/vg-buffering.js"></script>
+      <script src="bower_components/videogular-controls/vg-controls.js"></script>
+      <script src="bower_components/videogular-overlay-play/vg-overlay-play.js"></script>
+      <script src="bower_components/videogular-poster/vg-poster.js"></script>
+      <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js(.tmp/serve,.tmp/partials,src/client) app/app.js -->
+
+          <!-- inject:js -->
+          <script src="app/app.js"></script>
+          <script src="app/shared/vtranscript/vg-segment.js"></script>
+          <script src="app/shared/veditor/veditor.js"></script>
+          <script src="app/shared/veditor/veditor.config.js"></script>
+          <script src="app/shared/crop/crop.js"></script>
+          <script src="app/tags/tags.model.js"></script>
+          <script src="app/tags/tags.controller.js"></script>
+          <script src="app/tags/tags.config.js"></script>
+          <script src="app/tags/tag.view.js"></script>
+          <script src="app/tags/tag.edit.js"></script>
+          <script src="app/shared/utils.js"></script>
+          <script src="app/shared/sockets.js"></script>
+          <script src="app/shared/modal.provider.js"></script>
+          <script src="app/shared/db.js"></script>
+          <script src="app/places/places.model.js"></script>
+          <script src="app/places/places.controller.js"></script>
+          <script src="app/places/places.config.js"></script>
+          <script src="app/places/place.view.js"></script>
+          <script src="app/places/place.edit.js"></script>
+          <script src="app/people/person.view.js"></script>
+          <script src="app/people/person.edit.js"></script>
+          <script src="app/people/people.model.js"></script>
+          <script src="app/people/people.controller.js"></script>
+          <script src="app/people/people.config.js"></script>
+          <script src="app/documents/documents.model.js"></script>
+          <script src="app/documents/documents.js"></script>
+          <script src="app/documents/documents.config.js"></script>
+          <script src="app/documents/document.view.js"></script>
+          <script src="app/documents/document.edit.js"></script>
+          <!-- endinject -->                    
+    
+          <!-- inject:partials:js -->
+          <!-- html template files -->
+          <!-- endinject -->
+        <!-- endbuild -->
+    
+        <script src="/socket.io/socket.io.js"></script>
+
+        <!-- build:remove -->
+          <script src="http://localhost:35729/livereload.js"></script> 
+        <!-- endbuild -->
+
+</body>
+</html>

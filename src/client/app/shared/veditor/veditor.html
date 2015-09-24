@@ -1,0 +1,155 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vEC.cancel();" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Video Principal</h4><br>
+</div>
+<div class="modal-body">
+  <div class ="row">
+    <div class="col-sm-7">
+      <div>
+        <videogular style="width: 100%; padding-bottom: 58%" ng-click="vEC.userAction = true" vg-player-ready="vEC.onPlayerReady($API)" vg-update-state="vEC.onUpdateState($state)" vg-theme="vEC.config.theme.url" vg-cue-points="vEC.config.cuePoints" >
+            <vg-media style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;" vg-src="vEC.config.sources" vg-tracks="vEC.config.tracks">
+            </vg-media>
+            <vg-controls>
+                <vg-play-pause-button></vg-play-pause-button>
+                <vg-time-display>{{ currentTime | millSecondsToSeconds }}</vg-time-display>
+                <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    <vg-cuepoints vg-cuepoints-config="vEC.config.plugins.cuepoints" vg-cuepoints-theme="vEC.config.plugins.cuepoints.theme.url"></vg-cuepoints>
+                </vg-scrub-bar>
+                <vg-volume>
+                    <vg-mute-button></vg-mute-button>
+                    <vg-volume-bar></vg-volume-bar>
+                </vg-volume>
+            </vg-controls>
+            <vg-overlay-play></vg-overlay-play>
+        </videogular>
+      </div>
+      <div>
+         <span type="button" class="btn " ng-click="vEC.putStart()">
+                            <i class="glyphicon glyphicon-plus"></i>
+            <span>Definir Inicio</span>
+          </span>
+         <span type="button" class="btn " ng-click="vEC.split()">
+                            <i class="glyphicon glyphicon-plus"></i>
+            <span>Dividir</span>
+          </span>
+         <span type="button" class="btn" ng-click="vEC.putEnd()">
+                            <i class="glyphicon glyphicon-plus"></i>
+            <span>Definir Fim</span>
+          </span>
+      </div>
+      <div style="background: #f3f3f3">
+          <table class="table table-condensed" style = "min-height: 100px" >
+            <tbody>
+            <tr lr-drag-src="reorder" lr-drop-target="reorder" data-ng-repeat="file in vEC.list track by $index" ng-class="{info: (vEC.currentVideo===$index)}" >
+                      <td class="col-sm-3">
+                          <div class="preview">
+                              <div ng-click="vEC.setVideo($index,file.start)">
+                                <img draggable="false" data-ng-src="{{file.thumbnailUrl}}" style="height:50px">
+                              </div>
+                          </div>
+                      </td>
+                      <td class="col-sm-8">
+                        <div>{{file.name}}</div> 
+                        <form class="form-horizontal" role="form">
+                           <div class="form-group">
+                              <label for="inicio" class="col-sm-2 control-label">I</label>
+                              <div class="col-sm-4">
+                                 <input type="number" min="0.0" max="{{file.end}}" step="0.1" class="form-control" id="inicio" ng-model="file.start" style="min-width:70px;" ng-change="vEC.seekTime(file.start)" ng-focus="vEC.setVideo($index,file.start);vEC.API.pause()" ng-blur="vEC.checkTime(file)">
+                              </div>
+                              <label for="fim" class="col-sm-1 control-label">F</label>
+                              <div class="col-sm-4">
+                                 <input type="number" min="{{file.start}}"  max="{{file.duration}}" step="0.1" class="form-control" id="fim" ng-model="file.end" style="min-width:70px" ng-change="vEC.seekTime(file.end)" ng-focus="vEC.setVideo($index,file.end);vEC.API.pause()" ng-blur="vEC.checkTime(file)">
+                              </div>
+                           </div>
+                        </form>
+                      </td>
+                      <td class="col-sm-1">
+                         <button type="button" class="btn-xs pull-right" data-ng-click="vEC.videoRemove($index)">
+                              <i class="glyphicon glyphicon-remove"></i>
+                          </button>
+                      </td>
+                </tr>
+                </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="col-md-5">
+              <!-- The file upload form used as target for the file upload widget -->
+              <div class="row" style="min-height: 150px">
+                      <div class="row">
+                          <!-- The fileinput-button span is used to style the file input field as button -->
+                          <span type="button" class="btn btn-success" ng-click="vEC.uploadVideo()">
+                              <i class="glyphicon glyphicon-plus"></i>
+                              <span>Importar ficheiros video</span>
+                          </span>
+                          <span type="button" class="btn btn-success" ng-click="vEC.uploadRemoveAll()">
+                              <i class="glyphicon glyphicon-trash"></i>
+                              <span>Apagar Tudo</span>
+                          </span>
+                      </div>
+                      <table class="table table-condensed" data-ng-model="vEC.queue">
+                        <tr data-ng-repeat="video in vEC.queue">
+                          <td class="col-sm-4" >
+                              <div class="preview" ng-show="!!video.thumbnailUrl" >
+                                  <img data-ng-src="{{video.thumbnailUrl}}" alt="" style = "height: 50px" >
+                              </div>
+                          </td>
+                          <td class="col-sm-8">
+                              <p class="name" >
+                                  <span >{{video.name}}</span>
+                              </p>
+                              <p class="name" >
+                                  <span ng-hide ="(video.status === 'ok')">{{video.status}} 
+                                  <a ng-hide ="!video.progress">{{video.progress | number:0}}%</a></span>
+                              </p>
+                              <strong data-ng-show="file.error" class="error text-danger">{{file.error}}</strong>
+                          </td>
+                          <td class="col-sm-1">
+                              <button  type="button" class="btn-xs pull-right destroy" data-ng-click="vEC.cancelUpload(video.name)">
+                                  <i class="glyphicon glyphicon-trash"></i>
+                              </button>
+                          </td>
+                        </tr>
+                      </table>
+              </div>
+            <div class="row"><br></div>
+            <div style="background: #f3f3f3">
+              <table class="table table-condensed">
+                 <tbody data-ng-repeat="file in vEC.uploadedList">       
+                    <tr>
+                        <td class="col-sm-4">
+                            <div class="preview" ng-show="!!file.thumbnailUrl">
+                                <img data-ng-src="{{file.thumbnailUrl}}" style="width: 100%">
+                            </div>
+                            <button  type="button" class="btn-l" data-ng-click="vEC.add(file)">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                        </td>
+                        <td class="col-sm-8">
+                            <p class="description" >
+                                <span>{{file.name}}</span>
+                            </p>
+                            <p class="description" >
+                                <span>{{file.size | bytesToMbytes}} MB / {{file.duration}} sec</span>
+                            </p>
+                        </td>
+                         <td class="col-sm-1">
+                            <button  type="button" class="btn-xs pull-right destroy" data-ng-click="vEC.uploadRemove(file)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button ng-hide="(!vEC.list.length)" type="button" class="btn btn-white" ng-click="vEC.finalize(true);">{{videoButtonMsg[vEC.doc.id]}}</button>
+    <button type="button" class="btn btn-info" ng-click="vEC.cancel();">Fechar</button>
+  </div>
+
+
+

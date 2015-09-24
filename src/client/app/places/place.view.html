@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-md-9">
+      <form role="form" class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-4 control-label" for="field-1">Nome Completo</label>
+          <div class="col-sm-8">
+            <label type="text" class="form-control"> {{plcVC.m.activePlace.name}}</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label" for="field-1">GPS Coordinates</label>
+          <div class="col-sm-8">
+            <label type="text" class="form-control"> Latitude:{{plcVC.m.activePlace.gps.lat}}</label>
+            <label type="text" class="form-control"> Longitude:{{plcVC.m.activePlace.gps.lng}}</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label" for="field-1">Observações</label>
+          <div class="col-sm-8">
+            <label type="text" class="form-control"> {{plcVC.m.activeplace.notes}}</label>
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="col-md-3">
+              <img class="img-circle" ng-src="{{plcVC.m.activeplace.picture}}" />
+        <button type="button" class="btn btn-primary" ng-click="plcVC.m.editPlace(plcVC.m.activePlace.id);">Editar</button>
+        <button type="button" class="btn pull-right" ng-click="plcVC.deletePlace()">Apagar</button>
+      </div>
+    </div>
+  </div>
+  Documentos associadas
+  <div class="list-group list-group-minimal">
+        <div deckgrid class="deckgrid" source="MC.dm.allDocs" filter="{$: plcVC.m.activePlace.id}">
+        <div class="a-card">
+        <a href ui-sref="app.documents.view({docId:card.id})" class="list-group-item">
+            <h3> {{card.name}}  </h3>
+            <img class="img-responsive" ng-src="/app/components/wtp.jpg" ng-show="!card.video.thumbUrl">
+            <img class="img-responsive" ng-src="{{card.video.thumbUrl}}" ng-hide="!card.video.thumbUrl">
+            </a>
+        </div>
+    </div>
+  </div>
+</div>
