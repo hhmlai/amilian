@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="docEC.cancel();" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Editar Documento</h4>
+</div>
+<div class="modal-body">
+	<div class="row">
+  		<div class="col-sm-12">
+    		<div class="panel panel-default">
+      			<div class="panel-body">
+        			<form role="form" class="form-horizontal" role="form">
+          				<div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">Tipo</label>
+                    <div class="col-sm-3">
+                          <ui-select ng-model="docEC.doc.type" theme="bootstrap">
+                            <ui-select-match placeholder="Select type...">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="type in docC.m.types  | filter: $select.search">
+                              <div ng-bind-html="type | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+            				<label class="col-sm-2 control-label" for="field-1">Titulo</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="field-1" placeholder="Nome" ng-model = "docEC.doc.name">
+                    </div>
+          				</div>
+                <div class="form-group-separator"></div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">Lingua</label>
+                    <div class="col-sm-10">
+                          <ui-select multiple ng-model="docEC.doc.languages" theme="bootstrap" ng-disabled="disabled">
+                            <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="lang in docC.m.languages | filter: $select.search">
+                              <div ng-bind-html="lang.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                    </div>
+                  </div>
+            </form>  
+      		</div>
+    		</div>
+  		</div>
+	</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-info" ng-click="docEC.cancel();">Cancelar</button>
+    <button type="button" class="btn btn-white" ng-click="docEC.ok();">Gravar e Fechar</button>
+</div>
+

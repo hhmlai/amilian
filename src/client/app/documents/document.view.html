@@ -1,0 +1,313 @@
+<div class="container">
+  <div class="row header" checkh>
+    <div class="col-sm-6" resizable r-directions="['right']" r-flex="false" style="min-height: 1px">
+      <h4 ng-show="merging[docVC.doc.id]" class="modal-title">{{videoButtonMsg[docVC.doc.id]}}</h4>
+      <div ng-show="!docVC.videogularConf.sources[0].src">
+        <button style="width: 100%" type="button" class="btn btn-primary" ng-click="docVC.editVideo()">Criar Video</button>
+      </div>
+      <div class="row">
+        <videogular ng-show="!!docVC.videogularConf.sources[0].src && !merging[docVC.doc.id]"
+        vg-player-ready="docVC.onPlayerReady($API)" vg-update-state="docVC.onUpdateState($state)" vg-theme="docVC.videogularConf.theme.url"
+        vg-cue-points="docVC.videogularConf.cuePoints">
+          <vg-media vg-src="docVC.videogularConf.sources" vg-tracks="docVC.videogularConf.tracks"></vg-media>
+          <div id="overlay" style="right: 0" class="btn-group-vertical" role="group" aria-label="...">
+            <label popover="Ficha" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            ng-model="panel" btn-radio="0">
+              <i class="glyphicon glyphicon-tag"></i>
+            </label>
+            <label popover="Pessoas" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            ng-model="panel" btn-radio="2">
+              <i class="glyphicon glyphicon-user"></i>
+            </label>
+            <label popover="Anexos" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            ng-model="panel" btn-radio="3">
+              <i class="glyphicon glyphicon-folder-open"></i>
+            </label>
+            <label popover="Clips" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            ng-model="panel" btn-radio="4">
+              <i class="glyphicon glyphicon-expand"></i>
+            </label>
+            <label popover="Notas" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            ng-model="panel" btn-radio="5">
+              <i class="glyphicon glyphicon-edit"></i>
+            </label>
+          </div>
+          <div id="overlay" class="btn-group-vertical" role="group" aria-label="...">
+            <button popover="Editar video" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.editVideo()">
+              <i class="glyphicon glyphicon-pencil"></i>
+            </button>
+            <button popover="Descarregar video" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.saveAs(docVC.doc.video.url)">
+              <i class="glyphicon glyphicon-save"></i>
+            </button>
+            <button popover="Instantâneo" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.createImage();panel=3">
+              <i class="glyphicon glyphicon-camera"></i>
+            </button>
+            <button popover="Eliminar documento" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.deleteDoc()">
+              <i class="glyphicon glyphicon-trash"></i>
+            </button>
+          </div>
+          <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | millSecondsToSeconds }}</vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-volume>
+              <vg-mute-button></vg-mute-button>
+              <vg-volume-bar></vg-volume-bar>
+            </vg-volume>
+            <vg-fullscreen-button></vg-fullscreen-button>
+          </vg-controls>
+          <vg-overlay-play></vg-overlay-play>
+        </videogular>
+      </div>
+
+    </div>
+    <div class="container-fluid" style="display: flex">
+      <div ng-show="panel === 0">
+
+        <table class="table table-condensed table-responsive">
+            <tr>
+              <td class="col-md-2">
+              </td>
+              <td class="col-md-4">
+              </td>
+              <td class="col-md-2">
+              </td >
+              <td class="col-md-4">
+               </td>
+            </tr>
+            <tr>
+              <td >
+                <label  for="field-1">Nome da Sessao</label>
+              </td>
+              <td colspan ="3">
+                <input type="text" class="form-control" id="field-1" placeholder="Nome" ng-model="docVC.doc.name" ng-blur="docVC.m.updateDoc(docVC.doc)">
+              </td>
+            </tr> 
+            <tr>
+              <td >
+                <label  for="field-1">Tipo</label>
+              </td>
+              <td>
+                <ui-select ng-model="docVC.doc.type" theme="bootstrap" ng-change="docVC.m.updateDoc(docVC.doc)">
+                  <ui-select-match placeholder="Select type...">{{$select.selected}}</ui-select-match>
+                  <ui-select-choices repeat="type in docC.m.types  | filter: $select.search">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </td>
+              <td>
+                <label>Lingua</label>
+              </td>
+              <td>
+                <ui-select multiple ng-model="docVC.doc.languages" theme="bootstrap" ng-disabled="disabled">
+                  <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
+                  <ui-select-choices repeat="lang in docC.m.languages | filter: $select.search">
+                    <div ng-bind-html="lang.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </td>
+            </tr>
+            <tr>
+              <td >
+                <label>Local</label>
+              </td>
+              <td >
+                <input type="text" class="form-control" id="field-1" placeholder="Nome" ng-model="docVC.doc.place" ng-blur="docVC.m.updateDoc(docVC.doc)">
+              </td>
+              <td >
+                <label>Data</label>
+              </td>
+              <td >
+                <input type="date" class="form-control" id="field-1" placeholder="Data" ng-model="docVC.doc.date" ng-blur="docVC.m.updateDoc(docVC.doc)">
+              </td>
+            </tr>
+            <tr>
+              <td >
+                <label>Colecções</label>
+              </td>
+              <td colspan="3">
+                <ui-select multiple ng-model="docVC.doc.tags" theme="bootstrap" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
+                  <ui-select-match placeholder="Select or search a tag in the list..."> {{$item.name}}
+                  </ui-select-match>
+                  <ui-select-choices repeat="tag in docC.tm.allTags | filter: $select.search">
+                    <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </td>
+            </tr>
+            <tr>
+              <td >
+                <label>Lugares</label>
+              </td>
+              <td colspan="3">
+                <ui-select multiple ng-model="docVC.doc.places" theme="bootstrap" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
+                  <ui-select-match placeholder="Selecione um lugar"> {{$item.name}}
+                  </ui-select-match>
+                  <ui-select-choices repeat="place in MC.plm.allPlaces | filter: $select.search">
+                    <div ng-bind-html="place.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </td>
+            </tr>
+        </table>
+      </div>
+      <div ng-show="panel === 2">
+        <table class="table table-condensed">
+          <tbody ng-repeat="role in docC.pm.roles">
+            <tr style="height: 80px">
+              <td class="col-sm-2">
+                <div>{{role}}</div>
+              </td>
+              <td class="col-sm-9">
+                <ui-select multiple ng-model="docVC.doc.refPeople[role]" theme="bootstrap" ng-change="docVC.m.updateDoc(docVC.doc)">
+                  <ui-select-match placeholder="Select or search a person in the list...">
+                    <div ng-click="docVC.pm.editPerson($item.id)">
+                      <img class="img-circle" height="40" ng-src="{{$item.picture}}">
+                      <div style="overflow: hidden">{{$item.name}}</div>
+                    </div>
+                  </ui-select-match>
+                  <ui-select-choices repeat="person.id as person in docC.pm.allPeople | filter: $select.search | filter: {$: role}">
+                    <div ng-bind-html="person.name | highlight: $select.search">
+                    </div>
+                  </ui-select-choices>
+                </ui-select>
+              </td>
+              <td class="col-sm-1">
+                <a type="button" class="btn btn-xs" data-ng-click="docVC.pm.newPerson(role)">
+                  Novo
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div ng-show="panel === 3">
+        <div>
+          <button class="btn" ng-click="docVC.openFile()">
+            <i class="glyphicon glyphicon-plus"></i> Anexar ficheiros
+          </button>
+          <table class="table table-striped files ng-cloak">
+            <tr data-ng-repeat="attachment in docVC.doc.attach">
+              <td class="col-sm-4">
+                <a type="button" class="btn btn-xs pull-right" ng-click="docVC.saveAs(attachment.file.url)" >
+                  <i class="glyphicon glyphicon-save"></i>
+                </a>
+                <div class="preview">
+                  <a ng-click="docVC.attachGallery(attachment)"><img data-ng-src="{{attachment.file.thumbnailUrl}}" alt="" style="width: 80%"></a>
+                </div>
+              </td>
+              <td class="col-sm-8">
+                <p class="description">
+                  <span medium-editor ng-model="attachment.description" ng-blur="docVC.m.updateDoc(docVC.doc)"></span>
+                </p>
+              </td>
+              <td class="col-sm-1">
+                <a type="button" class="btn btn-xs pull-right" ng-click="docVC.deleteAttach(attachment)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div ng-show="panel === 4">
+        <button ng-hide="!docVC.doc.video.url" type="button" class="btn" ng-click="docVC.createClip()">Criar Clip</button>
+        <table class="table table-striped files ng-cloak">
+          <tr data-ng-repeat="video in docVC.doc.videos">
+            <td class="col-sm-4">
+              <div class="preview">
+                <a ng-click="docVC.videoGallery(video)"><img data-ng-src="{{video.thumbUrl}}" style="width: 80%"></a>
+              <a type="button" ng-click="docVC.saveAs(video.url)" class="btn btn-xs pull-right">
+                <i class="glyphicon glyphicon-save"></i>  
+              </a>
+              </div>
+            </td>
+            <td class="col-sm-8">
+              <p class="description">
+                <span medium-editor ng-model="video.description" ng-blur="docVC.m.updateDoc(docVC.doc)"></span>
+              </p>
+            </td>
+            <td class="col-sm-1">
+              <a type="button" class="btn btn-xs pull-right" data-ng-click="docVC.deleteVideo(video)">
+                <i class="glyphicon glyphicon-trash"></i>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div style="width: 100%" ng-show="panel === 5">
+        <div style="left:0; right: 0" class="panel panel-body" >
+          <h4>Anotações</h4>
+          <p medium-editor ng-model="docVC.doc.reflection" ng-blur="docVC.m.updateDoc(docVC.doc)">
+          </p>
+        </div>
+    </div>
+  </div>
+  
+  
+  </div>
+  <div class="row content">
+    <div class="panel panel-body">
+      <button type="button" class="btn" data-ng-click="docVC.addLine(null, docVC.selectedLang);docVC.API.pause()">
+        <i class="glyphicon glyphicon-flag"></i>
+      </button>
+      <div ng-repeat="personId in docVC.doc.refPeople[docVC.pm.roles[0]]" class="btn-group">
+        <button type="button" class="btn btn-primary" data-ng-click="docVC.addLine(personId, docVC.selectedLang);docVC.API.pause()">
+          <i class="glyphicon glyphicon-plus"></i> {{docVC.pm.getPerson(personId).name}}
+        </button>
+      </div>
+      <div ng-repeat="personId in docVC.doc.refPeople[docVC.pm.roles[1]]" class="btn-group">
+        <button type="button" class="btn" data-ng-click="docVC.addLine(personId, docVC.selectedLang);docVC.API.pause()">
+          <i class="glyphicon glyphicon-plus"></i> {{docVC.pm.getPerson(personId).name}}
+        </button>
+      </div>
+      <li ng-repeat="lang in docVC.doc.languages" type="button" class="btn" ng-class="{active:(docVC.selectedLang === $index)}"
+      data-ng-click="docVC.selectedLang = $index">{{lang.name}}</li>
+      <div ng-repeat="lang in docVC.doc.languages" ng-show="docVC.selectedLang === $index" ng-style="style" style="overflow-y: auto">
+        <table class="table table-hover table-condensed table-responsive">
+          <tbody ng-repeat="segment in docVC.doc.transcription | filter : {$: mainFilter}  track by $index">
+            <tr ng-hide="segment.edit" data-ng-click="(docVC.API.seekTime(segment.start))"
+            id="{{docVC.videogularConf.cuePoints.transcription[$index].params.id}}"
+            ng-class="{info: docVC.videogularConf.cuePoints.transcription[$index].params.selected, warning: !segment.personId}">
+              <td class="col-md-1">
+                  {{segment.start | number : 1}}
+                  [{{docVC.pm.getPerson(segment.personId).inicials}}]
+              </td>
+              <td ng-dblclick="docVC.API.pause();docVC.API.seekTime(segment.start);docVC.edit($index, lang.code)">
+                <div ng-bind-html="segment.txt[lang.code]"></div>
+              </td>
+              <td class="col-md-1">
+                <button type="button" class="btn-xs pull-right" data-ng-click="docVC.API.pause();docVC.API.seekTime(segment.start);docVC.edit($index, lang.code)">
+                  <i class="glyphicon glyphicon-pencil"></i>
+                </button>
+              </td>
+            </tr>
+            <tr class="success" ng-dblclick="docVC.API.playPause()" ng-show="segment.edit" id="{{docVC.videogularConf.cuePoints.transcription[$index].params.id}}"
+            ng-class="{info: docVC.videogularConf.cuePoints.transcription[$index].params.selected, warning: !segment.personId}">
+              <td class="col-md-1">
+                  <input type="number" ng-model="segment.start" ng-change="docVC.changeTime($index);docVC.API.seekTime(segment.start)" style="width: 100%">
+                <div>
+                  [{{docVC.pm.getPerson(segment.personId).inicials}}]
+                <button ng-show="($index < (docVC.doc.transcription.length-1))" type="button" class="btn-xs pull-right"
+                data-ng-click="docVC.delLine($index)">
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                </div>
+              </td>
+              <td >
+                <div medium-editor style="min-height: 2em" options='{"buttons": ["bold", "italic", "underline"]}' ng-model="segment.txt[lang.code]" id="{{docVC.videogularConf.cuePoints.transcription[$index].params.id + '#md'}}"></div>
+              </td>
+              <td class="col-md-1">
+                <button type="button" class="btn-xs pull-right" data-ng-click="docVC.closeEdit($index, lang.code)">
+                  <i class="glyphicon glyphicon-ok"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

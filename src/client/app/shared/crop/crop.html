@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cropC.cancel();" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">Carregar Imagem perfil</h4>
+</div>
+<div class="modal-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-sm-6">
+      <div>Select an image file:
+        <input type="file" id="fileInput" onchange="angular.element(this).scope().onFileSet(this.files)" />
+      </div>
+      <div class="cropArea">
+        <img-crop image="cropC.myImage" result-image="cropC.myCroppedImage"></img-crop>
+      </div>
+      </div>
+            <div class="col-sm-6"><img ng-src="{{cropC.myCroppedImage}}" />
+            </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-info" ng-click="cropC.cancel();">Cancelar</button>
+  <button type="button" class="btn btn-white" ng-click="cropC.ok();">Gravar e Fechar</button>
+</div>
