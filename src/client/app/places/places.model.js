@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('placesModel', function ($rootScope, $modal, $stateParams, db, utils) {
+.factory('placesModel', function ($rootScope, $timeout, $modal, $stateParams, db, utils) {
 
   var m = {};
   m.allPlaces = [];
@@ -62,7 +62,7 @@ m.newPlace = function (role) {
         .then (function(res) {
           m.allPlaces = res.places;
           $rootScope.$apply();
-          console.log('got places')
+          console.log(m.allPlaces)
           return true
         })
         .catch (function(err) {
@@ -85,7 +85,7 @@ m.newPlace = function (role) {
           } else {
           m.allPlaces.push(doc);            
           };
-          $rootScope.$apply();
+          $timeout(function(){$rootScope.$apply()}, 100);
           return true
         })
         .catch(function(err) {
@@ -95,14 +95,13 @@ m.newPlace = function (role) {
       ;
   };
 
-  m.removePlace = function(doc) {
+  m.removePlace = function(doc, callback) {
     var index = m.allPlaces.indexOf(doc);
     db.rel.del('place', doc)
         .then (function() {
           console.log(m.allPlaces.indexOf(doc));
           m.allPlaces.splice(index, 1);
-          m.activePlace = null;
-          $rootScope.$apply();
+          callback();
           return true; 
         })
         .catch(function(err) {

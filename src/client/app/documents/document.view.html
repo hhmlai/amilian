@@ -6,7 +6,7 @@
         <button style="width: 100%" type="button" class="btn btn-primary" ng-click="docVC.editVideo()">Criar Video</button>
       </div>
       <div class="row">
-        <videogular ng-show="!!docVC.videogularConf.sources[0].src && !merging[docVC.doc.id]"
+        <videogular
         vg-player-ready="docVC.onPlayerReady($API)" vg-update-state="docVC.onUpdateState($state)" vg-theme="docVC.videogularConf.theme.url"
         vg-cue-points="docVC.videogularConf.cuePoints">
           <vg-media vg-src="docVC.videogularConf.sources" vg-tracks="docVC.videogularConf.tracks"></vg-media>

@@ -396,9 +396,10 @@ v.getTimeLapse = function (i) {
                                 method: 'DELETE'
                             }).then(
                                 function () {
-                                    v.m.removeDoc(v.m.activeDoc);
-                                    docsModel.saveActiveDoc()
-                                    $state.go('^.list');
+                                    v.m.removeDoc(v.m.activeDoc, function(){
+                                      v.m.activeDoc = {}  
+                                      $state.go('app.documents.list');
+                                    });
                                 },
                                 function () {
                                     $window.alert('erro a apagar')

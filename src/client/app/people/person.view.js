@@ -14,9 +14,10 @@ function personViewCtrl($stateParams, peopleModel, $window,$state) {
     console.log('aqui')
     var confirmMsg = 'Quer mesmo apagar esta pessoa?'
               if ($window.confirm(confirmMsg)) {
-                v.m.removePerson(v.m.activePerson);
-                v.m.activePerson = {};
-                $state.go('app.people.list')
+                v.m.removePerson(v.m.activePerson, function(){
+                  v.m.activePerson = {};
+                  $state.go('app.people.list')              
+                });
               }
   }; 
 

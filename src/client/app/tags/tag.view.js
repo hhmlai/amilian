@@ -29,9 +29,10 @@ function tagViewCtrl($modal, $window, $state, $scope, $stateParams, utils, tagsM
   v.deleteTag = function() {
     var confirmMsg = 'Quer mesmo apagar esta colecção?'
               if ($window.confirm(confirmMsg)) {
-                v.m.removeTag(v.m.activeTag);
-                v.m.activeTag = {};
-                $state.go('app.tags.list')
+                v.m.removeTag(v.m.activeTag, function(){
+                  v.m.activeTag = {};
+                  $state.go('app.tags.list')                  
+                });
               }
   }; 
 

@@ -28,7 +28,7 @@ angular.module('tcApp2App')
           }
       });
       modalInstance.result.then(function (doc) {
-        m.addTag(doc)
+          m.updateTag(doc);
       });
   };
 
@@ -37,27 +37,18 @@ angular.module('tcApp2App')
     return utils.findDocById(m.allTags , docId);
   };
 
-  m.addTag = function(doc) {
-          console.log(doc);
-    db.rel.save('tag', doc)
-        .then (function() {
-          m.allTags.push(doc);
-          return true; 
-        })
-        .catch(function(err) {
-          console.log(err);
-          return false;
-        })
-    ;
-  };
 
-  m.updateTag = function(newDoc) {
-      console.log(newDoc);
-      db.rel.save('tag', newDoc)
+  m.updateTag = function(doc) {
+      db.rel.save('tag', doc)
         .then (function() {
-          m.allTags.splice(utils.findIndexById(m.allTags, newDoc.id), 1, newDoc);
+          var index = utils.findIndexById(m.allTags, doc.id)
+          if (index > -1) {
+            m.allTags.splice(index, 1, doc)
+          } else {
+          m.allTags.push(doc);            
+          };
           $rootScope.$apply();
-          return true; 
+          return true
         })
         .catch(function(err) {
           console.log(err);
@@ -66,13 +57,12 @@ angular.module('tcApp2App')
       ;
   };
 
-  m.removeTag = function(doc) {
+  m.removeTag = function(doc, callback) {
     var index = m.allTags.indexOf(doc);
     db.rel.del('tag', doc)
         .then (function() {
-          console.log(m.allTags.indexOf(doc));
           m.allTags.splice(index, 1);
-          $rootScope.$apply();
+          callback()
           return true; 
         })
         .catch(function(err) {

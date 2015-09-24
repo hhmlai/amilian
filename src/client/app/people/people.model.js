@@ -80,14 +80,12 @@ m.newPerson = function (role) {
       ;
   };
 
-  m.removePerson = function(doc) {
+  m.removePerson = function(doc, callback) {
     var index = m.allPeople.indexOf(doc);
     db.rel.del('person', doc)
         .then (function() {
-          console.log(m.allPeople.indexOf(doc));
           m.allPeople.splice(index, 1);
-          m.activePerson = null;
-          $rootScope.$apply();
+          callback()
           return true; 
         })
         .catch(function(err) {

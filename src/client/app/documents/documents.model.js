@@ -46,14 +46,10 @@ angular.module('tcApp2App')
   };
 
   m.updateDoc = function(doc, callback) {
-          console.log('updating1')
-          console.log(doc)
       db.rel.save('document', doc)
         .then (function() {
-          console.log('updating2')
           m.allDocs.splice(utils.findIndexById(m.allDocs, doc.id), 1, doc);
           $rootScope.$apply();
-          console.log('updated')
         })
         .catch(function(err) {
                     console.log(err)
@@ -62,14 +58,13 @@ angular.module('tcApp2App')
       ;
   };
 
-  m.removeDoc = function(doc) {
+  m.removeDoc = function(doc, callback) {
     var index = m.allDocs.indexOf(doc);
     db.rel.del('document', doc)
         .then (function() {
           console.log(m.allDocs.indexOf(doc));
           m.allDocs.splice(index, 1);
-          m.activeDoc = null;
-          $rootScope.$apply();
+          callback()
           return true; 
         })
         .catch(function(err) {
