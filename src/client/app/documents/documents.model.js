@@ -94,6 +94,7 @@ angular.module('tcApp2App')
       type: m.types[0],
       languages: [m.languages[0]],
       refPeople: {},
+      refPlaces: {id: [], ref: []},
       attach: {},
       videos: {}
     };

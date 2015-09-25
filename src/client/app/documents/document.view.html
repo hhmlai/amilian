@@ -102,7 +102,7 @@
                 <label>Lingua</label>
               </td>
               <td>
-                <ui-select multiple ng-model="docVC.doc.languages" theme="bootstrap" ng-disabled="disabled">
+                <ui-select multiple ng-model="docVC.doc.languages" theme="bootstrap">
                   <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
                   <ui-select-choices repeat="lang in docC.m.languages | filter: $select.search">
                     <div ng-bind-html="lang.name | highlight: $select.search"></div>
@@ -111,12 +111,6 @@
               </td>
             </tr>
             <tr>
-              <td >
-                <label>Local</label>
-              </td>
-              <td >
-                <input type="text" class="form-control" id="field-1" placeholder="Nome" ng-model="docVC.doc.place" ng-blur="docVC.m.updateDoc(docVC.doc)">
-              </td>
               <td >
                 <label>Data</label>
               </td>
@@ -129,7 +123,7 @@
                 <label>Colecções</label>
               </td>
               <td colspan="3">
-                <ui-select multiple ng-model="docVC.doc.tags" theme="bootstrap" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
+                <ui-select multiple ng-model="docVC.doc.tags" theme="bootstrap" on-select="docVC.addTag($item, $model)" ng-change="docVC.m.updateDoc(docVC.doc)">
                   <ui-select-match placeholder="Select or search a tag in the list..."> {{$item.name}}
                   </ui-select-match>
                   <ui-select-choices repeat="tag.ref as tag in docC.tm.allTags | filter: $select.search">
@@ -143,10 +137,13 @@
                 <label>Lugares</label>
               </td>
               <td colspan="3">
-                <ui-select multiple ng-model="docVC.doc.places" theme="bootstrap" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
-                  <ui-select-match placeholder="Selecione um lugar"> {{$item.name}}
+                <ui-select multiple ng-model="docVC.doc.refPlaces.id" theme="bootstrap" on-remove="docVC.removePlaceRef($model, $index)" on-select="docVC.editPlaceRef($item)" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
+                  <ui-select-match placeholder="Selecione um lugar">
+                   <span ng-click="docVC.editPlaceRef($item)">
+                      {{docVC.doc.refPlaces.ref[$index].name}}<br><small>{{docVC.doc.refPlaces.ref[$index].type}}</small>
+                    </span>
                   </ui-select-match>
-                  <ui-select-choices repeat="place.ref as place in MC.plm.allPlaces | filter: $select.search">
+                  <ui-select-choices repeat="place.id as place in MC.plm.allPlaces | filter: $select.search">
                     <div ng-bind-html="place.name | highlight: $select.search"></div>
                   </ui-select-choices>
                 </ui-select>

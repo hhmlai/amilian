@@ -14,7 +14,7 @@ function docViewCtrl(
   $timeout,
   $window,
   utils, 
-  db, 
+  db,
   docsModel,
   peopleModel, 
   socket,
@@ -136,10 +136,48 @@ $scope.initHotkeys = function () {
       v.init()
     })
   };
-
-  v.cancel = function () {
-    $modalInstace.dismiss()
-  }
+  
+  
+   v.editPlaceRef = function(origin){
+    var index = utils.findIndexById(v.doc.refPlaces.ref, origin.id)
+      if (index > -1) {
+        var item = v.doc.refPlaces.ref[index]
+      } else {
+        item = {id: origin.id, name: origin.name}
+      }
+    v.modal = $modal.open({
+      templateUrl: 'app/documents/documentPlace.edit.html',
+      controller: 'docPlaceEditCtrl as docpEC',
+      scope: $scope,
+      resolve: {
+          item: item
+          }
+    });
+    v.modal.result.then(function (placeRef) {
+              console.log(v.doc.places)
+      var index = v.doc.refPlaces.id.indexOf(placeRef.id)
+      if (index > -1) {
+        v.doc.refPlaces.ref[index] = placeRef
+        console.log(placeRef)
+      }
+      v.m.updateDoc(v.doc)
+      console.log('modal fechada')
+    }).catch(function(){
+      console.log('cancelado')
+    })
+  };
+  
+  v.removePlaceRef = function(id){
+      console.log(v.doc.refPlaces.id)
+      console.log(index)
+      var index = utils.findIndexById(v.doc.refPlaces.ref, id)
+      console.log(index)
+      if (index > -1) {
+        v.doc.refPlaces.ref.splice(index,1)
+        v.m.updateDoc(v.doc)
+      }
+      console.log('apagei')
+    }
 
 
   v.createClip = function(){
@@ -148,7 +186,6 @@ $scope.initHotkeys = function () {
       templateUrl: 'app/shared/veditor/ceditor.html',
       controller: 'veditorCtrl as vEC',
       scope: $scope,
-      size: 'lg',
       resolve: {
           document: function() { 
               return v.doc

@@ -21,7 +21,8 @@ angular.module('tcApp2App')
         message: "Portugal",
         draggable: true      
     }]
-  
+ 
+ m.types = ["Local da entrevista", "Local referênciado",  "Outro"];
 
 m.newPlace = function (role) {
     var modalInstance = $modal.open({
@@ -42,7 +43,6 @@ m.newPlace = function (role) {
   };
   
  m.editPlace = function(placeId){
-   console.log(placeId)
     var modalInstance = $modal.open({
       templateUrl: 'app/places/place.edit.html',
       controller: 'plcEditCtrl as plcEC',
