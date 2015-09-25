@@ -1,81 +1,45 @@
 <div class="modal-header">
-  <button type="button" class="close" ng-click="perEC.cancel();" aria-hidden="true">&times;</button>
-  <h4 class="modal-title">Dados da pessoa</h4>
+  <button type="button" class="close" ng-click="doctEC.cancel();" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">Associar Colecção</h4>
 </div>
 <div class="modal-body">
   <div class="panel panel-default">
     <div class="panel-body">
-      <div class="col-sm-7>
+      <div class="row">
           <form role=" form " class="form-horizontal " role="form ">
             <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-1 ">Nome Completo</label>
-              <div class="col-sm-5 ">
-                <input type="text " class="form-control " id="field-1 " placeholder="Nome do entrevistado " ng-model="perEC.person.name ">
+              <label class="col-sm-4 control-label " for="field-1 ">Nome da Colecção</label>
+              <div class="col-sm-6 ">
+                <h5>{{doctEC.tagRef.name}}</h5>
+              </div>
+              <div class="col-sm-2">
+                    <button type="button " class="btn pull-right" ng-click="MC.plm.editTag(doctEC.tagRef.id); ">Editar Colecção</button>
               </div>
             </div>
-            <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-1 ">Iniciais</label>
-              <div class="col-sm-5 ">
-                <input type="text " class="form-control " id="field-1 " placeholder="Iniciais do nome " ng-model="perEC.person.inicials ">
-              </div>
-            </div>
-            <div class="form-group " ng-show="perEC.hasRole(perEC.pm.roles[0]) ">
-              <label class="col-sm-2 control-label " for="field-1 ">Outro nome(s) </label>
-              <div class="col-sm-5 ">
-                <input type="text " class="form-control " id="field-1 " placeholder="Iniciais do nome " ng-model="perEC.person.inicials ">
-              </div>
-            </div>
-            <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-1 ">Data Nascimeto</label>
-              <div class="col-sm-5 ">
-                <input type="date " ng-model="perEC.person.bornDate ">
-              </div>
-            </div>
-            <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-3 ">Contactos</label>
-              <div class="col-sm-5 ">
-                  <input type="text " class="form-control " id="field-3 " placeholder="Enter your email&hellip;
-      " ng-model="perEC.person.contact ">
-              </div>
-            </div>
-            <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-3 ">Endereco</label>
-              <div class="col-sm-5 ">
-                  <textarea class="form-control " cols="3 " placeholder="Enter your address " ng-model="perEC.person.address "></textarea>
-              </div>
-            </div>
-            <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-5 ">Observacoes</label>
-              <div class="col-sm-5 ">
-                <textarea class="form-control autogrow " cols="5 " id="field-5 " placeholder="I will grow as you enter
-      new lines. " ng-model="perEC.person.notes "></textarea>
-              </div>
-            </div>
-            <div class="form-group ">
-              <label class="col-sm-2 control-label " for="field-1 ">Funcao</label>
-              <div class="col-sm-5 ">
-                          <ui-select multiple ng-model="perEC.person.roles" theme="bootstrap">
-                            <ui-select-match placeholder="Select type... ">{{$item}}</ui-select-match>
-                            <ui-select-choices repeat="role in perEC.m.roles | filter: $select.search ">
-                              <div ng-bind-html="role | highlight: $select.search "></div>
+     				<div class="form-group">
+                    <label class="col-sm-4 control-label" for="field-1">Relação com documento</label>
+                    <div class="col-sm-8">
+                          <ui-select ng-model="doctEC.tagRef.type" theme="bootstrap">
+                            <ui-select-match placeholder="Select type...">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="type in MC.tm.types  | filter: $select.search">
+                              <div ng-bind-html="type | highlight: $select.search"></div>
                             </ui-select-choices>
                           </ui-select>
+                    </div>
+            </div>
+            <div class="form-group ">
+              <label class="col-sm-4 control-label " for="field-5 ">Observacoes</label>
+              <div class="col-sm-8 ">
+                <textarea class="form-control autogrow " cols="5 " id="field-5 " 
+                ng-model="doctEC.tagRef.notes "></textarea>
               </div>
             </div>
           </form>
           </div>
         </div>
       </div>
-      
- 
-      
-      
-    <div>
-      <img class="img-circle " ng-src="{{perEC.person.picture}} " />
-    <button type="button " class="btn btn-info btn-xs " ng-click="perEC.addImage(); ">Alterar imagem</button>
-    </div>
-  </div>
+
 <div class="modal-footer ">
-    <button type="button " class="btn btn-primary " ng-click="perEC.ok(); ">Gravar</button>
-    <button type="button " class="btn" ng-click="perEC.cancel(); ">Cancelar</button>
+    <button type="button " class="btn btn-primary " ng-click="doctEC.ok(); ">Gravar</button>
+    <button type="button " class="btn" ng-click="doctEC.cancel(); ">Cancelar</button>
 </div>

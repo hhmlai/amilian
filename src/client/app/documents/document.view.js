@@ -138,10 +138,43 @@ $scope.initHotkeys = function () {
   };
   
   
-   v.editPlaceRef = function(origin){
-    var index = utils.findIndexById(v.doc.refPlaces.ref, origin.id)
+   v.editTagRef = function(origin){
+    var index = utils.findIndexById(v.doc.refTags, origin.id)
       if (index > -1) {
-        var item = v.doc.refPlaces.ref[index]
+        var item = v.doc.refTags[index]
+      } else {
+        item = {id: origin.id, name: origin.name}
+      }
+    v.modal = $modal.open({
+      templateUrl: 'app/documents/documentTag.edit.html',
+      controller: 'docTagEditCtrl as doctEC',
+      scope: $scope,
+      resolve: {
+          item: item
+          }
+    });
+    v.modal.result.then(function (ref) {
+      var index = v.doc.tags.indexOf(ref.id)
+      if (index > -1) {
+        v.doc.refTags[index] = ref
+      }
+      v.m.updateDoc(v.doc)
+    }).catch(function(){
+    })
+  };
+  
+  v.removeTagRef = function(id){
+      var index = utils.findIndexById(v.doc.refTags, id)
+      if (index > -1) {
+        v.doc.refTags.splice(index,1)
+        v.m.updateDoc(v.doc)
+      }
+    }
+
+  v.editPlaceRef = function(origin){
+    var index = utils.findIndexById(v.doc.refPlaces, origin.id)
+      if (index > -1) {
+        var item = v.doc.refPlaces[index]
       } else {
         item = {id: origin.id, name: origin.name}
       }
@@ -154,30 +187,24 @@ $scope.initHotkeys = function () {
           }
     });
     v.modal.result.then(function (placeRef) {
-              console.log(v.doc.places)
-      var index = v.doc.refPlaces.id.indexOf(placeRef.id)
+      var index = v.doc.places.indexOf(placeRef.id)
       if (index > -1) {
-        v.doc.refPlaces.ref[index] = placeRef
-        console.log(placeRef)
+        v.doc.refPlaces[index] = placeRef
       }
       v.m.updateDoc(v.doc)
-      console.log('modal fechada')
     }).catch(function(){
-      console.log('cancelado')
     })
   };
   
   v.removePlaceRef = function(id){
-      console.log(v.doc.refPlaces.id)
-      console.log(index)
-      var index = utils.findIndexById(v.doc.refPlaces.ref, id)
+      var index = utils.findIndexById(v.doc.refPlaces, id)
       console.log(index)
       if (index > -1) {
-        v.doc.refPlaces.ref.splice(index,1)
+        v.doc.refPlaces.splice(index,1)
         v.m.updateDoc(v.doc)
       }
-      console.log('apagei')
     }
+
 
 
   v.createClip = function(){

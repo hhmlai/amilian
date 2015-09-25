@@ -6,6 +6,7 @@ angular.module('tcApp2App')
   var m = {};
   m.allTags = [];
   m.activeTag = null;
+  m.types=["colecção principal", "relacionado"]
 
   m.getAllTags = db.rel.find('tags') 
         .then (function(res) {

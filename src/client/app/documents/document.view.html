@@ -123,10 +123,13 @@
                 <label>Colecções</label>
               </td>
               <td colspan="3">
-                <ui-select multiple ng-model="docVC.doc.tags" theme="bootstrap" on-select="docVC.addTag($item, $model)" ng-change="docVC.m.updateDoc(docVC.doc)">
-                  <ui-select-match placeholder="Select or search a tag in the list..."> {{$item.name}}
+                <ui-select multiple ng-model="docVC.doc.tags" theme="bootstrap" on-remove="docVC.removeTagRef($model, $index)" on-select="docVC.editTagRef($item)">
+                  <ui-select-match placeholder="Select or search a tag in the list..."> 
+                   <span ng-click="docVC.editTagRef($item)">
+                      {{$item.name}}<br><small>{{docVC.doc.refTags[$index].type}}</small>
+                    </span>
                   </ui-select-match>
-                  <ui-select-choices repeat="tag.ref as tag in docC.tm.allTags | filter: $select.search">
+                  <ui-select-choices repeat="tag.id as tag in docC.tm.allTags | filter: $select.search">
                     <div ng-bind-html="tag.name | highlight: $select.search"></div>
                   </ui-select-choices>
                 </ui-select>
@@ -137,10 +140,10 @@
                 <label>Lugares</label>
               </td>
               <td colspan="3">
-                <ui-select multiple ng-model="docVC.doc.refPlaces.id" theme="bootstrap" on-remove="docVC.removePlaceRef($model, $index)" on-select="docVC.editPlaceRef($item)" ng-disabled="disabled" ng-change="docVC.m.updateDoc(docVC.doc)">
+                <ui-select multiple ng-model="docVC.doc.places" theme="bootstrap" on-remove="docVC.removePlaceRef($model, $index)" on-select="docVC.editPlaceRef($item)">
                   <ui-select-match placeholder="Selecione um lugar">
                    <span ng-click="docVC.editPlaceRef($item)">
-                      {{docVC.doc.refPlaces.ref[$index].name}}<br><small>{{docVC.doc.refPlaces.ref[$index].type}}</small>
+                      {{docVC.doc.refPlaces[$index].name}}<br><small>{{docVC.doc.refPlaces[$index].type}}</small>
                     </span>
                   </ui-select-match>
                   <ui-select-choices repeat="place.id as place in MC.plm.allPlaces | filter: $select.search">
