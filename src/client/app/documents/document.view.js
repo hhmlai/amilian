@@ -137,6 +137,38 @@ $scope.initHotkeys = function () {
     })
   };
   
+   v.editPersonRef = function(origin){
+    var index = utils.findIndexById(v.doc.refPeople, origin.id)
+      if (index > -1) {
+        var item = v.doc.refPeople[index]
+      } else {
+        item = {id: origin.id, name: origin.name}
+      }
+    v.modal = $modal.open({
+      templateUrl: 'app/documents/documentPerson.edit.html',
+      controller: 'docPersonEditCtrl as docpEC',
+      scope: $scope,
+      resolve: {
+          item: item
+          }
+    });
+    v.modal.result.then(function (ref) {
+      var index = v.doc.people.indexOf(ref.id)
+      if (index > -1) {
+        v.doc.refPeople[index] = ref
+      }
+      v.m.updateDoc(v.doc)
+    }).catch(function(){
+    })
+  };
+  
+  v.removePeopleRef = function(id){
+      var index = utils.findIndexById(v.doc.refPeople, id)
+      if (index > -1) {
+        v.doc.refPeople.splice(index,1)
+        v.m.updateDoc(v.doc)
+      }
+    }
   
    v.editTagRef = function(origin){
     var index = utils.findIndexById(v.doc.refTags, origin.id)
@@ -180,7 +212,7 @@ $scope.initHotkeys = function () {
       }
     v.modal = $modal.open({
       templateUrl: 'app/documents/documentPlace.edit.html',
-      controller: 'docPlaceEditCtrl as docpEC',
+      controller: 'docPlaceEditCtrl as docplEC',
       scope: $scope,
       resolve: {
           item: item

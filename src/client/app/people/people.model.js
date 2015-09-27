@@ -6,7 +6,7 @@ angular.module('tcApp2App')
   var m = {};
   m.allPeople = [];
   m.activePerson = null;
-  m.roles = ["Entrevistado", "Entrevistador",  "Outro"];
+  m.types = ["Entrevistado", "Entrevistador",  "Outro"];
 
 m.newPerson = function (role) {
     var modalInstance = $modal.open({

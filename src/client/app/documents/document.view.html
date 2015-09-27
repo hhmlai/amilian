@@ -152,7 +152,24 @@
                 </ui-select>
               </td>
             </tr>
-        </table>
+            <tr>
+              <td >
+                <label>Pessoas</label>
+              </td>
+              <td colspan="3">
+                <ui-select multiple ng-model="docVC.doc.people" theme="bootstrap" on-remove="docVC.removePersonRef($model, $index)" on-select="docVC.editPersonRef($item)">
+                  <ui-select-match placeholder="Selecione uma pessoa">
+                   <span ng-click="docVC.editPersonRef($item)">
+                      {{docVC.doc.refPeople[$index].name}}<br><small>{{docVC.doc.refPeople[$index].type}}</small>
+                    </span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="person.id as person in MC.pm.allPeople | filter: $select.search">
+                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </td>
+            </tr>        
+          </table>
       </div>
       <div ng-show="panel === 2">
         <table class="table table-condensed">

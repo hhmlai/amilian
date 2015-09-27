@@ -93,9 +93,11 @@ angular.module('tcApp2App')
       id: (new Date().toISOString() + '_admin'),
       type: m.types[0],
       languages: [m.languages[0]],
-      refPeople: {},
+      references: [],
+      refPeople: [],
       refPlaces: [],
       refTags: [],
+      refEvents: [],
       attach: {},
       videos: {}
     };
