@@ -7,6 +7,55 @@ angular.module('tcApp2App')
 
   v.m = peopleModel
   v.person = person
+  
+      v.personFields = [
+        {
+            key: 'name',
+            type: 'input',
+            className: 'col-md-12',
+            templateOptions: {
+                type: 'text',
+                label: 'Nome Completo',
+                placeholder: 'Enter your name',
+                required: true
+            }
+        },
+        {
+            key: 'inicials',
+            type: 'input',
+            className: 'col-md-6',
+            templateOptions: {
+                type: 'text',
+                label: 'Iniciais',
+                placeholder: 'Entrar as iniciais',
+                required: true
+            }
+        },
+        {
+            key: 'bornDate',
+            type: 'input',
+            className: 'col-md-6',
+            templateOptions: {
+                type: 'date',
+                label: 'Data de nascimento',
+                placeholder: '',
+                required: false
+            }
+        },
+        {
+            key: 'notes',
+            type: 'textarea',
+            className: 'col-md-12',
+            templateOptions: {
+                type: 'text',
+                cols: 5,
+                label: 'Observações',
+                placeholder: 'Escrever aqui',
+                required: false
+            }
+        },
+    ];
+
 
   v.ok = function () {
     if ((v.person.name) && (v.person.inicials) && (v.person.roles.length != 0)) {

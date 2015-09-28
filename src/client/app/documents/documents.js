@@ -25,20 +25,6 @@ function documentCtrl($state, $window, $http, $scope, $modal, docsModel, peopleM
     });
   };
 
-  v.newTag = function () {
-      var modalInstance = $modal.open({
-          templateUrl: 'app/documents/document.edit.html',
-          controller: 'docEditCtrl as docEC',
-          scope: $scope,
-          resolve: {
-            document: function() {return v.m.newDoc}
-          }
-      });
-    modalInstance.result.then(function (document) {
-      v.m.addDoc(document)
-    });
-  };
-
   v.$destroy = function (name, arr, confirmMsg) {
                         confirmMsg = confirmMsg || 'Quer mesmo apagar este ficheiro?'
                         if ($window.confirm(confirmMsg)) {

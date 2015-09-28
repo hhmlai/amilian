@@ -6,9 +6,8 @@ angular.module('tcApp2App')
   var m = {};
   m.allPeople = [];
   m.activePerson = null;
-  m.types = ["Entrevistado", "Entrevistador",  "Outro"];
 
-m.newPerson = function (role) {
+m.newPerson = function () {
     var modalInstance = $modal.open({
       templateUrl: 'app/people/person.edit.html',
       controller: 'perEditCtrl as perEC',
@@ -16,7 +15,6 @@ m.newPerson = function (role) {
       resolve: {
         person:  {
               id: (new Date().toISOString() + '_admin'),
-              roles: [ role ]
         }
       }
     });
@@ -42,7 +40,7 @@ m.newPerson = function (role) {
   };
 
 
-  m.getAllPeople = function(role) {
+  m.getAllPeople = function() {
     db.rel.find('people') 
         .then (function(res) {
           m.allPeople = res.people;
@@ -104,19 +102,6 @@ m.newPerson = function (role) {
       return true
     } 
   };
-
-  m.allPeopleRole = function(role) {
-    var result = [];
-    for (var i=0; i < m.allPeople.length; i++) {
-      console.log(m.allPeople[i].role)
-      if (m.allPeople[i].role === role) {
-        result.push(m.allPeople[i])
-      }
-    }
-    console.log(result);
-    return result;
-  };  
-
 
   return m
 

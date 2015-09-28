@@ -1,0 +1,11 @@
+tipos de relações
+1 - PESSOA rel PESSOA por TIPO_REL_PESSOA_PESSOA (pai, mãe, filho, filha, padrinho, conhece, é amigo, é inimigo, tem problemas com, ...)
+1 - PESSOA rel DOC por TIPO_REL_PESSOA_DOC (entrevistador (tipo:entrevista), entrevistador (tipo:entrevista), é autor, é citado, 
+
+2 - PESSOA/S rel ACONTECIMENTO 
+3 - PESSOA/S rel LOCAL 
+4 - ACONTECIMENTO rel DATA REL_ACONT_DATA
+5 - ACONTECIMENTO relaciona-se com LOCAL por TIPO_REL_ACONT_LOCAL
+6 - ACONTECIMENTO rel PESSOA por TIPO_REL_ACONT_PESSOA
+
+

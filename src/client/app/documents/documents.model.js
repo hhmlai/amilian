@@ -31,12 +31,11 @@ angular.module('tcApp2App')
     return utils.findDocById(m.allDocs , docId);
   };
 
-  m.addDoc = function(obj, callback) {
+  m.addDoc = function(obj) {
     db.rel.save('document', obj)
         .then (function() {
           m.allDocs.push(obj);
           $rootScope.$apply()
-          callback()
         })
         .catch(function(err) {
           console.log(err);
@@ -45,7 +44,7 @@ angular.module('tcApp2App')
     ;
   };
 
-  m.updateDoc = function(doc, callback) {
+  m.updateDoc = function(doc) {
       db.rel.save('document', doc)
         .then (function() {
           m.allDocs.splice(utils.findIndexById(m.allDocs, doc.id), 1, doc);
@@ -91,19 +90,10 @@ angular.module('tcApp2App')
   m.newDoc = function() {
     var newDoc = {
       id: (new Date().toISOString() + '_admin'),
-      type: m.types[0],
       languages: [m.languages[0]],
-      references: [],
-      refPeople: [],
-      refPlaces: [],
-      refTags: [],
-      refEvents: [],
       attach: {},
       videos: {}
     };
-    pm.roles.map( function(role) {
-         newDoc.refPeople[role]=[];
-    });
     return  newDoc
   };
 

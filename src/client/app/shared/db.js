@@ -9,46 +9,62 @@ angular.module('tcApp2App')
         singular: 'document',
         plural: 'documents',
         relations: {
+          relationships: {hasMany: 'relationship'},
+          tags: {hasMany: 'tag'}
+        }
+      },
+      {
+        singular: 'relationship',
+        plural: 'relationships',
+        relations: {
+          documents: {belongsTo: 'document'},
+          types: {belongsTo: 'reltype'},
           people: {hasMany: 'person'},
-          tags: {hasMany: 'tag'},
           places: {hasMany: 'place'},
           events: {hasMany: 'event'},
-          objects: {hasMany: 'object'},
+          entity: {hasMany: 'entities'}
+        }
+      },
+      {
+        singular: 'reltype',
+        plural: 'reltypes',
+        relations: {
+          relationships: {hasMany: 'relationship'},
         }
       },
       {
         singular: 'person',
         plural: 'people',
         relations: {
-          documents: {hasMany: 'document'},
+          relationships: {hasMany: 'relationship'},
         }
       },
       {
         singular: 'tag',
         plural: 'tags',
         relations: {
-          documents: {hasMany: 'document'},
+          relationships: {hasMany: 'relationship'},
         }
       },
       {
         singular: 'place',
         plural: 'places',
         relations: {
-          documents: {hasMany: 'document'},
+          relationships: {hasMany: 'relationship'},
         }
       },
       {
         singular: 'event',
         plural: 'events',
         relations: {
-          documents: {hasMany: 'document'},
+          relationships: {hasMany: 'relationship'},
         }
       },
       {
-        singular: 'object',
-        plural: 'objects',
+        singular: 'entity',
+        plural: 'entities',
         relations: {
-          documents: {hasMany: 'document'},
+          relationships: {hasMany: 'relationship'},
         }
       }    
     ]);
