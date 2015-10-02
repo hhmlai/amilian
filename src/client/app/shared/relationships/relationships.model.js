@@ -5,6 +5,26 @@ angular.module('tcApp2App')
 
   var m = {};
   m.allRels = [];
+  
+  var relMap = [
+    {name : "PESSOA entrevistada por PESSOA, num LOCAL, numa DATA",
+     models: {
+       entrevistado: {origin: "peopleModel.allPeople", multiple: false, required: true}, 
+       entrevistador: {origin: "peopleModel.allPeople", multiple: false, required: false},
+       local: {origin: "placesModel.allPlaces", multiple: false, required: false},
+       data: {type: "date", multiple: false, required: false}
+       },
+     formlyTplt: {}
+    },
+    {name : "PESSOA participou num ACONTECIMENTO citando PESSOA",
+     models: {entrevistado: {origin: "peopleModel.allPeople", multiple: false}, entrevistador: {origin: "peopleModel.allPeople", multiple: false}},
+     formlyTplt: {}
+    },
+    {name : "PESSOA nasceu num LOCAL numa DATA",
+     models: {entrevistado: {origin: "peopleModel.allPeople", multiple: false}, entrevistador: {origin: "peopleModel.allPeople", multiple: false}},
+     formlyTplt: {}
+    }
+  ]
  
   m.newRel = function (type) {
     var modalInstance = $modal.open({
