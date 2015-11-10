@@ -3,16 +3,16 @@
 angular.module('tcApp2App')
   .controller('docPlaceEditCtrl', docPlaceEditCtrl)
 
-function docPlaceEditCtrl(item, $modalInstance) {
+function docPlaceEditCtrl(item, $uibModalInstance) {
   var vm = this;
   
   vm.placeRef = item
 
   vm.ok = function () {
-    $modalInstance.close(vm.placeRef);
+    $uibModalInstance.close(vm.placeRef);
   };
 
   vm.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('placesModel', function ($rootScope, $timeout, $modal, $stateParams, db, utils) {
+.factory('placesModel', function ($rootScope, $timeout, $uibModal, $stateParams, db, utils) {
 
   var m = {};
   m.allPlaces = [];
@@ -25,7 +25,7 @@ angular.module('tcApp2App')
  m.types = [{id:0, name: "Local da entrevista"}, {id: 1, name: "Local referênciado"}, {id: 2, name: "Outro"}];
 
 m.newPlace = function (role) {
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/places/place.edit.html',
       controller: 'plcEditCtrl as plcEC',
       size: 'lg',
@@ -43,7 +43,7 @@ m.newPlace = function (role) {
   };
   
  m.editPlace = function(placeId){
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/places/place.edit.html',
       controller: 'plcEditCtrl as plcEC',
       size: 'lg',

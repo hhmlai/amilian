@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .controller('docTagEditCtrl', function (item, $modalInstance) {
+  .controller('docTagEditCtrl', function (item, $uibModalInstance) {
 
   var vm = this;  
   vm.tagRef = item
   console.log(item)
   vm.ok = function () {
-    $modalInstance.close(vm.tagRef);
+    $uibModalInstance.close(vm.tagRef);
   };
 
   vm.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 });

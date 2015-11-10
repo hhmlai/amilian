@@ -13,23 +13,23 @@
           <vg-media vg-src="docVC.videogularConf.sources" vg-tracks="docVC.videogularConf.tracks"></vg-media>
           <div id="overlay" style="right: 0" class="btn-group-vertical" role="group" aria-label="...">
             <label popover="Ficha" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
-            ng-model="panel" btn-radio="0">
+            ng-model="panel" uib-btn-radio="0">
               <i class="glyphicon glyphicon-tag"></i>
             </label>
             <label popover="Pessoas" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
-            ng-model="panel" btn-radio="2">
+            ng-model="panel" uib-btn-radio="2">
               <i class="glyphicon glyphicon-user"></i>
             </label>
             <label popover="Anexos" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
-            ng-model="panel" btn-radio="3">
+            ng-model="panel" uib-btn-radio="3">
               <i class="glyphicon glyphicon-folder-open"></i>
             </label>
             <label popover="Clips" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
-            ng-model="panel" btn-radio="4">
+            ng-model="panel" uib-btn-radio="4">
               <i class="glyphicon glyphicon-expand"></i>
             </label>
             <label popover="Notas" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
-            ng-model="panel" btn-radio="5">
+            ng-model="panel" uib-btn-radio="5">
               <i class="glyphicon glyphicon-edit"></i>
             </label>
           </div>
@@ -197,6 +197,7 @@
               </td>
             </tr>
           </table>
+          {{docVC.rm.allRels}}
       </div>
       <div ng-show="panel === 3">
         <div>

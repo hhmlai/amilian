@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('peopleModel', function ($rootScope, $modal, $stateParams, db, utils) {
+.factory('peopleModel', function ($rootScope, $uibModal, $stateParams, db, utils) {
 
   var m = {};
   m.allPeople = [];
   m.activePerson = null;
 
 m.newPerson = function () {
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/people/person.edit.html',
       controller: 'perEditCtrl as perEC',
       size: 'lg',
@@ -26,7 +26,7 @@ m.newPerson = function () {
   };
   
  m.editPerson = function(personId){
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/people/person.edit.html',
       controller: 'perEditCtrl as perEC',
       size: 'lg',

@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .controller('docPersonEditCtrl', function (item, $modalInstance) {
+  .controller('docPersonEditCtrl', function (item, $uibModalInstance) {
   var vm = this;
   
   vm.personRef = item
 
   vm.ok = function () {
-    $modalInstance.close(vm.personRef);
+    $uibModalInstance.close(vm.personRef);
   };
 
   vm.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 })

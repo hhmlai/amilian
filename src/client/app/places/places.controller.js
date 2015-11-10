@@ -3,7 +3,7 @@
 angular.module('tcApp2App')
     .controller('placesCtrl', placesCtrl);
 
-function placesCtrl($scope, $modal, $rootScope, $filter, db, placesModel, docsModel) {
+function placesCtrl($scope, $uibModal, $rootScope, $filter, db, placesModel, docsModel) {
     var v = this;
     v.m = placesModel
     v.dm = docsModel

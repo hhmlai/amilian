@@ -3,7 +3,7 @@
 angular.module('tcApp2App')
   	.controller('tagViewCtrl', tagViewCtrl); 
 
-function tagViewCtrl($modal, $window, $state, $scope, $stateParams, utils, tagsModel, docsModel) {
+function tagViewCtrl($uibModal, $window, $state, $scope, $stateParams, utils, tagsModel, docsModel) {
 
   var v = this;
   v.m = tagsModel;
@@ -12,7 +12,7 @@ function tagViewCtrl($modal, $window, $state, $scope, $stateParams, utils, tagsM
 
   v.editTag = function () {
     var doc = v.m.activeTag;
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/tags/tag.edit.html',
       controller: 'tagEditCtrl as tagEC',
       scope: $scope,

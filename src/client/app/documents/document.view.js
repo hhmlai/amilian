@@ -8,7 +8,7 @@ function docViewCtrl(
   $location, 
   $anchorScroll, 
   $http, 
-  $modal,
+  $uibModal,
   $stateParams, 
   $state, 
   $timeout,
@@ -116,7 +116,7 @@ $scope.initHotkeys = function () {
   
   v.editVideo = function(){
     v.videogularConf = []
-    v.modal = $modal.open({
+    v.modal = $uibModal.open({
       templateUrl: 'app/shared/veditor/veditor.html',
       controller: 'veditorCtrl as vEC',
       size: 'lg',
@@ -146,7 +146,7 @@ $scope.initHotkeys = function () {
       } else {
         item = {id: origin.id, name: origin.name}
       }
-    v.modal = $modal.open({
+    v.modal = $uibModal.open({
       templateUrl: 'app/documents/documentPerson.edit.html',
       controller: 'docPersonEditCtrl as docpEC',
       scope: $scope,
@@ -179,7 +179,7 @@ $scope.initHotkeys = function () {
       } else {
         item = {id: origin.id, name: origin.name}
       }
-    v.modal = $modal.open({
+    v.modal = $uibModal.open({
       templateUrl: 'app/documents/documentTag.edit.html',
       controller: 'docTagEditCtrl as doctEC',
       scope: $scope,
@@ -212,7 +212,7 @@ $scope.initHotkeys = function () {
       } else {
         item = {id: origin.id, name: origin.name}
       }
-    v.modal = $modal.open({
+    v.modal = $uibModal.open({
       templateUrl: 'app/documents/documentPlace.edit.html',
       controller: 'docPlaceEditCtrl as docplEC',
       scope: $scope,
@@ -254,7 +254,7 @@ $scope.initHotkeys = function () {
 
   v.createClip = function(){
     v.API.pause()
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/shared/veditor/ceditor.html',
       controller: 'veditorCtrl as vEC',
       scope: $scope,
@@ -276,7 +276,7 @@ $scope.initHotkeys = function () {
   v.videoGallery = function(video) {
     v.API.pause()
     video.active = true
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/documents/vgallery.html',
       scope: $scope,
       size: 'lg',
@@ -288,7 +288,7 @@ $scope.initHotkeys = function () {
   v.attachGallery = function(attachment) {
     v.API.pause()
     attachment.active = true
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/documents/agallery.html',
       scope: $scope,
       size: 'lg',
@@ -481,7 +481,7 @@ v.getTimeLapse = function (i) {
 
   v.editDoc = function (size) {
     var doc = v.m.activeDoc;
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/documents/document.edit.html',
       controller: 'docEditCtrl as docEC',
       scope: $scope,

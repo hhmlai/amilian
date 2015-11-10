@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('tagsModel', function ($rootScope, $modal, db, utils) {
+.factory('tagsModel', function ($rootScope, $uibModal, db, utils) {
 
   var m = {};
   m.allTags = [];
@@ -21,7 +21,7 @@ angular.module('tcApp2App')
         });
 
   m.newTag = function () {
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
           templateUrl: 'app/tags/tag.edit.html',
           controller: 'tagEditCtrl as tagEC',
           resolve: {

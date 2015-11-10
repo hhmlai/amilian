@@ -3,7 +3,7 @@
 angular.module('tcApp2App')
   	.controller('documentCtrl', documentCtrl); 
 
-function documentCtrl($state, $window, $http, $scope, $modal, docsModel, peopleModel, db, tagsModel) {
+function documentCtrl($state, $window, $http, $scope, $uibModal, docsModel, peopleModel, db, tagsModel) {
   
   var v = this;
   v.m = docsModel;
@@ -12,7 +12,7 @@ function documentCtrl($state, $window, $http, $scope, $modal, docsModel, peopleM
   
 
   v.newDoc = function () {
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
           templateUrl: 'app/documents/document.edit.html',
           controller: 'docEditCtrl as docEC',
           scope: $scope,

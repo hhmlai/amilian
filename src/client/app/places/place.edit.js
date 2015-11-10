@@ -1,7 +1,7 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('plcEditCtrl', function (place, $scope, $modal, $window, placesModel, $modalInstance) {
+.controller('plcEditCtrl', function (place, $scope, $uibModal, $window, placesModel, $uibModalInstance) {
 
   var v = this;
 
@@ -42,7 +42,7 @@ console.log($scope.markers.place)
         id: v.place.id,
         name: v.place.name
       }
-      $modalInstance.close(v.place);
+      $uibModalInstance.close(v.place);
       
     } else {
       $window.alert('Dados incompletos')
@@ -50,7 +50,7 @@ console.log($scope.markers.place)
   };
   
   v.addImage = function() {
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/shared/crop/crop.html',
       controller: 'cropCtrl as cropC',
       size: 'lg'
@@ -64,6 +64,6 @@ console.log($scope.markers.place)
   };
       
   v.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 });

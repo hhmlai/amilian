@@ -11,8 +11,8 @@ angular.module('tcApp2App')
         var modalInstance;
         $stateProvider.state(stateName, {
             url: options.url,
-            onEnter: function($modal, $state) {
-                modalInstance = $modal.open(options);
+            onEnter: function($uibModal, $state) {
+                modalInstance = $uibModal.open(options);
                 modalInstance.result['finally'](function() {
                     modalInstance = null;
                     if ($state.$current.name === stateName) {

@@ -46,6 +46,12 @@
   "resolutions": {
     "angular": ">=1.4",
     "angular-cookies": ">=1.4",
-    "angular-sanitize": ">=1.4"
+    "angular-sanitize": ">=1.4",
+    "pouchdb": ">=5.0.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "dependencies": []
+    }
   }
 }

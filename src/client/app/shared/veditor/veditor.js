@@ -3,7 +3,7 @@
 angular.module('tcApp2App')
   .controller('veditorCtrl', veditorCtrl);
   
-function veditorCtrl  (document, mode, $window, $modalInstance, $state, $scope, $rootScope, $http, $timeout, socket, utils, storage, docsModel, hotkeys) 
+function veditorCtrl  (document, mode, $window, $uibModalInstance, $state, $scope, $rootScope, $http, $timeout, socket, utils, storage, docsModel, hotkeys) 
 
 {
 
@@ -101,7 +101,7 @@ function veditorCtrl  (document, mode, $window, $modalInstance, $state, $scope, 
                   console.log(data)      
                   $scope.socketMergeListen(vm, isMain, function(fileInfo) {
                     console.log('terminei')
-                    $modalInstance.close(data.url);
+                    $uibModalInstance.close(data.url);
                   })   
                 }).
                 error(function(err) {
@@ -111,7 +111,7 @@ function veditorCtrl  (document, mode, $window, $modalInstance, $state, $scope, 
   };
 
   vm.cancel = function () {
-      $modalInstance.dismiss('cancel');   
+      $uibModalInstance.dismiss('cancel');   
   };
 
 

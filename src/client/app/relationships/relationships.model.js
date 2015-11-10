@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('relsModel', function ($rootScope, peopleModel, placesModel, docsModel, $modal, $stateParams, db, utils) {
+.factory('relsModel', function ($rootScope, peopleModel, placesModel, docsModel, $uibModal, $stateParams, db, utils) {
   
   var m = {};
   m.allRels = [];
@@ -24,6 +24,7 @@ angular.module('tcApp2App')
           {key: "place", type: 'ui-select-single', label: 'Nome do Local', options: placesModel.allPlaces, required: true}, 
           {key: "relPlace", type: 'ui-select-single', label: 'Relação com o documento', options: placesModel.types, required: true}, 
           {key: "obs", type: 'input', label: 'Observações', required: true}, 
+          {key: "btn", type: 'button', label: 'Clica-me', text: 'OK', onClick: function() {alert('You clicked me!')}}, 
           {key: "refStart", type: 'input', label: 'Momento da entrevista (s)', required: false}, 
           {key: "refLenght", type: 'input', label: 'Duração da referência (s)', required: false}, 
        ]
@@ -40,6 +41,7 @@ angular.module('tcApp2App')
      },
     {  id: "dadosEntrevista",
        name: "Dados Entrevista Completo",
+       unique: true,
        description: "PESSOA entrevistada por PESSOAS, num LOCAL, numa DATA",
        fields: [
           {key: "entrevistado", type: 'ui-select-single', label: 'Entrevistado', options: peopleModel.allPeople, required: true}, 
@@ -52,7 +54,7 @@ angular.module('tcApp2App')
             
  
   m.newRel = function (relTypeId, docId, callback) {
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/relationships/relationship.edit.html',
       controller: 'relEditCtrl as relEC',
       size: 'lg',
@@ -94,7 +96,7 @@ angular.module('tcApp2App')
 
 
  m.editRel = function(rel, callback){
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/relationships/relationship.edit.html',
       controller: 'relEditCtrl as relEC',
       size: 'lg',

@@ -1,7 +1,7 @@
 'use strict';	
 
 angular.module('tcApp2App')
-.controller('tagEditCtrl', function (tag, $modalInstance) {
+.controller('tagEditCtrl', function (tag, $uibModalInstance) {
   var v = this;
   v.tag = tag;
 
@@ -9,10 +9,10 @@ angular.module('tcApp2App')
     v.tag.ref = {
       id: v.tag.id,
       name:v.tag.name}
-    $modalInstance.close(v.tag);
+    $uibModalInstance.close(v.tag);
   };
 
   v.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 });

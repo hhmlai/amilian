@@ -1,7 +1,7 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('relEditCtrl', function (rel, peopleModel, placesModel, $scope, $modal, $window, relsModel, $modalInstance, utils) {
+.controller('relEditCtrl', function (rel, peopleModel, placesModel, $scope, $uibModal, $window, relsModel, $uibModalInstance, utils) {
 
   var v = this;
 
@@ -12,7 +12,7 @@ angular.module('tcApp2App')
   v.relFields = getFormlyFields(utils.findDocById(v.m.relTypes, rel.relTypeId))
 
   v.ok = function () {
-      $modalInstance.close(v.rel);
+      $uibModalInstance.close(v.rel);
   };
   
  function getFormlyFields(relType) {
@@ -33,6 +33,18 @@ angular.module('tcApp2App')
                 required: el.required
               }
             })
+          } else if (el.type === 'button') {
+            res.push({ 
+              key: el.key,
+              type: el.type,
+              templateOptions: {
+                label: el.label,
+                text: el.text,
+                btnType: el.btnType,
+                onClick: el.onClick,
+                description: el.description
+              }
+            })          
           } else {
             res.push({ 
               key: el.key,
@@ -51,6 +63,6 @@ angular.module('tcApp2App')
 
         
   v.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 });

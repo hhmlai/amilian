@@ -1,7 +1,7 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('perEditCtrl', function (person, $scope, $modal, $window, peopleModel, $modalInstance) {
+.controller('perEditCtrl', function (person, $scope, $uibModal, $window, peopleModel, $uibModalInstance) {
 
   var v = this;
 
@@ -62,11 +62,11 @@ angular.module('tcApp2App')
         id: v.person.id,
         name: v.person.name
       }
-      $modalInstance.close(v.person);
+      $uibModalInstance.close(v.person);
   };
   
   v.addImage = function() {
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'app/shared/crop/crop.html',
       controller: 'cropCtrl as cropC',
       size: 'lg'
@@ -80,6 +80,6 @@ angular.module('tcApp2App')
   };
       
   v.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 });
