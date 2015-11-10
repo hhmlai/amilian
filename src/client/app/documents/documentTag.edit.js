@@ -2,12 +2,10 @@
 
 angular.module('tcApp2App')
   .controller('docTagEditCtrl', function (item, $modalInstance) {
-  var vm = this;
-  
+
+  var vm = this;  
   vm.tagRef = item
-    console.log(item)
-
-
+  console.log(item)
   vm.ok = function () {
     $modalInstance.close(vm.tagRef);
   };

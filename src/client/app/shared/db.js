@@ -43,7 +43,7 @@ angular.module('tcApp2App')
         singular: 'tag',
         plural: 'tags',
         relations: {
-          relationships: {hasMany: 'relationship'},
+          documents: {hasMany: 'document'},
         }
       },
       {

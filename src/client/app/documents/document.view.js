@@ -16,7 +16,8 @@ function docViewCtrl(
   utils, 
   db,
   docsModel,
-  peopleModel, 
+  peopleModel,
+  relsModel,
   socket,
   hotkeys) 
 {
@@ -27,6 +28,7 @@ function docViewCtrl(
 
   v.m = docsModel;
   v.pm = peopleModel;
+  v.rm = relsModel;
   v.m.setActiveDoc($stateParams.docId);
   v.doc = docsModel.activeDoc;
   v.videoMsg = false
@@ -227,16 +229,27 @@ $scope.initHotkeys = function () {
     }).catch(function(){
     })
   };
-  
-  v.removePlaceRef = function(id){
-      var index = utils.findIndexById(v.doc.refPlaces, id)
-      console.log(index)
-      if (index > -1) {
-        v.doc.refPlaces.splice(index,1)
-        v.m.updateDoc(v.doc)
-      }
-    }
 
+  v.editRel = function(rel, index){
+    v.rm.editRel(rel, function () {
+        v.doc.rels[rel.id] = rel
+        v.m.updateDoc(v.doc)      
+    })
+  };
+
+  v.newRel = function(relTypeId){
+    v.rm.newRel(relTypeId, v.doc.id, function (rel) {
+        v.doc.rels[rel.id]=rel
+        v.m.updateDoc(v.doc)      
+    })
+  };
+      
+  v.removeRel = function(rel){
+      console.log('a remover')
+      delete v.doc.rels[rel.id];
+      v.rm.removeRel(rel);
+      v.m.updateDoc(v.doc)
+  }
 
 
   v.createClip = function(){

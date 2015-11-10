@@ -7,9 +7,7 @@ angular.module('tcApp2App')
   m.allDocs = {};
   m.activeDoc = null;
   var pm = peopleModel;
-  peopleModel.getAllPeople();
-  placesModel.getAllPlaces();
-
+  
   m.getAllDocs = db.rel.find('documents') 
         .then (function(res) {
           m.allDocs = res.documents;
@@ -92,7 +90,8 @@ angular.module('tcApp2App')
       id: (new Date().toISOString() + '_admin'),
       languages: [m.languages[0]],
       attach: {},
-      videos: {}
+      videos: {},
+      rels: {}
     };
     return  newDoc
   };

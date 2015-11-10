@@ -1,7 +1,9 @@
 {
   "name": "tcApp2App",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "electron-prebuilt": "^0.34.3"
+  },
   "scripts": {
     "test": "gulp test"
   },
@@ -11,8 +13,8 @@
     "chalk": "~1.0.0",
     "concat-stream": "~1.5.0",
     "del": "~1.2.0",
-    "electron-connect": "^0.3.0",
-    "electron-prebuilt": "^0.33.1",
+    "electron-connect": ">=0.3.0",
+    "electron-prebuilt": "^0.34.1",
     "eslint": "^1.5.1",
     "gulp": "~3.9.0",
     "gulp-angular-filesort": "~1.1.1",

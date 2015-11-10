@@ -1,4 +1,4 @@
-AA Publicar github
+AA Lançamento  
 	A. Interface melhorada/GPL
 	    1. eliminar xenon - OK
 		2. novo tema - OK
@@ -10,16 +10,11 @@ AA Publicar github
 	D. Locais/mapa
 	E. Multi-utilizador
 	K. App desktop p/ mac
-
-BB Lançar portal nós as pessoas (beta)
+	N. APP desktop p/ linux
 	F. Unificacao codigo cliente com servidor electron/remoto 
 	G. sincronização electron/servidor remoto 
-
-CC Lançamento oficial
 	H. Relações entre documentos
 	I. Pesquisa relações (graph search)
-	L. App mobile p/ android
-	N. APP desktop p/ linux
 
 DD Pós lançamento
 	J. App mobile p/ iphone

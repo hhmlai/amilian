@@ -11,12 +11,6 @@ angular.module('tcApp2App')
       })
      .state('app.places.list', {
         url: '',
-        controller: 'placesCtrl as plcC',
-        resolve:{
-          docs: function(placesModel) { 
-            placesModel.getAllPlaces();
-            return true}
-        },
         templateUrl: 'app/places/places.list.html'
       })
      .state('app.places.view', {

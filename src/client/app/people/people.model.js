@@ -40,8 +40,7 @@ m.newPerson = function () {
   };
 
 
-  m.getAllPeople = function() {
-    db.rel.find('people') 
+  m.getAllPeople = db.rel.find('people') 
         .then (function(res) {
           m.allPeople = res.people;
           $rootScope.$apply();
@@ -53,7 +52,6 @@ m.newPerson = function () {
           return false
         })
     ;
-  };
 
   m.getPerson = function(docId) {
     return utils.findDocById(m.allPeople , docId);

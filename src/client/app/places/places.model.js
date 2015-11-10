@@ -22,7 +22,7 @@ angular.module('tcApp2App')
         draggable: true      
     }]
  
- m.types = ["Local da entrevista", "Local referênciado",  "Outro"];
+ m.types = [{id:0, name: "Local da entrevista"}, {id: 1, name: "Local referênciado"}, {id: 2, name: "Outro"}];
 
 m.newPlace = function (role) {
     var modalInstance = $modal.open({
@@ -57,12 +57,11 @@ m.newPlace = function (role) {
   };
 
 
-  m.getAllPlaces = function() {
-    db.rel.find('places') 
+  m.getAllPlaces = db.rel.find('places') 
         .then (function(res) {
           m.allPlaces = res.places;
           $rootScope.$apply();
-          console.log(m.allPlaces)
+          console.log('got places')
           return true
         })
         .catch (function(err) {
@@ -70,7 +69,7 @@ m.newPlace = function (role) {
           return false
         })
     ;
-  };
+  
 
   m.getPlace = function(docId) {
     return utils.findDocById(m.allPlaces , docId);

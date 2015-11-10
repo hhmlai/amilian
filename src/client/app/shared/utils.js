@@ -5,26 +5,34 @@ angular.module('tcApp2App')
   return {
     // Util for finding an object by its 'id' property among an array
     findDocById: function findDocById(a, id) {
+      if (a) {
       for (var i = 0; i < a.length; i++) {
         if (a[i].id == id) return a[i];
+      }
       }
       return -1;
     },
     findDocByName: function findDocByName(a, id) {
-      for (var i = 0; i < a.length; i++) {
-        if (a[i].name == id) return a[i];
-      }
+      if (a) {
+        for (var i = 0; i < a.length; i++) {
+          if (a[i].name == id) return a[i];
+        }
       return -1;
+      }      
     },
     findIndexById: function findIndexById(a, id) {
-      for (var i = 0; i < a.length; i++) {
-        if (a[i].id == id) return i;
+      if (a) {
+        for (var i = 0; i < a.length; i++) {
+          if (a[i].id == id) return i;
+        }
       }
       return -1;
     },
     findIndexByName: function findIndexByName(a, id) {
+      if (a) {
       for (var i = 0; i < a.length; i++) {
         if (a[i].name == id) return i;
+      }
       }
       return -1;
     },
