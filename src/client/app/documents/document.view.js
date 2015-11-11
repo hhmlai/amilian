@@ -230,25 +230,20 @@ $scope.initHotkeys = function () {
     })
   };
 
-  v.editRel = function(rel, index){
-    v.rm.editRel(rel, function () {
-        v.doc.rels[rel.id] = rel
-        v.m.updateDoc(v.doc)      
+  v.editRel = function(relId, relTypeId){
+    var relType = utils.findDocById($scope.MC.relTypes, relTypeId)
+    v.rm.editRel(relId, relType, function() {
     })
   };
 
-  v.newRel = function(relTypeId){
-    v.rm.newRel(relTypeId, v.doc.id, function (rel) {
-        v.doc.rels[rel.id]=rel
-        v.m.updateDoc(v.doc)      
+  v.newRel = function(relType){
+    v.rm.newRel(relType, v.doc.id, function() {
     })
   };
       
-  v.removeRel = function(rel){
-      console.log('a remover')
-      delete v.doc.rels[rel.id];
-      v.rm.removeRel(rel);
-      v.m.updateDoc(v.doc)
+  v.removeRel = function(relId){
+      v.rm.removeRel(relId, function() {
+    });
   }
 
 

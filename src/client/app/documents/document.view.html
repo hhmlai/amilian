@@ -12,38 +12,38 @@
         vg-cue-points="docVC.videogularConf.cuePoints">
           <vg-media vg-src="docVC.videogularConf.sources" vg-tracks="docVC.videogularConf.tracks"></vg-media>
           <div id="overlay" style="right: 0" class="btn-group-vertical" role="group" aria-label="...">
-            <label popover="Ficha" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            <label uib-popover="Ficha" uib-popover-trigger="mouseenter" uib-popover-placement="left" uib-popover-animation="true" class="btn btn-vg"
             ng-model="panel" uib-btn-radio="0">
               <i class="glyphicon glyphicon-tag"></i>
             </label>
-            <label popover="Pessoas" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            <label uib-popover="Pessoas" uib-popover-trigger="mouseenter" uib-popover-placement="left" uib-popover-animation="true" class="btn btn-vg"
             ng-model="panel" uib-btn-radio="2">
               <i class="glyphicon glyphicon-user"></i>
             </label>
-            <label popover="Anexos" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            <label uib-popover="Anexos" uib-popover-trigger="mouseenter" uib-popover-placement="left" uib-popover-animation="true" class="btn btn-vg"
             ng-model="panel" uib-btn-radio="3">
               <i class="glyphicon glyphicon-folder-open"></i>
             </label>
-            <label popover="Clips" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            <label uib-popover="Clips" uib-popover-trigger="mouseenter" uib-popover-placement="left" uib-popover-animation="true" class="btn btn-vg"
             ng-model="panel" uib-btn-radio="4">
               <i class="glyphicon glyphicon-expand"></i>
             </label>
-            <label popover="Notas" popover-trigger="mouseenter" popover-placement="left" Popover-animation="true" class="btn btn-vg"
+            <label uib-popover="Notas" uib-popover-trigger="mouseenter" uib-popover-placement="left" uib-popover-animation="true" class="btn btn-vg"
             ng-model="panel" uib-btn-radio="5">
               <i class="glyphicon glyphicon-edit"></i>
             </label>
           </div>
           <div id="overlay" class="btn-group-vertical" role="group" aria-label="...">
-            <button popover="Editar video" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.editVideo()">
+            <button uib-popover="Editar video" uib-popover-trigger="mouseenter" uib-popover-placement="left" class="btn btn-vg" ng-click="docVC.editVideo()">
               <i class="glyphicon glyphicon-pencil"></i>
             </button>
-            <button popover="Descarregar video" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.saveAs(docVC.doc.video.url)">
+            <button uib-popover="Descarregar video" uib-popover-trigger="mouseenter" uib-popover-placement="left" class="btn btn-vg" ng-click="docVC.saveAs(docVC.doc.video.url)">
               <i class="glyphicon glyphicon-save"></i>
             </button>
-            <button popover="Instantâneo" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.createImage();panel=3">
+            <button uib-popover="Instantâneo" uib-popover-trigger="mouseenter" uib-popover-placement="left" class="btn btn-vg" ng-click="docVC.createImage();panel=3">
               <i class="glyphicon glyphicon-camera"></i>
             </button>
-            <button popover="Eliminar documento" popover-trigger="mouseenter" popover-placement="left" class="btn btn-vg" ng-click="docVC.deleteDoc()">
+            <button uib-popover="Eliminar documento" uib-popover-trigger="mouseenter" uib-popover-placement="left" class="btn btn-vg" ng-click="docVC.deleteDoc()">
               <i class="glyphicon glyphicon-trash"></i>
             </button>
           </div>
@@ -177,13 +177,13 @@
             Button dropdown <span class="caret"></span>
           </button>
           <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-            <li ng-repeat="relType in docVC.rm.relTypes" role="menuitem"><a ng-click="docVC.newRel(relType.id)">{{relType.name}}</a></li>
+            <li ng-repeat="relType in MC.relTypes" role="menuitem"><a ng-click="docVC.newRel(relType)">{{relType.name}}</a></li>
           </ul>
         </div>
           <table class="table table-striped files ng-cloak">
-            <tr data-ng-repeat="rel in docVC.doc.rels">
+            <tr data-ng-repeat="rel in MC.rm.allRels | filter: {docId: docVC.doc.id} track by $index">
               <td class="col-sm-2">
-                <a type="button" class="btn" ng-click="docVC.editRel(rel, $index)" >
+                <a type="button" class="btn" ng-click="docVC.editRel(rel.id, rel.relTypeId)" >
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
               </td>
@@ -191,13 +191,12 @@
                 {{rel}}
               </td>
               <td class="col-sm-1">
-                <a type="button" class="btn btn-xs pull-right" ng-click="docVC.removeRel(rel, $index)">
+                <a type="button" class="btn btn-xs pull-right" ng-click="docVC.removeRel(rel.id)">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
               </td>
             </tr>
           </table>
-          {{docVC.rm.allRels}}
       </div>
       <div ng-show="panel === 3">
         <div>

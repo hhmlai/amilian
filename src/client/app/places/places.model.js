@@ -24,7 +24,7 @@ angular.module('tcApp2App')
  
  m.types = [{id:0, name: "Local da entrevista"}, {id: 1, name: "Local referênciado"}, {id: 2, name: "Outro"}];
 
-m.newPlace = function (role) {
+m.newPlace = function () {
     var modalInstance = $uibModal.open({
       templateUrl: 'app/places/place.edit.html',
       controller: 'plcEditCtrl as plcEC',

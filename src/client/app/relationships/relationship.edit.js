@@ -1,15 +1,14 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('relEditCtrl', function (rel, peopleModel, placesModel, $scope, $uibModal, $window, relsModel, $uibModalInstance, utils) {
+.controller('relEditCtrl', function ($scope, rel, relType, peopleModel, placesModel, $uibModal, $window, relsModel, $uibModalInstance, utils) {
 
   var v = this;
 
   v.m = relsModel
   v.rel = rel
-  console.log('cheguei...')
-  console.log(rel)
-  v.relFields = getFormlyFields(utils.findDocById(v.m.relTypes, rel.relTypeId))
+  
+  v.relFields = getFormlyFields(relType)
 
   v.ok = function () {
       $uibModalInstance.close(v.rel);
@@ -30,6 +29,7 @@ angular.module('tcApp2App')
                 valueProp: 'id',
                 labelProp: 'name',
                 options: el.options,
+                addonRight: el.addonRight, 
                 required: el.required
               }
             })
@@ -57,7 +57,6 @@ angular.module('tcApp2App')
           }
         })
       }
-      console.log(res)
       return res   
   }
 
