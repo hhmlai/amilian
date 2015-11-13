@@ -31,11 +31,11 @@ angular.module('tcApp2App')
     }
  };
   
-  m.getAllLinks = db.link.find('links') 
+  m.getAllLinks = db.rel.find('links') 
           .then (function(res) {
             m.allLinks = res.links;
             $rootScope.$apply();
-            console.log('got Links')
+            console.log('got links')
             return true
           })
           .catch (function(err) {
@@ -65,7 +65,7 @@ angular.module('tcApp2App')
   };
 
   m.updateLink = function(link, callback) {
-      db.link.save('link', link)
+      db.rel.save('link', link)
         .then (function() {
           var index = utils.findIndexById(m.allLinks, link.id)
           if (index > -1) {
@@ -85,7 +85,7 @@ angular.module('tcApp2App')
   };
 
   m.removeLink = function(linkId, callback) {
-    db.link.del('link', m.getLink(linkId))
+    db.rel.del('link', m.getLink(linkId))
         .then (function() {
           m.allLinks.splice(utils.findIndexById(m.allLinks, linkId), 1);
           if (callback) {callback()}

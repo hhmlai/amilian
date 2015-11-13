@@ -134,10 +134,10 @@ angular.module('tcApp2App')
               ]       
             }
           ],         
-      getFormlyFields: function(relType) {
+      getFormlyFields: function(linkType) {
                               var res = []
-                              if (relType !== -1) {
-                                relType.fields.forEach(function(el){
+                              if (linkType !== -1) {
+                                linkType.fields.forEach(function(el){
                                   if ((el.type === 'ui-select-single') || (el.type === 'ui-select-multiple')) {
                                     res.push({ 
                                       key: el.key,
