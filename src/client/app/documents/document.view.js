@@ -17,8 +17,9 @@ function docViewCtrl(
   db,
   docsModel,
   peopleModel,
-  relsModel,
+  linksModel,
   socket,
+  formly,
   hotkeys) 
 {
 
@@ -28,10 +29,11 @@ function docViewCtrl(
 
   v.m = docsModel;
   v.pm = peopleModel;
-  v.rm = relsModel;
+  v.lm = linksModel;
   v.m.setActiveDoc($stateParams.docId);
   v.doc = docsModel.activeDoc;
   v.videoMsg = false
+  v.linkTypes = formly.linkTypes
     
   $scope.panel = 0;
 
@@ -230,19 +232,19 @@ $scope.initHotkeys = function () {
     })
   };
 
-  v.editRel = function(relId, relTypeId){
-    var relType = utils.findDocById($scope.MC.relTypes, relTypeId)
-    v.rm.editRel(relId, relType, function() {
+  v.editLink = function(linkId, linkTypeId){
+    var linkType = utils.findDocById(formly.linkTypes, linkTypeId)
+    v.rm.editLink(linkId, linkType, function() {
     })
   };
 
-  v.newRel = function(relType){
-    v.rm.newRel(relType, v.doc.id, function() {
+  v.newLink = function(linkType){
+    v.rm.newLink(linkType, v.doc.id, function() {
     })
   };
       
-  v.removeRel = function(relId){
-      v.rm.removeRel(relId, function() {
+  v.removeLink = function(linkId){
+      v.rm.removeLink(linkId, function() {
     });
   }
 

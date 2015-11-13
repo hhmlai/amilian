@@ -9,34 +9,26 @@ angular.module('tcApp2App')
         singular: 'document',
         plural: 'documents',
         relations: {
-          relationships: {hasMany: 'relationship'},
+          links: {hasMany: 'link'},
           tags: {hasMany: 'tag'}
         }
       },
       {
-        singular: 'relationship',
-        plural: 'relationships',
+        singular: 'link',
+        plural: 'links',
         relations: {
-          documents: {belongsTo: 'document'},
-          types: {belongsTo: 'reltype'},
+          document: {belongsTo: 'document'},
           people: {hasMany: 'person'},
           places: {hasMany: 'place'},
           events: {hasMany: 'event'},
-          entity: {hasMany: 'entities'}
-        }
-      },
-      {
-        singular: 'reltype',
-        plural: 'reltypes',
-        relations: {
-          relationships: {hasMany: 'relationship'},
+          entity: {hasMany: 'nodes'}
         }
       },
       {
         singular: 'person',
         plural: 'people',
         relations: {
-          relationships: {hasMany: 'relationship'},
+          links: {hasMany: 'link'},
         }
       },
       {
@@ -50,26 +42,26 @@ angular.module('tcApp2App')
         singular: 'place',
         plural: 'places',
         relations: {
-          relationships: {hasMany: 'relationship'},
+          links: {hasMany: 'link'},
         }
       },
       {
         singular: 'event',
         plural: 'events',
         relations: {
-          relationships: {hasMany: 'relationship'},
+          links: {hasMany: 'link'},
         }
       },
       {
-        singular: 'entity',
-        plural: 'entities',
+        singular: 'node',
+        plural: 'nodes',
         relations: {
-          relationships: {hasMany: 'relationship'},
+          links: {hasMany: 'link'},
         }
       }    
     ]);
 
-  db.del = function(type , obj ) {
+  db.del = function(type , obj) {
       db.rel.del(type , obj)
         .then (function(response) {
           console.log(type + ' ' + obj + ' deleted');

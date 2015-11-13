@@ -1,61 +1,62 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('nodeEditCtrl', function (node, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
+.controller('nodeEditCtrl', function (node, nodeType, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
 
   var v = this;
 
   v.m = nodesModel
   v.node = node
   
-      v.nodeFields = [
-        {
-            key: 'name',
-            type: 'input',
-            className: 'col-md-12',
-            templateOptions: {
-                type: 'text',
-                label: 'Nome Completo',
-                placeholder: 'Enter your name',
-                required: true
-            }
-        },
-        {
-            key: 'inicials',
-            type: 'input',
-            className: 'col-md-6',
-            templateOptions: {
-                type: 'text',
-                label: 'Iniciais',
-                placeholder: 'Entrar as iniciais',
-                required: true
-            }
-        },
-        {
-            key: 'bornDate',
-            type: 'input',
-            className: 'col-md-6',
-            templateOptions: {
-                type: 'date',
-                label: 'Data de nascimento',
-                placeholder: '',
-                required: false
-            }
-        },
-        {
-            key: 'notes',
-            type: 'textarea',
-            className: 'col-md-12',
-            templateOptions: {
-                type: 'text',
-                cols: 5,
-                label: 'Observações',
-                placeholder: 'Escrever aqui',
-                required: false
-            }
-        },
-    ];
-
+      v.nodeFields = getFormlyFields(nodeType)
+    
+    function getFormlyFields(nodeType) {
+      var res = []
+      if (nodeType !== -1) {
+        nodeType.fields.forEach(function(el){
+          if ((el.type === 'ui-select-single') || (el.type === 'ui-select-multiple')) {
+            res.push({ 
+              key: el.key,
+              type: el.type,
+              templateOptions: {
+                optionsAttr: 'bs-options',
+                ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
+                label: el.label,
+                valueProp: 'id',
+                labelProp: 'name',
+                options: el.options,
+                addonRight: el.addonRight, 
+                required: el.required
+              }
+            })
+          } else if (el.type === 'button') {
+            res.push({ 
+              key: el.key,
+              type: el.type,
+              templateOptions: {
+                label: el.label,
+                text: el.text,
+                btnType: el.btnType,
+                onClick: el.onClick,
+                description: el.description
+              }
+            })          
+          } else {
+            res.push({ 
+              key: el.key,
+              type: el.type,
+              templateOptions: {
+                label: el.label,
+                required: el.required,
+              }
+            })          
+          }
+        })
+      }
+      return res   
+  }  
+      
+ 
 
   v.ok = function () {
       v.node.ref = {
