@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('nodesModel', function ($rootScope, $uibModal, $stateParams, db, utils) {
+.factory('nodesModel', function ($rootScope, $uibModal, $stateParams, db, utils, filterFilter, formlyTypes) {
 
   var m = {};
   m.allNodes = [];
   m.activeNode = null;
 
-m.newNode = function () {
+  m.newNode = function (typeId) {
     var modalInstance = $uibModal.open({
       templateUrl: 'app/nodes/node.edit.html',
       controller: 'nodeEditCtrl as nodeEC',
@@ -15,6 +15,7 @@ m.newNode = function () {
       resolve: {
         node:  {
               id: (new Date().toISOString() + '_admin'),
+              typeId: typeId
         }
       }
     });
@@ -57,6 +58,10 @@ m.newNode = function () {
     return utils.findDocById(m.allNodes , docId);
   };
 
+  m.getNodes = function(typeId) {
+    return filterFilter(m.allNodes, {typeId: typeId});
+  };
+  
   m.updateNode = function(doc) {
       db.rel.save('node', doc)
         .then (function() {

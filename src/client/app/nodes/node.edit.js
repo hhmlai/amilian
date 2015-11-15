@@ -1,19 +1,18 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('nodeEditCtrl', function (node, nodeType, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
+.controller('nodeEditCtrl', function (node, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
 
   var v = this;
 
   v.m = nodesModel
   v.node = node
   
-      v.nodeFields = getFormlyFields(nodeType)
+  v.nodeFields = getFormlyFields(node.params.fields)
     
-    function getFormlyFields(nodeType) {
+  function getFormlyFields(fields) {
       var res = []
-      if (nodeType !== -1) {
-        nodeType.fields.forEach(function(el){
+      fields.forEach(function(el){
           if ((el.type === 'ui-select-single') || (el.type === 'ui-select-multiple')) {
             res.push({ 
               key: el.key,
@@ -51,8 +50,7 @@ angular.module('tcApp2App')
               }
             })          
           }
-        })
-      }
+      })
       return res   
   }  
       

@@ -118,7 +118,8 @@ angular.module('tcApp2App', [
    tagsModel, 
    placesModel, 
    linksModel,
-   nodesModel
+   nodesModel,
+   formlyTypes
    )
   {
 
