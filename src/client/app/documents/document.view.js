@@ -19,7 +19,7 @@ function docViewCtrl(
   peopleModel,
   linksModel,
   socket,
-  formlyTypes,
+  formlyUtils,
   hotkeys) 
 {
 
@@ -33,7 +33,7 @@ function docViewCtrl(
   v.m.setActiveDoc($stateParams.docId);
   v.doc = docsModel.activeDoc;
   v.videoMsg = false
-  v.linkTypes = formlyTypes.links
+  v.linkTypes = linksModel.linkTypes
     
   $scope.panel = 0;
 
@@ -239,8 +239,8 @@ $scope.initHotkeys = function () {
     })
   };
 
-  v.newLink = function(linkType){
-    v.lm.newLink(linkType, v.doc.id, function() {
+  v.newLink = function(linkTypeId){
+    v.lm.newLink(linkTypeId, v.doc.id, function() {
     })
   };
       

@@ -1,11 +1,65 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('nodesModel', function ($rootScope, $uibModal, $stateParams, db, utils, filterFilter, formlyTypes) {
+.factory('nodesModel', function ($rootScope, $uibModal, $stateParams, db, utils, filterFilter) {
 
   var m = {};
   m.allNodes = [];
   m.activeNode = null;
+  
+  m.typeParams =  {
+          person : 
+              { id: "person",
+                name: "Pessoa",
+                fields: [
+                  {     
+                      key: 'name',
+                      type: 'input',
+                      className: 'col-md-12',
+                      templateOptions: {
+                          type: 'text',
+                          label: 'Nome Completo',
+                          placeholder: 'Enter your name',
+                          required: true
+                      }
+                  },
+                  {
+                      key: 'inicials',
+                      type: 'input',
+                      className: 'col-md-6',  
+                      templateOptions: {
+                          type: 'text',
+                          label: 'Iniciais',
+                          placeholder: 'Entrar as iniciais',
+                          required: true
+                      }
+                  },
+                  {
+                      key: 'bornDate',
+                      type: 'input',
+                      className: 'col-md-6',
+                      templateOptions: {
+                          type: 'date',
+                          label: 'Data de nascimento',
+                          placeholder: '',
+                          required: false
+                      }
+                  },
+                  {
+                      key: 'notes',
+                      type: 'textarea',
+                      className: 'col-md-12',
+                      templateOptions: {
+                          type: 'text',
+                          cols: 5,
+                          label: 'Observações',
+                          placeholder: 'Escrever aqui',
+                          required: false
+                      }
+                  }
+                ]  
+              }
+ }
 
   m.newNode = function (typeId) {
     var modalInstance = $uibModal.open({
@@ -15,15 +69,15 @@ angular.module('tcApp2App')
       resolve: {
         node:  {
               id: (new Date().toISOString() + '_admin'),
-              typeId: typeId
+              typeParams: m.typeParams[typeId]
         }
       }
     });
     modalInstance.result.then(function (doc) {
+      console.log(doc)
       m.updateNode(doc);
     });
-    return {
-    }
+    return true
   };
   
  m.editNode = function(nodeId){
@@ -59,6 +113,8 @@ angular.module('tcApp2App')
   };
 
   m.getNodes = function(typeId) {
+    console.log(typeId)
+    console.log(filterFilter(m.allNodes, {typeId: typeId}))
     return filterFilter(m.allNodes, {typeId: typeId});
   };
   

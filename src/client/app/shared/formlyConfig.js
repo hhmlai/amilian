@@ -1,6 +1,91 @@
 'use strict';
 angular.module('tcApp2App')
 
+.service('formlyUtils', function(nodesModel, peopleModel, placesModel) {
+  return {  
+   selectTypes: function(typeId) {
+     console.log('a carregar listas')
+     if (typeId === 'person') {
+       return {
+            key: 'person',
+            type: 'ui-select-single',
+            options: nodesModel.getNodes('person'), 
+            addonRight: {
+              class: 'glyphicon glyphicon-plus',
+              onClick: function() {nodesModel.newNode('person')}
+            }
+        }
+      } else if (typeId === 'people') {
+        return {
+        key: 'people',
+        type: 'ui-select-multiple',
+            options: nodesModel.getNodes('person'), 
+            addonRight: {
+              class: 'glyphicon glyphicon-plus',
+              onClick: function() {nodesModel.newNode('person')}
+            }
+        }
+      } else if (typeId === 'place') {
+        return {
+            key: "place", 
+            type: 'ui-select-single',
+            label: 'Nome do Lugar', 
+            options: placesModel.allPlaces, 
+            required: true,
+            addonRight: {
+              class: 'glyphicon glyphicon-plus',
+              onClick: function() {placesModel.newPlace()}
+            }
+        }  
+      }
+  },  
+  getFields: function(typeParams) {
+                              var res = []
+                              if (typeParams) {
+                                typeParams.fields.forEach(function(el){
+                                  if ((el.type === 'ui-select-single') || (el.type === 'ui-select-multiple')) {
+                                    res.push({ 
+                                      key: el.key,
+                                      type: el.type,
+                                      templateOptions: {
+                                        optionsAttr: 'bs-options',
+                                        ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
+                                        label: el.label,
+                                        valueProp: 'id',
+                                        labelProp: 'name',
+                                        options: el.options,
+                                        addonRight: el.addonRight, 
+                                        required: el.required
+                                      }
+                                    })
+                                  } else if (el.type === 'button') {
+                                    res.push({ 
+                                      key: el.key,
+                                      type: el.type,
+                                      templateOptions: {
+                                        label: el.label,
+                                        text: el.text,
+                                        btnType: el.btnType,
+                                        onClick: el.onClick,
+                                        description: el.description
+                                      }
+                                    })          
+                                  } else {
+                                    console.log('outro')
+                                    console.log(el)
+                                    res.push({ 
+                                      key: el.key,
+                                      type: el.type,
+                                      templateOptions: el.templateOptions
+                                    })          
+                                  }
+                                })
+                              }
+                              return res   
+                    }
+  }
+ })
+
  .run(function(formlyConfig) {
    
     formlyConfig.setType({

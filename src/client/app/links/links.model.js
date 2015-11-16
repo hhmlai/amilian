@@ -1,25 +1,22 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('linksModel', function ($rootScope, peopleModel, placesModel, docsModel, $uibModal, $stateParams, db, utils) {
+.factory('linksModel', function ($rootScope, formlyUtils, peopleModel, placesModel, docsModel, $uibModal, $stateParams, db, utils) {
   
   var m = {};
   m.allLinks = [];
   m.activeLink = null;
-  
-
             
-  m.newLink = function (linkType, docId, callback) {
+  m.newLink = function (typeId, docId, callback) {
     var modalInstance = $uibModal.open({
       templateUrl: 'app/links/link.edit.html',
       controller: 'linkEditCtrl as linkEC',
       size: 'lg',
       resolve: {
-        linkType: linkType, 
         link:  {
               id: (new Date().toISOString() + '_admin'),
               docId: docId,
-              linkTypeId: linkType.id
+              typeId: typeId
         }
       }
     });
@@ -96,8 +93,6 @@ angular.module('tcApp2App')
           console.log(err)
           return false;
         })
-      ;
-
   };
 
   return m

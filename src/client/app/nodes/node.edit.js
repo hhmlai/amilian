@@ -1,60 +1,16 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('nodeEditCtrl', function (node, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
+.controller('nodeEditCtrl', function (node, formlyUtils, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
 
   var v = this;
 
   v.m = nodesModel
   v.node = node
   
-  v.nodeFields = getFormlyFields(node.params.fields)
+  v.nodeFields = formlyUtils.getFields(node.typeParams)
+  console.log(v.nodeFields)
     
-  function getFormlyFields(fields) {
-      var res = []
-      fields.forEach(function(el){
-          if ((el.type === 'ui-select-single') || (el.type === 'ui-select-multiple')) {
-            res.push({ 
-              key: el.key,
-              type: el.type,
-              templateOptions: {
-                optionsAttr: 'bs-options',
-                ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
-                label: el.label,
-                valueProp: 'id',
-                labelProp: 'name',
-                options: el.options,
-                addonRight: el.addonRight, 
-                required: el.required
-              }
-            })
-          } else if (el.type === 'button') {
-            res.push({ 
-              key: el.key,
-              type: el.type,
-              templateOptions: {
-                label: el.label,
-                text: el.text,
-                btnType: el.btnType,
-                onClick: el.onClick,
-                description: el.description
-              }
-            })          
-          } else {
-            res.push({ 
-              key: el.key,
-              type: el.type,
-              templateOptions: {
-                label: el.label,
-                required: el.required,
-              }
-            })          
-          }
-      })
-      return res   
-  }  
-      
- 
 
   v.ok = function () {
       v.node.ref = {
