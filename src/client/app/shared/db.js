@@ -18,17 +18,9 @@ angular.module('tcApp2App')
         plural: 'links',
         relations: {
           document: {belongsTo: 'document'},
-          people: {hasMany: 'person'},
           places: {hasMany: 'place'},
           events: {hasMany: 'event'},
           entity: {hasMany: 'nodes'}
-        }
-      },
-      {
-        singular: 'person',
-        plural: 'people',
-        relations: {
-          links: {hasMany: 'link'},
         }
       },
       {

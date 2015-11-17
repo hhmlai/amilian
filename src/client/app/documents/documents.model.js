@@ -1,12 +1,11 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.factory('docsModel', function ($rootScope, $http, $stateParams, db, utils, peopleModel, placesModel) {
+.factory('docsModel', function ($rootScope, $http, $stateParams, db, utils, placesModel) {
   
   var m = {};
   m.allDocs = {};
   m.activeDoc = null;
-  var pm = peopleModel;
   
   m.getAllDocs = db.rel.find('documents') 
         .then (function(res) {

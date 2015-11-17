@@ -16,10 +16,8 @@ function docViewCtrl(
   utils, 
   db,
   docsModel,
-  peopleModel,
   linksModel,
   socket,
-  formlyUtils,
   hotkeys) 
 {
 
@@ -28,15 +26,44 @@ function docViewCtrl(
   v.API = null;
 
   v.m = docsModel;
-  v.pm = peopleModel;
   v.lm = linksModel;
   v.m.setActiveDoc($stateParams.docId);
   v.doc = docsModel.activeDoc;
   v.videoMsg = false
-  v.linkTypes = linksModel.linkTypes
     
   $scope.panel = 0;
+  
+  
+  v.intervId = function() {
+    
+  }
+  
+  v.intervFields = v.lm.linkTypes.entrevistadores.fields
+  
+      v.model = {
+      text: 'Hello'
+    };
 
+    $scope.options = {
+      formState: {
+        horizontalLabelClass: 'col-sm-2',
+        horizontalFieldClass: 'col-sm-10',
+        readOnly: true
+      }
+    };
+    
+    $scope.fields = [{
+      key: 'text',
+      type: 'input',
+      templateOptions: {
+        label: 'Text',
+        placeholder: 'Formly is terrific!',
+        required: true
+      }
+    }];
+    
+        v.originalFields = angular.copy(v.fields);
+  
 $scope.initHotkeys = function () {
   hotkeys.bindTo($scope)
     .add({
@@ -109,9 +136,6 @@ $scope.initHotkeys = function () {
     return (file.mime.split("/")[0] === type)
   }
  
-  v.addRefPerson = function(role){
-      v.doc.refPeople.push({person: {role: role}}); 
-  }
 
 
   v.fileArr = utils.fileArr
@@ -140,39 +164,6 @@ $scope.initHotkeys = function () {
       v.init()
     })
   };
-  
-   v.editPersonRef = function(origin){
-    var index = utils.findIndexById(v.doc.refPeople, origin.id)
-      if (index > -1) {
-        var item = v.doc.refPeople[index]
-      } else {
-        item = {id: origin.id, name: origin.name}
-      }
-    v.modal = $uibModal.open({
-      templateUrl: 'app/documents/documentPerson.edit.html',
-      controller: 'docPersonEditCtrl as docpEC',
-      scope: $scope,
-      resolve: {
-          item: item
-          }
-    });
-    v.modal.result.then(function (ref) {
-      var index = v.doc.people.indexOf(ref.id)
-      if (index > -1) {
-        v.doc.refPeople[index] = ref
-      }
-      v.m.updateDoc(v.doc)
-    }).catch(function(){
-    })
-  };
-  
-  v.removePeopleRef = function(id){
-      var index = utils.findIndexById(v.doc.refPeople, id)
-      if (index > -1) {
-        v.doc.refPeople.splice(index,1)
-        v.m.updateDoc(v.doc)
-      }
-    }
   
    v.editTagRef = function(origin){
     var index = utils.findIndexById(v.doc.refTags, origin.id)
@@ -233,7 +224,7 @@ $scope.initHotkeys = function () {
   };
 
   v.editLink = function(linkId, linkTypeId){
-    var linkType = utils.findDocById(formlyUtils.links, linkTypeId)
+    var linkType = utils.findDocById(v.lm.links, linkTypeId)
     console.log(linkType)
     v.lm.editLink(linkId, linkType, function() {
     })

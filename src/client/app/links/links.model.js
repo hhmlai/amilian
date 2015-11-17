@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('linksModel', function ($rootScope, formlyUtils, peopleModel, placesModel, docsModel, $uibModal, $stateParams, db, utils) {
+.factory('linksModel', function ($rootScope, placesModel, docsModel, $uibModal, $stateParams, db, utils) {
   
   var m = {};
   m.allLinks = [];
@@ -12,55 +12,22 @@ angular.module('tcApp2App')
             { id: "teste",
               name: "Referência de uma pessoa a várias pessoas",
               fields: [
-                  {key: "relPerson", type: 'ui-select-person', templateOptions : {label: 'Pessoa referencia', required: true}}, 
-                  {key: "relPeople", type: 'ui-select-people', templateOptions : {label: 'Pessoas relacionadas', required: true}}, 
+                  {key: "relPerson", type: 'selectSingleNode', templateOptions : {readOnly: true, typeId: 'person', label: 'Pessoa referencia', required: true}}, 
+                  {key: "relPlace", type: 'selectMultipleNodes', templateOptions : {typeId: 'place', label: 'Lugares relacionados', required: true}}, 
                   {key: "obs", type: 'input', templateOptions : {label: 'Notas', required: true}}
               ]
             },
-    refPlace:
-            {  id: "refPlace",
-              name: "Referência a um local",
+    entrevistadores:
+      {id: "entrevistadores",
+      name: "Entrevistadores ",
               fields: [
-                  angular.extend({
-                    label: 'Nome do Local', 
-                    required: true
-                    }, formlyUtils.selectTypes('place')), 
-                  {key: "relPlace", type: 'ui-select-single', label: 'Relação com o documento', options: placesModel.types, required: true}, 
-                  {key: "obs", type: 'input', label: 'Observações', required: true}, 
-                  {key: "refStart", type: 'input', label: 'Momento da entrevista (s)', required: false}, 
-                  {key: "refLenght", type: 'input', label: 'Duração da referência (s)', required: false}
+                  {key: "interviewers", type: 'selectMultipleNodes', templateOptions : {typeId: 'person', label: 'Nome dos entrevistadores', required: true}}, 
+                  {key: "obs", type: 'input', templateOptions : {label: 'Observasões'}}
               ]
-            },
-      refPessoaLocal:
-            {  id: "refPessoaLocal",
-              name: "Referência a pessoas num local",
-              fields: [
-                  angular.extend({
-                    label: 'Nome da Pessoa', 
-                    required: true
-                    }, formlyUtils.selectTypes('person')),           
-                angular.extend({
-                    key: "place", 
-                    label: 'Nome do Local', 
-                    required: true
-                    }, formlyUtils.selectTypes('place')), 
-                ]
-            },
-     dadosEntrevista:
-            {  id: "dadosEntrevista",
-              name: "Dados Entrevista Completo",
-              unique: true,
-              description: "PESSOA entrevistada por PESSOAS, num LOCAL, numa DATA",
-              fields: [
-                  {key: "entrevistado", type: 'ui-select-single', label: 'Entrevistado', options: peopleModel.allPeople, required: true}, 
-                  {key: "entrevistadores", type: 'ui-select-multiple', label: 'Entrevistadores', options: peopleModel.allPeople, required: false},
-                  {key: "local", type: 'ui-select-single', label: 'Local da Entrevista', options: placesModel.allPlaces, required: false},
-                  {key: "date",  type: "input", label: 'data da entrevista', required: false}
-              ]       
-            }
+      }
   }
             
-  m.newLink = function (linkType, docId, callback) {
+  m.newLink = function (linkType, docId) {
     var modalInstance = $uibModal.open({
       templateUrl: 'app/links/link.edit.html',
       controller: 'linkEditCtrl as linkEC',
@@ -75,7 +42,6 @@ angular.module('tcApp2App')
     });
     modalInstance.result.then(function (link) {
       m.updateLink(link);
-      if (callback) {callback(link)}
     });
     return {
     }

@@ -6,7 +6,6 @@ angular.module('tcApp2App')
   var m = {};
   m.allNodes = [];
   m.activeNode = null;
-  
   m.typeParams =  {
           person : 
               { id: "person",
@@ -35,14 +34,52 @@ angular.module('tcApp2App')
                       }
                   },
                   {
-                      key: 'bornDate',
-                      type: 'input',
+                      key: 'image',
+                      type: 'profileImage',
                       className: 'col-md-6',
                       templateOptions: {
                           type: 'date',
-                          label: 'Data de nascimento',
-                          placeholder: '',
+                          label: 'Imagem do perfil',
                           required: false
+                      }
+                  },
+                  {
+                      key: 'notes',
+                      type: 'textarea',
+                      className: 'col-md-12',
+                      templateOptions: {
+                          type: 'text',
+                          cols: 5,
+                          label: 'Observações',
+                          placeholder: 'Escrever aqui',
+                          required: false
+                      }
+                  }
+                ]  
+              },
+          place : 
+              { id: "place",
+                name: "Lugar ou localidade",
+                fields: [
+                  {     
+                      key: 'name',
+                      type: 'input',
+                      className: 'col-md-12',
+                      templateOptions: {
+                          type: 'text',
+                          label: 'Nome do lugar',
+                          required: true
+                      }
+                  },
+                  {
+                      key: 'gps',
+                      type: 'input',
+                      className: 'col-md-6',  
+                      templateOptions: {
+                          type: 'text',
+                          label: 'Coordenadas GPS',
+                          placeholder: 'Entrar coordenadas GPS',
+                          required: true
                       }
                   },
                   {

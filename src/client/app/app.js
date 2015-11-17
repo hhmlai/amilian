@@ -39,8 +39,6 @@ angular.module('tcApp2App', [
         resolve:{
           docs: function(docsModel) { 
             return docsModel.getAllDocs},
-          people: function(peopleModel) { 
-            return peopleModel.getAllPeople},
           tags: function(tagsModel) { 
             return tagsModel.getAllTags},
           places: function(placesModel) { 
@@ -114,7 +112,6 @@ angular.module('tcApp2App', [
    $http, 
    $state,
    docsModel, 
-   peopleModel, 
    tagsModel, 
    placesModel, 
    linksModel,
@@ -134,7 +131,6 @@ angular.module('tcApp2App', [
   
   var v = this;
   v.dm = docsModel;
-  v.pm = peopleModel;
   v.tm = tagsModel;
   v.plm = placesModel;
   v.lm = linksModel;

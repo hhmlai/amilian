@@ -137,38 +137,21 @@
             </tr>
             <tr>
               <td >
-                <label>Lugares</label>
+                <label>Entrevistadores</label>
               </td>
               <td colspan="3">
-                <ui-select multiple ng-model="docVC.doc.places" theme="bootstrap" on-remove="docVC.removePlaceRef($model, $index)" on-select="docVC.editPlaceRef($item)">
-                  <ui-select-match placeholder="Selecione um lugar">
-                   <span ng-click="docVC.editPlaceRef($item)">
-                      {{docVC.doc.refPlaces[$index].name}}<br><small>{{docVC.doc.refPlaces[$index].type}}</small>
-                    </span>
-                  </ui-select-match>
-                  <ui-select-choices repeat="place.id as place in MC.plm.allPlaces | filter: $select.search">
-                    <div ng-bind-html="place.name | highlight: $select.search"></div>
-                  </ui-select-choices>
-                </ui-select>
+                <form novalidate>
+                        <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="options.formState.readOnly">
+          Read Only
+        </label>
+                        </div>
+        <formly-form model="model" fields="fields" form="form" options="options">
+                </form>{{options}}
               </td>
             </tr>
-            <tr>
-              <td >
-                <label>Pessoas</label>
-              </td>
-              <td colspan="3">
-                <ui-select multiple ng-model="docVC.doc.people" theme="bootstrap" on-remove="docVC.removePersonRef($model, $index)" on-select="docVC.editPersonRef($item)">
-                  <ui-select-match placeholder="Selecione uma pessoa">
-                   <span ng-click="docVC.editPersonRef($item)">
-                      {{docVC.doc.refPeople[$index].name}}<br><small>{{docVC.doc.refPeople[$index].type}}</small>
-                    </span>
-                  </ui-select-match>
-                  <ui-select-choices repeat="person.id as person in MC.pm.allPeople | filter: $select.search">
-                    <div ng-bind-html="person.name | highlight: $select.search"></div>
-                  </ui-select-choices>
-                </ui-select>
-              </td>
-            </tr>        
+
           </table>
       </div>
       <div ng-show="panel === 2">
@@ -268,11 +251,6 @@
       <button type="button" class="btn" data-ng-click="docVC.addLine(null, docVC.selectedLang);docVC.API.pause()">
         <i class="glyphicon glyphicon-flag"></i>
       </button>
-      <div ng-repeat="personId in docVC.doc.refPeople[docVC.pm.roles[0]]" class="btn-group">
-        <button type="button" class="btn btn-primary" data-ng-click="docVC.addLine(personId, docVC.selectedLang);docVC.API.pause()">
-          <i class="glyphicon glyphicon-plus"></i> {{docVC.pm.getPerson(personId).name}}
-        </button>
-      </div>
       <div ng-repeat="personId in docVC.doc.refPeople[docVC.pm.roles[1]]" class="btn-group">
         <button type="button" class="btn" data-ng-click="docVC.addLine(personId, docVC.selectedLang);docVC.API.pause()">
           <i class="glyphicon glyphicon-plus"></i> {{docVC.pm.getPerson(personId).name}}

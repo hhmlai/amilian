@@ -11,8 +11,8 @@ function nodeViewCtrl($stateParams, nodesModel, $window,$state) {
   
 
   v.deleteNode = function() {
-    console.log('aqui')
-    var confirmMsg = 'Quer mesmo apagar esta pessoa?'
+  console.log('vou apagar')
+  var confirmMsg = 'Quer mesmo apagar?'
               if ($window.confirm(confirmMsg)) {
                 v.m.removeNode(v.m.activeNode, function(){
                   v.m.activeNode = {};

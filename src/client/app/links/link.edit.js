@@ -1,7 +1,7 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('linkEditCtrl', function ($scope, link, formlyUtils, peopleModel, placesModel, $uibModal, $window, linksModel, $uibModalInstance, utils) {
+.controller('linkEditCtrl', function ($scope, link, placesModel, $uibModal, $window, linksModel, $uibModalInstance, utils) {
 
   var v = this;
 

@@ -1,14 +1,14 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('nodeEditCtrl', function (node, formlyUtils, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
+.controller('nodeEditCtrl', function (node, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
 
   var v = this;
 
   v.m = nodesModel
   v.node = node
   
-  v.nodeFields = formlyUtils.getFields(node.typeParams)
+  v.nodeFields = angular.copy(node.typeParams)
   console.log(v.nodeFields)
     
 

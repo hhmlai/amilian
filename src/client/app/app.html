@@ -17,7 +17,6 @@
             <li> <a ng-click="doForward()"><i class="glyphicon glyphicon-forward"></i></a></li>
             <li uib-btn-radio="'nodes'" ng-model="pageSelected"><a href ui-sref="app.nodes.list">Nodes</a></li>
             <li uib-btn-radio="'tags'" ng-model="pageSelected"><a href ui-sref="app.tags.list">Colecções</a></li>
-            <li uib-btn-radio="'people'" ng-model="pageSelected"><a href ui-sref="app.people.list">Pessoas</a></li>
             <li uib-btn-radio="'places'" ng-model="pageSelected"><a href ui-sref="app.places.list">Lugares</a></li>
             <li uib-btn-radio="'documents'" ng-model="pageSelected"><a href ui-sref="app.documents.list">Todos os documentos</a></li>
             <li class="pull-right"><a href="#"><i class="glyphicon glyphicon-user"></i> Sign Up</a></li>
@@ -26,9 +25,6 @@
                 <input autofocus focus-on-show type="text" ng-show="pageSelected === 'all'" ng-model="mainFilter" placeholder="Pesquisar {{pageSelected}}"
                 uib-typeahead="doc.name for doc in MC.dm.allDocs | filter:$viewValue | limitTo:10" uib-typeahead-on-select="goUrl($item.id,pageSelected); mainFilter = ''"
                 uib-typeahead-min-length="2" placeholder="Pesquisar {{pageSelected}}" class="form-control" style="height:43px">
-                <input focus-on-show type="text" ng-show="pageSelected === 'people'" ng-model="mainFilter" uib-typeahead="doc.name for doc in MC.pm.allPeople | filter:$viewValue | limitTo:10"
-                uib-typeahead-on-select="goUrl($item.id,pageSelected); mainFilter = ''" uib-typeahead-min-length="2" placeholder="Pesquisar {{pageSelected}}"
-                class="form-control" style="height:43px">
                 <input focus-on-show type="text" ng-show="pageSelected === 'tags'" ng-model="mainFilter" uib-typeahead="doc.name for doc in MC.tm.allTags | filter:$viewValue | limitTo:10"
                 uib-typeahead-on-select="goUrl($item.id,pageSelected); mainFilter = ''" uib-typeahead-min-length="2" placeholder="Pesquisar {{pageSelected}}"
                 class="form-control" style="height:43px">

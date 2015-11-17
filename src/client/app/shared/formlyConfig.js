@@ -1,154 +1,68 @@
 'use strict';
 angular.module('tcApp2App')
 
-.service('formlyUtils', function(nodesModel, peopleModel, placesModel) {
-  return {  
-   selectTypes: function(typeId) {
-     console.log('a carregar listas')
-     if (typeId === 'person') {
-       return {
-            key: 'person',
-            type: 'ui-select-single',
-            options: [], 
-            addonRight: {
-              class: 'glyphicon glyphicon-plus',
-              onClick: function() {nodesModel.newNode('person')}
-            },
-            controller: function($scope) {
-                $scope.to.options = nodesModel.getNodes('person');
-            }
-        }
-      } else if (typeId === 'people') {
-        return {
-        key: 'people',
-        type: 'ui-select-multiple',
-            options: nodesModel.getNodes('person'), 
-            addonRight: {
-              class: 'glyphicon glyphicon-plus',
-              onClick: function() {nodesModel.newNode('person')}
-            }
-        }
-      } else if (typeId === 'place') {
-        return {
-            key: "place", 
-            type: 'ui-select-single',
-            label: 'Nome do Lugar', 
-            options: placesModel.allPlaces, 
-            required: true,
-            addonRight: {
-              class: 'glyphicon glyphicon-plus',
-              onClick: function() {placesModel.newPlace()}
-            }
-        }  
-      }
-  },  
-  getFields: function(typeParams) {
-                              var res = []
-                              if (typeParams) {
-                                typeParams.fields.forEach(function(el){
-                                  if ((el.type === 'ui-select-single') || (el.type === 'ui-select-person') || (el.type === 'ui-select-multiple')) {
-                                    res.push({ 
-                                      key: el.key,
-                                      type: el.type,
-                                      templateOptions: {
-                                        optionsAttr: 'bs-options',
-                                        ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
-                                        label: el.label,
-                                        valueProp: 'id',
-                                        labelProp: 'name',
-                                        options: el.options,
-                                        addonRight: el.addonRight, 
-                                        required: el.required
-                                      }
-                                    })
-                                  } else if (el.type === 'button') {
-                                    res.push({ 
-                                      key: el.key,
-                                      type: el.type,
-                                      templateOptions: {
-                                        label: el.label,
-                                        text: el.text,
-                                        btnType: el.btnType,
-                                        onClick: el.onClick,
-                                        description: el.description
-                                      }
-                                    })          
-                                  } else {
-                                    console.log('outro')
-                                    console.log(el)
-                                    res.push({ 
-                                      key: el.key,
-                                      type: el.type,
-                                      templateOptions: el.templateOptions
-                                    })          
-                                  }
-                                })
-                              }
-                              return res   
-                    }
-  }
- })
-
- .run(function(formlyConfig, nodesModel) {
-   
-    formlyConfig.setType({
-      name: 'ui-select-single',
-      extends: 'select',
-      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>',
-    });
-    
-    formlyConfig.setType({
-      name: 'ui-select-person',
-	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],
-      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>',
-      defaultOptions: {
-        templateOptions: {
-              valueProp: 'id',
-              labelProp: 'name',
-              options: [],
-              ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
-              addonRight: {
-                class: 'glyphicon glyphicon-plus',
-                onClick: function() {nodesModel.newNode('person')}
-              }
-        }
-      },
-      controller: function($scope) {
-                $scope.to.options = nodesModel.getNodes('person');
-                $scope.newPerson = function() {
-                  nodesModel.newNode('person', function(doc) {
-                    $scope.to.options.push(doc)
-                  })
-                }
-      }
-
-    });
-    formlyConfig.setType({
-      name: 'ui-select-people',
-	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],
-      template: '<div class="input-group"><ui-select class="form-control" multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select><span class="input-group-btn"><button class="btn btn-sm glyphicon glyphicon-plus align-right" ng-click="newPerson()"></button></span></div>',
-      defaultOptions: {
+ .run(function(formlyConfig, nodesModel, $uibModal) {
+   var selectSingleTemplate = '<div class="input-group"><ui-select class="form-control" data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select><span class="input-group-btn"><button class="btn btn-sm glyphicon glyphicon-plus align-right" ng-click="newNode()"></button></span></div>'
+   var selectMultipleTemplate = '<div class="input-group"><ui-select class="form-control" multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select><span class="input-group-btn"><button class="btn btn-sm glyphicon glyphicon-plus align-right" ng-click="newNode()"></button></span></div>'
+   var defaultOptions = {
         templateOptions: {
               valueProp: 'id',
               labelProp: 'name',
               options: [],
               ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search'
         }
-      },
+   }
+    
+    formlyConfig.setType({
+      name: 'selectMultipleNodes',
+	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],
+      template: selectMultipleTemplate,      
+      defaultOptions: defaultOptions,
       controller: function($scope) {
-                $scope.to.options = nodesModel.getNodes('person');
-                $scope.newPerson = function() {
-                  nodesModel.newNode('person', function(doc) {
+                $scope.to.options = nodesModel.getNodes($scope.to.typeId);
+                $scope.newNode = function() {
+                  nodesModel.newNode($scope.to.typeId, function(doc) {
                     $scope.to.options.push(doc)
                   })
                 }
       }
     });
+    
             
     formlyConfig.setType({
-      name: 'ui-select-multiple',
-      extends: 'select',
-      template: '<ui-select multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>'
+      name: 'selectSingleNode',
+	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],
+      template: selectSingleTemplate,      
+      defaultOptions: defaultOptions,
+      controller: function($scope) {
+                $scope.to.options = nodesModel.getNodes($scope.to.typeId);
+                $scope.newNode = function() {
+                  nodesModel.newNode($scope.to.typeId, function(doc) {
+                    $scope.to.options.push(doc)
+                  })
+                }
+      }
+    });
+    
+    formlyConfig.setType({
+      name: 'profileImage',
+      template: '<img class="img-circle" ng-src="{{model[options.key]}}"/><button class="btn btn-info btn-xs" ng-click="addProfileImage()">Alterar imagem</button>',      
+      defaultOptions: defaultOptions,
+      controller: function($scope) {
+                $scope.addProfileImage = function() {
+                  var modalInstance = $uibModal.open({
+                    templateUrl: 'app/shared/crop/crop.html',
+                    controller: 'cropCtrl as cropC',
+                    size: 'lg'
+                  });
+                  modalInstance.result.then(function (img) {
+                    console.log('fechar') 
+                    $scope.model[$scope.options.key] = img;
+                  });
+                };
+              
+
+      }
     });
     
     formlyConfig.setType({

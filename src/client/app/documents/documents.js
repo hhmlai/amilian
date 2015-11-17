@@ -3,11 +3,10 @@
 angular.module('tcApp2App')
   	.controller('documentCtrl', documentCtrl); 
 
-function documentCtrl($state, $window, $http, $scope, $uibModal, docsModel, peopleModel, db, tagsModel) {
+function documentCtrl($state, $window, $http, $scope, $uibModal, docsModel, db, tagsModel) {
   
   var v = this;
   v.m = docsModel;
-  v.pm = peopleModel;
   v.tm = tagsModel;
   
 
@@ -43,7 +42,5 @@ function documentCtrl($state, $window, $http, $scope, $uibModal, docsModel, peop
                         }
                 }
 
-
-  //PEOPLE
 };
 
