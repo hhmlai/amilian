@@ -233,7 +233,7 @@ $scope.initHotkeys = function () {
   };
 
   v.editLink = function(linkId, linkTypeId){
-    var linkType = utils.findDocById(formlyTypes.links, linkTypeId)
+    var linkType = utils.findDocById(formlyUtils.links, linkTypeId)
     console.log(linkType)
     v.lm.editLink(linkId, linkType, function() {
     })

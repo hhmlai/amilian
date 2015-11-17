@@ -9,10 +9,13 @@ angular.module('tcApp2App')
        return {
             key: 'person',
             type: 'ui-select-single',
-            options: nodesModel.getNodes('person'), 
+            options: [], 
             addonRight: {
               class: 'glyphicon glyphicon-plus',
               onClick: function() {nodesModel.newNode('person')}
+            },
+            controller: function($scope) {
+                $scope.to.options = nodesModel.getNodes('person');
             }
         }
       } else if (typeId === 'people') {
@@ -43,7 +46,7 @@ angular.module('tcApp2App')
                               var res = []
                               if (typeParams) {
                                 typeParams.fields.forEach(function(el){
-                                  if ((el.type === 'ui-select-single') || (el.type === 'ui-select-multiple')) {
+                                  if ((el.type === 'ui-select-single') || (el.type === 'ui-select-person') || (el.type === 'ui-select-multiple')) {
                                     res.push({ 
                                       key: el.key,
                                       type: el.type,
@@ -86,14 +89,35 @@ angular.module('tcApp2App')
   }
  })
 
- .run(function(formlyConfig) {
+ .run(function(formlyConfig, nodesModel) {
    
     formlyConfig.setType({
       name: 'ui-select-single',
       extends: 'select',
-      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>'
+      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>',
     });
     
+    formlyConfig.setType({
+      name: 'ui-select-person',
+      extends: 'select',
+      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="option[to.valueProp] as option in to.options | filter: $select.search"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>',
+      defaultOptions: {
+        templateOptions: {
+              optionsAttr: 'bs-options',
+              valueProp: 'id',
+              labelProp: 'name',
+              options: ['aaa'],
+              addonRight: {
+                class: 'glyphicon glyphicon-plus',
+                onClick: function() {nodesModel.newNode('person')}
+              }
+        }
+      },
+      controller: function($scope) {
+                $scope.to.options = nodesModel.getNodes('person');
+                console.log('controlador formly')
+      }
+    });    
     formlyConfig.setType({
       name: 'ui-select-multiple',
       extends: 'select',
