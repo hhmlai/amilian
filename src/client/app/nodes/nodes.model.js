@@ -61,7 +61,7 @@ angular.module('tcApp2App')
               }
  }
 
-  m.newNode = function (typeId) {
+  m.newNode = function (typeId, callback) {
     var modalInstance = $uibModal.open({
       templateUrl: 'app/nodes/node.edit.html',
       controller: 'nodeEditCtrl as nodeEC',
@@ -69,6 +69,7 @@ angular.module('tcApp2App')
       resolve: {
         node:  {
               id: (new Date().toISOString() + '_admin'),
+              typeId: typeId,
               typeParams: m.typeParams[typeId]
         }
       }
@@ -76,8 +77,8 @@ angular.module('tcApp2App')
     modalInstance.result.then(function (doc) {
       console.log(doc)
       m.updateNode(doc);
-    });
-    return true
+      callback(doc)
+    })
   };
   
  m.editNode = function(nodeId){
@@ -114,8 +115,9 @@ angular.module('tcApp2App')
 
   m.getNodes = function(typeId) {
     console.log(typeId)
-    console.log(filterFilter(m.allNodes, {typeId: typeId}))
-    return filterFilter(m.allNodes, {typeId: typeId});
+    console.log(m.allNodes)
+    console.log(filterFilter(m.allNodes, {typeParams: {id: typeId}}))
+    return filterFilter(m.allNodes, {typeParams: {id: typeId}});
   };
   
   m.updateNode = function(doc) {

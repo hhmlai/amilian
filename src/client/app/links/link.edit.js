@@ -5,18 +5,15 @@ angular.module('tcApp2App')
 
   var v = this;
 
-     
-  
   v.m = linksModel
   v.link = link
-  
-  v.linkFields = link.typeParams.fields
+  v.linkData = angular.copy(link.linkType) 
+ 
  console.log(v.linkFields)
  
   v.ok = function () {
       $uibModalInstance.close(v.link);
   };
-  
         
   v.cancel = function () {
     $uibModalInstance.dismiss('cancel');

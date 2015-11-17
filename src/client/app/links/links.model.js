@@ -10,10 +10,11 @@ angular.module('tcApp2App')
   m.linkTypes = {
     teste:
             { id: "teste",
-              name: "Referência",
+              name: "Referência de uma pessoa a várias pessoas",
               fields: [
                   {key: "relPerson", type: 'ui-select-person', templateOptions : {label: 'Pessoa referencia', required: true}}, 
-                  {key: "obs", type: 'input', templateOptions : {label: 'Observações', required: true}}
+                  {key: "relPeople", type: 'ui-select-people', templateOptions : {label: 'Pessoas relacionadas', required: true}}, 
+                  {key: "obs", type: 'input', templateOptions : {label: 'Notas', required: true}}
               ]
             },
     refPlace:
@@ -59,7 +60,7 @@ angular.module('tcApp2App')
             }
   }
             
-  m.newLink = function (typeParams, docId, callback) {
+  m.newLink = function (linkType, docId, callback) {
     var modalInstance = $uibModal.open({
       templateUrl: 'app/links/link.edit.html',
       controller: 'linkEditCtrl as linkEC',
@@ -68,7 +69,7 @@ angular.module('tcApp2App')
         link:  {
               id: (new Date().toISOString() + '_admin'),
               docId: docId,
-              typeParams: typeParams
+              linkType: linkType
         }
       }
     });
@@ -97,14 +98,13 @@ angular.module('tcApp2App')
   };
   
 
- m.editLink = function(linkId, linkType, callback){   
+ m.editLink = function(link, callback){   
     var modalInstance = $uibModal.open({
       templateUrl: 'app/links/link.edit.html',
       controller: 'linkEditCtrl as linkEC',
       size: 'lg',
       resolve: {
-        linkType: linkType, 
-        link:  m.getLink(linkId)
+        link:  link
       }
     });
     modalInstance.result.then(function (link) {

@@ -99,14 +99,14 @@ angular.module('tcApp2App')
     
     formlyConfig.setType({
       name: 'ui-select-person',
-      extends: 'select',
-      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="option[to.valueProp] as option in to.options | filter: $select.search"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>',
+	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],
+      template: '<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select>',
       defaultOptions: {
         templateOptions: {
-              optionsAttr: 'bs-options',
               valueProp: 'id',
               labelProp: 'name',
-              options: ['aaa'],
+              options: [],
+              ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
               addonRight: {
                 class: 'glyphicon glyphicon-plus',
                 onClick: function() {nodesModel.newNode('person')}
@@ -115,9 +115,36 @@ angular.module('tcApp2App')
       },
       controller: function($scope) {
                 $scope.to.options = nodesModel.getNodes('person');
-                console.log('controlador formly')
+                $scope.newPerson = function() {
+                  nodesModel.newNode('person', function(doc) {
+                    $scope.to.options.push(doc)
+                  })
+                }
       }
-    });    
+
+    });
+    formlyConfig.setType({
+      name: 'ui-select-people',
+	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],
+      template: '<div class="input-group"><ui-select class="form-control" multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap"><ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat="{{to.ngOptions}}"><div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div></ui-select-choices></ui-select><span class="input-group-btn"><button class="btn btn-sm glyphicon glyphicon-plus align-right" ng-click="newPerson()"></button></span></div>',
+      defaultOptions: {
+        templateOptions: {
+              valueProp: 'id',
+              labelProp: 'name',
+              options: [],
+              ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search'
+        }
+      },
+      controller: function($scope) {
+                $scope.to.options = nodesModel.getNodes('person');
+                $scope.newPerson = function() {
+                  nodesModel.newNode('person', function(doc) {
+                    $scope.to.options.push(doc)
+                  })
+                }
+      }
+    });
+            
     formlyConfig.setType({
       name: 'ui-select-multiple',
       extends: 'select',
