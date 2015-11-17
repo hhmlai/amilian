@@ -27,8 +27,6 @@ angular.module('tcApp2App')
       size: 'lg'
     });
     modalInstance.result.then(function (img) {
-      console.log('fechar')
-      console.log(img)
       
       v.node.picture = img;
     });

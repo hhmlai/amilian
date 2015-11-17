@@ -53,7 +53,6 @@ function docViewCtrl(
     };
     
     $scope.fields = [{
-      key: 'text',
       type: 'input',
       templateOptions: {
         label: 'Text',

@@ -12,7 +12,22 @@ angular.module('tcApp2App')
               ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search'
         }
    }
+   
+   formlyConfig.templateManipulators.preWrapper.push(function (template, options, scope) {
+      if (scope.formState.readOnly) {
+        options.noFormControl = true;
+      }
+      return template;
+    });
     
+        // Replace formlyBootstrap input field type to implement read-only forms
+    formlyConfig.setType({
+      name: 'input',
+      template: '<div><input ng-if="!formState.readOnly" class="form-control" ng-model="model[options.key]"><p ng-if="formState.readOnly" class="form-control-static">{{model[options.key]}}</p></div>',
+      wrapper: ['bootstrapLabel', 'bootstrapHasError'],
+      overwriteOk: true
+    });
+  
     formlyConfig.setType({
       name: 'selectMultipleNodes',
 	    wrapper: ['bootstrapLabel', 'bootstrapHasError'],

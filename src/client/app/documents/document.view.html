@@ -148,7 +148,7 @@
         </label>
                         </div>
         <formly-form model="model" fields="fields" form="form" options="options">
-                </form>{{options}}
+                </form>{{options}}{{fields}}
               </td>
             </tr>
 
@@ -160,7 +160,7 @@
             Button dropdown <span class="caret"></span>
           </button>
           <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-            <li ng-repeat="linkType in docVC.linkTypes" role="menuitem"><a ng-click="docVC.newLink(linkType)">{{linkType.name}}</a></li>
+            <li ng-repeat="linkType in docVC.lm.linkTypes" role="menuitem"><a ng-click="docVC.newLink(linkType)">{{linkType.name}}</a></li>
           </ul>
         </div>
           <table class="table table-striped files ng-cloak">
