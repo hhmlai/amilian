@@ -140,15 +140,20 @@
                 <label>Entrevistadores</label>
               </td>
               <td colspan="3">
-                <form novalidate>
                         <div class="checkbox">
-        <label>
-          <input type="checkbox" ng-model="options.formState.readOnly">
-          Read Only
-        </label>
+                          <label>
+                            <input type="checkbox" ng-model="intervOptions.formState.readOnly">
+                            Read Only
+                          </label>
                         </div>
-        <formly-form model="model" fields="fields" form="form" options="options">
-                </form>{{options}}{{fields}}
+
+                     <div class="panel-body">
+
+                        <form novalidate>
+                          <formly-form model="model" fields="docVC.intervFields"  options="intervOptions">
+                            </formly-form>
+                        </form>{{model}}
+                     </div>
               </td>
             </tr>
 

@@ -21,9 +21,12 @@ angular.module('tcApp2App')
       {id: "entrevistadores",
       name: "Entrevistadores ",
               fields: [
-                  {key: "interviewers", type: 'selectMultipleNodes', templateOptions : {typeId: 'person', label: 'Nome dos entrevistadores', required: true}}, 
+                  {key: "interviewers", type: 'selectSingleNode', templateOptions : {typeId: 'person', label: 'Nome dos entrevistadores', required: true}}, 
                   {key: "obs", type: 'input', templateOptions : {label: 'Observasões'}}
-              ]
+              ],
+     viewFields: [
+                  {key: "interviewers", type: 'text', templateOptions : {label: 'Nome dos entrevistadores'}}, 
+                  {key: "obs", type: 'text', templateOptions : {label: 'Observasões'}}]
       }
   }
             

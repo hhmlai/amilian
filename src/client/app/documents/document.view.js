@@ -34,34 +34,13 @@ function docViewCtrl(
   $scope.panel = 0;
   
   
-  v.intervId = function() {
-    
-  }
-  
-  v.intervFields = v.lm.linkTypes.entrevistadores.fields
-  
-      v.model = {
-      text: 'Hello'
-    };
 
-    $scope.options = {
-      formState: {
-        horizontalLabelClass: 'col-sm-2',
-        horizontalFieldClass: 'col-sm-10',
-        readOnly: true
-      }
-    };
-    
-    $scope.fields = [{
-      type: 'input',
-      templateOptions: {
-        label: 'Text',
-        placeholder: 'Formly is terrific!',
-        required: true
-      }
-    }];
-    
-        v.originalFields = angular.copy(v.fields);
+  
+  v.intervFields = angular.copy(v.lm.linkTypes.entrevistadores.viewFields)
+  $scope.model = {
+    interviewers: "bla bla",
+    obs: "ok"
+  }
   
 $scope.initHotkeys = function () {
   hotkeys.bindTo($scope)
