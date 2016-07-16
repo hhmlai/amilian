@@ -134,14 +134,16 @@ try {
 //START ELECTRON
 
 try {
-  var main = require('app')
-  var BrowserWindow = require('browser-window')
-  var path = require('path')
-  var ipc = require('ipc')
-  var dialog = require('dialog')
-  var win
-  var link
-  var ready = false
+  const electron = require('electron')
+  const main = electron.app
+  const BrowserWindow = electron.BrowserWindow
+  const path = require('path')
+  const ipc = electron.ipc
+  const dialog = electron.dialog
+
+  let win
+  let link
+  let ready = false
 
   main.setPath('userData', path.normalize(__dirname + '/../data/'))
 
@@ -158,15 +160,19 @@ try {
     // grab a random port.
     server.listen(function() {
       address = server.address();
-      win.loadUrl('http://localhost:' + address.port + '/#/app/documents')
+      win.loadURL('http://localhost:' + address.port + '/#/app/documents')
     });
     
     win.on('dom-ready', function() {
       win.focus()      
     })
 
+    win.on('closed', function () {
+      win = null
+        })
+
     // Register a 'ctrl+x' shortcut listener.
-    var gs = require('global-shortcut');
+    const gs = electron.globalShortcut;
     gs.register('CommandOrControl+A', function() { 
       win.reload()
     })
@@ -218,6 +224,13 @@ try {
     });
   })
 
+main.on('activate', function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
 
   main.on('window-all-closed', function() {
     main.quit();
