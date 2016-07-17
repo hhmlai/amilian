@@ -20,9 +20,8 @@ angular.module('tcApp2App', [
   'akoenig.deckgrid',
   'angularResizable',
   'ngImgCrop',
-  "leaflet-directive",
-  'formly', 
-  'formlyBootstrap'
+  'leaflet-directive',
+  'schemaForm'
 ])
 
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
