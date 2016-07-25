@@ -1,4 +1,12 @@
-AA Lançamento  
+Lançamento Protótipo
+
+Formularios JSON na BD
+Interface GraphDB com PouchDB
+
+
+
+OLD ROADMAP
+
 	A. Interface melhorada/GPL
 	    1. eliminar xenon - OK
 		2. novo tema - OK

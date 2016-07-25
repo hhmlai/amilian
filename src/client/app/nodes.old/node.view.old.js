@@ -1,25 +1,25 @@
 'use strict';
 
 angular.module('tcApp2App')
-  	.controller('nodeViewCtrl', nodeViewCtrl); 
+  	.controller('oldnodeViewCtrl', oldnodeViewCtrl); 
 
-function nodeViewCtrl( $stateParams, nodesModel, $window,$state) {
-
+function oldnodeViewCtrl($stateParams, nodesModel, $window,$state) {
 
   var v = this;
   v.m = nodesModel;
-  console.log($stateParams)
-  v.node = v.m.allNodes[$stateParams.type][$stateParams.id];
-  v.nodeFields = v.m.types[$stateParams.type]
+  v.m.setActiveNode($stateParams.docId);
+  
 
   v.deleteNode = function() {
   console.log('vou apagar')
   var confirmMsg = 'Quer mesmo apagar?'
               if ($window.confirm(confirmMsg)) {
-                v.m.removeNode(v.node, function(){
+                v.m.removeNode(v.m.activeNode, function(){
+                  v.m.activeNode = {};
                   $state.go('app.nodes.list')              
                 });
               }
-  }
-}
+  }; 
+
+};
 

@@ -12,6 +12,9 @@ angular.module('tcApp2App')
       }
       return -1;
     },
+    getTypeById: function getTypeById(id) {
+      return id.split('_')[1]
+    },
     findDocByName: function findDocByName(a, id) {
       if (a) {
         for (var i = 0; i < a.length; i++) {

@@ -6,17 +6,16 @@ angular.module('tcApp2App')
       .state('app.nodes', {
         abstract: true,
         url: '/nodes',
-        templateUrl: 'app/nodes/nodes.html',
-        controller: 'nodesCtrl as nodesC'
+        templateUrl: 'app/nodes/nodes.html'
       })
      .state('app.nodes.list', {
-        url: '',
-        templateUrl: 'app/nodes/nodes.list.html'
+        url: '/:type',
+        templateUrl: 'app/nodes/nodes.list.html',
+        controller: 'nodesCtrl as nodesC'
       })
      .state('app.nodes.view', {
-        url: '/nodes/:docId',
+        url: '/nodes/:type?id',
         templateUrl: 'app/nodes/node.view.html',
         controller: 'nodeViewCtrl as nodeVC'
       })
-    ;
-  });
+  })

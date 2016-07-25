@@ -21,12 +21,19 @@ angular.module('tcApp2App', [
   'angularResizable',
   'ngImgCrop',
   'leaflet-directive',
-  'schemaForm'
+  'formly',
+  'formlyBootstrap'
 ])
+
+
+.run(function($rootScope) {
+  $rootScope.$on("$stateChangeError", console.log.bind(console));
+})
 
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
   //  $urlRouterProvider
   //    .otherwise('/app/documents');
+  
 
   $stateProvider.
       // Main Layout Structure
@@ -44,12 +51,9 @@ angular.module('tcApp2App', [
             return placesModel.getAllPlaces},
           links: function(linksModel) { 
             return linksModel.getAllLinks},
-          nodes: function(nodesModel) { 
-            return nodesModel.getAllNodes}
         }
       })
   })
-
 
 
 .config(function(pouchDBProvider, POUCHDB_METHODS) {
@@ -118,7 +122,7 @@ angular.module('tcApp2App', [
    )
   {
 
-  $scope.pageSelected = "tags";
+  $scope.pageSelected = "nodes";
 
   $scope.doBack = function () {
     $window.history.back();
@@ -133,6 +137,7 @@ angular.module('tcApp2App', [
   v.tm = tagsModel;
   v.plm = placesModel;
   v.lm = linksModel;
+  v.nm= nodesModel
   
   storage.bind($scope, 'mainList', {defaultValue: {}, storeName: 'videoLists'});
 //  storage.bind($scope, 'mainQueue', {defaultValue: {}, storeName: 'videoQueueLists'})

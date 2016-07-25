@@ -3,10 +3,8 @@
 angular.module('tcApp2App')
   .controller('nodesCtrl', nodesCtrl);
 
-function nodesCtrl  ($scope, $uibModal, $rootScope, db, nodesModel, docsModel) {
+function nodesCtrl  (nodesModel, $stateParams) {
   var v = this;
   v.m = nodesModel
-  v.dm = docsModel
-
-
+  v.type = $stateParams.type;
 };

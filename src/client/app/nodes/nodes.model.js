@@ -1,206 +1,189 @@
 'use strict';
 
 angular.module('tcApp2App')
-.factory('nodesModel', function ($rootScope, $uibModal, $stateParams, db, utils, filterFilter) {
+  .factory('nodesModel', function ($rootScope, $uibModal, $stateParams, gdb, utils, filterFilter) {
 
-  var m = {};
-  m.allNodes = [];
-  m.activeNode = null;
-  m.typeParams =  {
-          person : 
-              { id: "person",
-                name: "Pessoa",
-                fields: [
-                  {     
-                      key: 'name',
-                      type: 'input',
-                      className: 'col-md-12',
-                      templateOptions: {
-                          type: 'text',
-                          label: 'Nome Completo',
-                          placeholder: 'Enter your name',
-                          required: true
-                      }
-                  },
-                  {
-                      key: 'inicials',
-                      type: 'input',
-                      className: 'col-md-6',  
-                      templateOptions: {
-                          type: 'text',
-                          label: 'Iniciais',
-                          placeholder: 'Entrar as iniciais',
-                          required: true
-                      }
-                  },
-                  {
-                      key: 'image',
-                      type: 'profileImage',
-                      className: 'col-md-6',
-                      templateOptions: {
-                          type: 'date',
-                          label: 'Imagem do perfil',
-                          required: false
-                      }
-                  },
-                  {
-                      key: 'notes',
-                      type: 'textarea',
-                      className: 'col-md-12',
-                      templateOptions: {
-                          type: 'text',
-                          cols: 5,
-                          label: 'Observações',
-                          placeholder: 'Escrever aqui',
-                          required: false
-                      }
-                  }
-                ]  
-              },
-          place : 
-              { id: "place",
-                name: "Lugar ou localidade",
-                fields: [
-                  {     
-                      key: 'name',
-                      type: 'input',
-                      className: 'col-md-12',
-                      templateOptions: {
-                          type: 'text',
-                          label: 'Nome do lugar',
-                          required: true
-                      }
-                  },
-                  {
-                      key: 'gps',
-                      type: 'input',
-                      className: 'col-md-6',  
-                      templateOptions: {
-                          type: 'text',
-                          label: 'Coordenadas GPS',
-                          placeholder: 'Entrar coordenadas GPS',
-                          required: true
-                      }
-                  },
-                  {
-                      key: 'notes',
-                      type: 'textarea',
-                      className: 'col-md-12',
-                      templateOptions: {
-                          type: 'text',
-                          cols: 5,
-                          label: 'Observações',
-                          placeholder: 'Escrever aqui',
-                          required: false
-                      }
-                  }
-                ]  
-              }
- }
+    var m = {};
 
-  m.newNode = function (typeId, callback) {
-    var modalInstance = $uibModal.open({
-      templateUrl: 'app/nodes/node.edit.html',
-      controller: 'nodeEditCtrl as nodeEC',
-      size: 'lg',
-      resolve: {
-        node:  {
-              id: (new Date().toISOString() + '_admin'),
-              typeId: typeId,
-              typeParams: m.typeParams[typeId]
+    gdb.getAllNodes().then(function (res) {
+      m.allNodes = res
+      console.log(m.allNodes)
+    }).catch(function (err) {
+      console.log(err)
+    })
+    gdb.changes.on('change', function (change) {
+      if (change.id.charAt(0) === 'N') {
+        var type = utils.getTypeById(change.id)
+        console.log(type)
+        console.log(change.id)
+        if (!change.deleted) {
+          m.allNodes[type]=m.allNodes[type] || {}
+          m.allNodes[type][change.id] = change.doc
+        } else {
+          delete m.allNodes[type][change.id]
         }
       }
-    });
-    modalInstance.result.then(function (doc) {
-      console.log(doc)
-      m.updateNode(doc);
-      callback(doc)
     })
-  };
-  
- m.editNode = function(nodeId){
-    var modalInstance = $uibModal.open({
-      templateUrl: 'app/nodes/node.edit.html',
-      controller: 'nodeEditCtrl as nodeEC',
-      size: 'lg',
-      resolve: {
-        node:  m.getNode(nodeId),
-      }
-    });
-    modalInstance.result.then(function (doc) {
-      m.updateNode(doc);
-    });
-  };
 
-
-  m.getAllNodes = db.rel.find('nodes') 
-        .then (function(res) {
-          m.allNodes = res.nodes;
-          $rootScope.$apply();
-          console.log('got nodes')
-          return true
+    m.editNode = function (node) {
+      console.log(node)
+      var modalInstance = $uibModal.open({
+        templateUrl: 'app/nodes/node.edit.html',
+        controller: 'nodeEditCtrl as nodeEC',
+        size: 'lg',
+        resolve: {
+          node: function(){return node}
+        }
+      })
+      modalInstance.result.then(function (doc) {
+        console.log(doc)
+        gdb.update(doc);
+      });
+    }
+    m.removeNode = function (doc, callback) {
+      console.log(doc)
+      gdb.rmNode(doc)
+        .then(function (res) {
+          console.log(doc)
+          callback(res)
+          return true;
         })
-        .catch (function(err) {
-          console.log(err);
-          return false
-        })
-    ;
-
-  m.getNode = function(docId) {
-    return utils.findDocById(m.allNodes , docId);
-  };
-
-  m.getNodes = function(typeId) {
-    console.log(typeId)
-    console.log(m.allNodes)
-    console.log(filterFilter(m.allNodes, {typeParams: {id: typeId}}))
-    return filterFilter(m.allNodes, {typeParams: {id: typeId}});
-  };
-  
-  m.updateNode = function(doc) {
-      db.rel.save('node', doc)
-        .then (function() {
-          var index = utils.findIndexById(m.allNodes, doc.id)
-          if (index > -1) {
-            m.allNodes.splice(index, 1, doc)
-          } else {
-          m.allNodes.push(doc);            
-          };
-          $rootScope.$apply();
-          return true
-        })
-        .catch(function(err) {
-          console.log(err);
-          return false; 
-        })
-      ;
-  };
-
-  m.removeNode = function(doc, callback) {
-    var index = m.allNodes.indexOf(doc);
-    db.rel.del('node', doc)
-        .then (function() {
-          m.allNodes.splice(index, 1);
-          callback()
-          return true; 
-        })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err)
           return false;
         })
-      ;
+    }
+    m.newNode = function (type, callback) {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'app/nodes/node.edit.html',
+        controller: 'nodeEditCtrl as nodeEC',
+        size: 'lg',
+        resolve: {
+          node: {
+            _id: ('N_' + type+'_' + new Date().toISOString() + '_admin'),
+            type: type
+          }
+        }
+      });
+      modalInstance.result.then(function (node) {
+        console.log(node)
+        gdb.create(node);
+      })
+    }
+    
 
-  };
+    m.types = {
+      person:
+      {
+        id: "person",
+        name: "Pessoa",
+        fields: [
+          {
+            key: 'name',
+            type: 'input',
+            className: 'col-md-12',
+            templateOptions: {
+              type: 'text',
+              label: 'Nome Completo',
+              placeholder: 'Enter your name',
+              required: true
+            }
+          },
+          {
+            key: 'inicials',
+            type: 'input',
+            className: 'col-md-6',
+            templateOptions: {
+              type: 'text',
+              label: 'Iniciais',
+              placeholder: 'Entrar as iniciais',
+              required: true
+            }
+          },
+          {
+            key: 'notes',
+            type: 'textarea',
+            className: 'col-md-12',
+            templateOptions: {
+              type: 'text',
+              cols: 5,
+              label: 'Observações',
+              placeholder: 'Escrever aqui',
+              required: false
+            }
+          }
+        ]
+      },
+      place:
+      {
+        id: "place",
+        name: "Lugar ou localidade",
+        fields: [
+          {
+            key: 'name',
+            type: 'input',
+            className: 'col-md-12',
+            templateOptions: {
+              type: 'text',
+              label: 'Nome do lugar',
+              required: true
+            }
+          },
+          {
+            key: 'gps',
+            type: 'input',
+            className: 'col-md-6',
+            templateOptions: {
+              type: 'text',
+              label: 'Coordenadas GPS',
+              placeholder: 'Entrar coordenadas GPS',
+              required: true
+            }
+          },
+          {
+            key: 'notes',
+            type: 'textarea',
+            className: 'col-md-12',
+            templateOptions: {
+              type: 'text',
+              cols: 5,
+              label: 'Observações',
+              placeholder: 'Escrever aqui',
+              required: false
+            }
+          }
+        ]
+      },
+      interview:
+      {
+        id: "interview",
+        name: "Entrevista",
+        fields: [
+          {
+            key: 'name',
+            type: 'input',
+            className: 'col-md-12',
+            templateOptions: {
+              type: 'text',
+              label: 'Nome do Entrevistado',
+              required: true
+            }
+          },
+          {
+            key: 'notes',
+            type: 'textarea',
+            className: 'col-md-12',
+            templateOptions: {
+              type: 'text',
+              cols: 5,
+              label: 'Observações',
+              placeholder: 'Escrever aqui',
+              required: false
+            }
+          }
+        ]
+      }
+    }
 
-  m.setActiveNode = function(docId) {
-    m.activeNode = utils.findDocById(m.allNodes, docId);
-    if (m.activeNode === null) {
-      return false
-    } else {
-      return true
-    } 
-  };
-
-  return m
-
-});
+    return m
+  })

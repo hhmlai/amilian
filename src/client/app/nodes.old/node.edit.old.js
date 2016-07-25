@@ -1,17 +1,22 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('nodeEditCtrl', function (node, $uibModal, $window, nodesModel, $uibModalInstance) {
+.controller('oldnodeEditCtrl', function (node, $scope, $uibModal, $window, nodesModel, $uibModalInstance) {
 
   var v = this;
 
   v.m = nodesModel
   v.node = node
-  console.log(v.node)
-  v.nodeFields = v.m.types[node.type]
-  console.log(v.nodeFields)   
+  
+  v.nodeFields = angular.copy(node.typeParams)
+  console.log(v.nodeFields)
+    
 
   v.ok = function () {
+      v.node.ref = {
+        id: v.node.id,
+        name: v.node.name
+      }
       $uibModalInstance.close(v.node);
   };
   
@@ -22,7 +27,7 @@ angular.module('tcApp2App')
       size: 'lg'
     });
     modalInstance.result.then(function (img) {
-
+      
       v.node.picture = img;
     });
   };
