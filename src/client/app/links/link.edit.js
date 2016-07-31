@@ -9,7 +9,9 @@ angular.module('tcApp2App')
   v.link = link
   console.log(link)
   
-  v.linkFields = types.link[link.type]
+  v.linkFields = link.type
+  console.log(link)
+  
 
   v.ok = function () {
     console.log(v.link)

@@ -3,84 +3,74 @@ angular.module('tcApp2App')
 
         var m = {}
 
-        m.link = {
-            entrevistado: {
-                id: "entrevistado",
-                name: "Entrevistado",
-                obs: "Pessoa entrevistada",
-                n1: "interview",
-                n2: "person",
-                fields: [
-                    {
-                        key: "n2",
-                        type: 'ui-select-single',
-                        templateOptions: {
-                            label: 'Pessoa entrevistada no video',
-                            optionsAttr: 'bs-options',
-                            placeholder: 'Select option',
-                            description: 'Template includes the allow-clear option on the ui-select-match element',
-                            get options() {
-                                return model.all.type['person'].map(function (obj) {
-                                    return obj.doc
-                                })
-                            },
-                            valueProp: '_id',
-                            labelProp: 'name',
-                            required: true
-                        }
+        links = {
+            interview: [
+                {
+                    id: 'entrevistado',
+                    linkedNode: {
+                        id: "person",
+                        label: "Entrevistado",
+                        description: "Selecione a pessoa que foi entrevistada",
+                    }
+                },
+                {
+                    id: 'entrevistador',
+                    linkedNode: {
+                        id: "person",
+                        label: "Entrevistador",
+                        description: "Selecione a pessoa que entrevistou",
                     },
-                    { key: "obs", type: 'input', templateOptions: { label: 'Notas', required: true } }
-                ]
-            },
-            localNascimento: {
-                id: "localNascimento",
-                name: "Local da Entrevista",
-                obs: "Local onde se realizou a entrevista",
-                n1: "interview",
-                n2: "place",
-                fields: [
-                    {
-                        key: "n2",
-                        type: 'ui-select-single',
-                        templateOptions: {
-                            label: 'Local onde se realizou a entrevista',
-                            optionsAttr: 'bs-options',
-                            placeholder: 'Select option',
-                            description: 'Template includes the allow-clear option on the ui-select-match element',
-                            get options() {
-                                return model.all.type['local'].map(function (obj) {
-                                    return obj.doc
-                                })
-                            },
-                            valueProp: '_id',
-                            labelProp: 'name',
-                            required: true
-                        }
+                }],
+            person: [
+                {
+                    id: 'locNas',
+                    linkedNode: {
+                        id: "place",
+                        label: "Local de nascimento",
+                        description: "Selecione o local onde a pessoa nasceu",
                     },
-                    { key: "obs", type: 'input', templateOptions: { label: 'Notas', required: true } }
-                ]
-            },
-            entrevistador: {
-                id: "entrevistador",
-                name: "Entrevistador",
-                obs: "Pessoa que entrevista",
-                n1: "person",
-                n2: "person",
-                fields: [
-                    { key: "obs", type: 'input', templateOptions: { label: 'Observasões' } }
-                ]
-            },
-            locNas: {
-                id: "locNas",
-                name: "Local de nascimento",
-                obs: "Lugar onde a pessoa nasceu",
-                n1: "person",
-                n2: "place",
-                fields: [
-                    { key: "obs", type: 'input', templateOptions: { label: 'Observasões' } }
-                ]
-            }
+                    unique: true
+                }]
         }
+
+        generateLinkTypes = function (links) {
+            var res = {}
+            angular.forEach(links, function (nodeLinks, nodeTypeId) {
+                res[nodeTypeId] = []
+                angular.forEach(nodeLinks, function (link) {
+                    res[nodeTypeId].push({
+                        id: link.id,
+                        n1: nodeTypeId,
+                        n2: link.linkedNode.id,
+                        name: link.linkedNode.label,
+                        fields: [
+                            {
+                                key: "n2",
+                                type: 'ui-select-single',
+                                templateOptions: {
+                                    label: link.linkedNode.label,
+                                    optionsAttr: 'bs-options',
+                                    description: link.linkedNode.description,
+                                    get options() {
+                                        return model.all.type[link.linkedNode.id].map(function (obj) {
+                                            return obj.doc
+                                        })
+                                    },
+                                    valueProp: 'id',
+                                    labelProp: 'name',
+                                    required: true
+                                }
+                            },
+                            { key: "obs", type: 'input', templateOptions: { label: 'Notas' } }
+                        ]
+
+                    })
+                }
+                )
+            })
+            return res
+        }
+
 
         m.node = {
             person: {
@@ -216,9 +206,8 @@ angular.module('tcApp2App')
             }
         }
 
-        m.nodeArr = Object.keys(m.node).map(function (key) { return m.node[key] })
-
-        m.linkArr = Object.keys(m.link).map(function (key) { return m.link[key] })
+        m.link = generateLinkTypes(links)
+    console.log(m.link)
 
         return m
 
