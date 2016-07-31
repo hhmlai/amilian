@@ -89,7 +89,6 @@ angular.module('tcApp2App')
       return $filter('filter')(m.all.links, { doc: { n1: nodeId } }).map(function (obj) {
         var newObj = obj.doc
         if (obj.doc.n2) {
-          newObj.linkedNode = m.all.id[obj.doc.n2].doc
           return newObj
         }
       })

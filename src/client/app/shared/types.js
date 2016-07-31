@@ -120,6 +120,14 @@ angular.module('tcApp2App')
                             placeholder: 'Escrever aqui',
                             required: false
                         }
+                    },
+                    {
+                        key: 'links',
+                        type: 'link-table',
+                        className: 'col-md-12',
+                        templateOptions: {
+                            required: false
+                        }
                     }
                 ]
             }, place:
@@ -157,6 +165,14 @@ angular.module('tcApp2App')
                             cols: 5,
                             label: 'Observações',
                             placeholder: 'Escrever aqui',
+                            required: false
+                        }
+                    },
+                    {
+                        key: 'links',
+                        type: 'link-table',
+                        className: 'col-md-12',
+                        templateOptions: {
                             required: false
                         }
                     }
