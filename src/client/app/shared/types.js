@@ -1,5 +1,5 @@
 angular.module('tcApp2App')
-    .factory('types', function () {
+    .factory('types', function (model) {
 
         var m = {}
 
@@ -20,7 +20,35 @@ angular.module('tcApp2App')
                             placeholder: 'Select option',
                             description: 'Template includes the allow-clear option on the ui-select-match element',
                             get options() {
-                                return m.allNodes.type['person'].map(function (obj) {
+                                return model.all.type['person'].map(function (obj) {
+                                    return obj.doc
+                                })
+                            },
+                            valueProp: '_id',
+                            labelProp: 'name',
+                            required: true
+                        }
+                    },
+                    { key: "obs", type: 'input', templateOptions: { label: 'Notas', required: true } }
+                ]
+            },
+            localNascimento: {
+                id: "localNascimento",
+                name: "Local da Entrevista",
+                obs: "Local onde se realizou a entrevista",
+                n1: "interview",
+                n2: "place",
+                fields: [
+                    {
+                        key: "n2",
+                        type: 'ui-select-single',
+                        templateOptions: {
+                            label: 'Local onde se realizou a entrevista',
+                            optionsAttr: 'bs-options',
+                            placeholder: 'Select option',
+                            description: 'Template includes the allow-clear option on the ui-select-match element',
+                            get options() {
+                                return model.all.type['local'].map(function (obj) {
                                     return obj.doc
                                 })
                             },

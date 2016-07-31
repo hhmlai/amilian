@@ -1,18 +1,19 @@
 <div>
-    <ui-select ng-model="ltC.link.selected" theme="bootstrap" on-select="ltC.m.newLink($item.id,ltC.node._id)">
+    <ui-select ng-model="ltC.link.selected" theme="bootstrap" on-select="ltC.m.newLink($item.id,ltC.node.id)">
         <ui-select-match placeholder="Select or search a link type in the list...">{{$select.selected.name}}</ui-select-match>
-        <ui-select-choices repeat="item in ltC.m.linkTypesArr | filter: $select.search | filter: {n1: ltC.node.type}">
+        <ui-select-choices repeat="item in ltC.types.linkArr | filter: $select.search | filter: {n1: ltC.node.type}">
             <div ng-bind-html="item.name | highlight: $select.search"></div>
             <small ng-bind-html="item.obs | highlight: $select.search"></small>
         </ui-select-choices>
     </ui-select>
-    {{ltC.tableParams}}
     <table ng-table="ltC.tableParams" class="table" show-filter="false">
         <tr ng-repeat="link in $data">
             <td title="'Tipo'">
                 {{link.type}}</td>
             <td title="'Nome'">
-                {{link.n2.name}}</td>
+                {{link.linkedNode.name}}</td>
+            <td title="'notas'">
+                {{link.obs}}</td>
         </tr>
     </table>
 </div>

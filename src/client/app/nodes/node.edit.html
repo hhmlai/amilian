@@ -5,9 +5,10 @@
 <div class="modal-body">
   <div class="panel panel-default">
     <div class="panel-body">
-      <form novalidate>
-        <formly-form model="nodeEC.node" fields="nodeEC.nodeFields.fields" form="nodeEC.nodeForm">
-        </formly-form>  
+        <form novalidate>{{nodeVC.node}}
+          <formly-form model="nodeEC.node" fields="nodeEC.nodeFields.fields" form="nodeEC.nodeForm">
+          </formly-form>
+        </form>
       </form>
     </div>
   </div>

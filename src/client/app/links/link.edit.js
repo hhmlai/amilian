@@ -1,7 +1,7 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('linkEditCtrl', function ($scope, link, $uibModal, $window, model, $uibModalInstance, utils) {
+.controller('linkEditCtrl', function ($scope, link, $uibModal, $window, model, types, $uibModalInstance, utils) {
 
   var v = this;
 
@@ -9,9 +9,10 @@ angular.module('tcApp2App')
   v.link = link
   console.log(link)
   
-  v.linkFields = v.m.linkTypes[link.type]
+  v.linkFields = types.link[link.type]
 
   v.ok = function () {
+    console.log(v.link)
       $uibModalInstance.close(v.link);
   };
         

@@ -36,7 +36,7 @@ angular.module('tcApp2App')
       findIndexById: function findIndexById(a, id) {
         if (a) {
           for (var i = 0; i < a.length; i++) {
-            if (a[i].id == id) return i;
+            if (a[i].id === id) return i;
           }
         }
         return -1;
@@ -48,6 +48,15 @@ angular.module('tcApp2App')
           }
         }
         return -1;
+      },
+      putUniqueId: function (a, obj) {
+        if (obj.id) {
+          if (a) {
+            for (var i = 0; i < a.length; i++) {
+              if (a[i].id === id) { return a.splice(i, 1, obj) };
+            } return a.push(obj)
+          }
+        }
       },
       fileArr: function fileArr(obj) {
         if (obj) {
@@ -129,7 +138,7 @@ angular.module('tcApp2App')
   })
 
 
-  .run(function(formlyConfig) {
+  .run(function (formlyConfig) {
     // NOTE: This next line is highly recommended. Otherwise Chrome's autocomplete will appear over your options!
     formlyConfig.extras.removeChromeAutoComplete = true;
 
@@ -154,7 +163,7 @@ angular.module('tcApp2App')
       controller: 'linkTableCtrl as ltC'
     });
   });
-  
-  
 
-      
+
+
+

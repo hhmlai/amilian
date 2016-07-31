@@ -6,7 +6,8 @@ angular.module('tcApp2App')
         var gdb = {}
         var db = pouchDB('tcAppGDB');
 
-        gdb.all = { id: {}, type: {} }
+        gdb.all = { id: {}, type: {}, nodes: [], links: [] }
+
 
         var getAll = function () {
             return $q(function (resolve, reject) {
@@ -15,9 +16,14 @@ angular.module('tcApp2App')
                 }).then(function (res) {
                     res.rows.map(function (obj) {
                         obj.doc.id = obj.doc._id
+                        let type = obj.id.charAt(0)
                         gdb.all.id[obj.doc.id] = obj
                         gdb.all.type[obj.doc.type] = gdb.all.type[obj.doc.type] || []
                         gdb.all.type[obj.doc.type].push(gdb.all.id[obj.doc.id])
+                        if (type === 'N') {
+                            gdb.all.nodes.push(gdb.all.id[obj.doc.id])
+                        } else if (type === 'L')
+                            gdb.all.links.push(gdb.all.id[obj.doc.id])
                         return
                     })
                     console.log(gdb.all)
@@ -55,6 +61,7 @@ angular.module('tcApp2App')
         })
 
         gdb.create = function (doc) {
+            doc._id = doc.id
             return $q(function (resolve, reject) {
                 db.put(doc).then(function (res) {
                     resolve(res);

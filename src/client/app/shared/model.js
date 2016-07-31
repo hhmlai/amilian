@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .factory('model', function ($uibModal, $stateParams, gdb, $q) {
+  .factory('model', function ($uibModal, $stateParams, gdb, $q, $filter) {
 
     var m = {};
 
@@ -15,7 +15,7 @@ angular.module('tcApp2App')
           size: 'lg',
           resolve: {
             link: {
-              _id: ('L_' + type + '_' + new Date().toISOString() + '_admin'),
+              id: ('L_' + type + '_' + new Date().toISOString() + '_admin'),
               type: type,
               n1: n1
             }
@@ -24,8 +24,10 @@ angular.module('tcApp2App')
         modalInstance.result
           .then(function (link) {
             if (link.n2) {
-              gdb.create(link)
-              resolve(link)
+              gdb.create(link).then(function () {
+                console.log('link criado')
+                resolve(link)
+              })
             } else {
               console.log('link sem segundo parametro')
               reject('link sem segundo parametro')
@@ -71,13 +73,25 @@ angular.module('tcApp2App')
         size: 'lg',
         resolve: {
           node: {
-            _id: ('N_' + type + '_' + new Date().toISOString() + '_admin'),
+            id: ('N_' + type + '_' + new Date().toISOString() + '_admin'),
             type: type
           }
         }
       });
       modalInstance.result.then(function (node) {
         gdb.create(node);
+      })
+    }
+
+    m.getAllLinksOfNode = function (nodeId) {
+      console.log('vou testar')
+      console.log(nodeId)
+      return $filter('filter')(m.all.links, { doc: { n1: nodeId } }).map(function (obj) {
+        var newObj = obj.doc
+        if (obj.doc.n2) {
+          newObj.linkedNode = m.all.id[obj.doc.n2].doc
+          return newObj
+        }
       })
     }
 
