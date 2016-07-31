@@ -9,8 +9,9 @@
     {{ltC.linktypes}}
     <table ng-table="ltC.tableParams" class="table" show-filter="false">
         <tr ng-repeat="link in $data">
+
             <td title="'Tipo'">
-                {{link.type}}</td>
+                {{ltC.types.link.id[link.type].name}}</td>
             <td title="'Nome'">
                 {{ltC.m.all.id[link.n2].doc.name}}</td>
             <td title="'notas'">

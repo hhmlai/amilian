@@ -34,11 +34,11 @@ angular.module('tcApp2App')
         }
 
         generateLinkTypes = function (links) {
-            var res = {}
+            var res = { node: {}, id: {} }
             angular.forEach(links, function (nodeLinks, nodeTypeId) {
-                res[nodeTypeId] = []
+                res.node[nodeTypeId] = []
                 angular.forEach(nodeLinks, function (link) {
-                    res[nodeTypeId].push({
+                    var newLink = {
                         id: link.id,
                         n1: nodeTypeId,
                         n2: link.linkedNode.id,
@@ -64,7 +64,9 @@ angular.module('tcApp2App')
                             { key: "obs", type: 'input', templateOptions: { label: 'Notas' } }
                         ]
 
-                    })
+                    }
+                    res.node[nodeTypeId].push(newLink)
+                    res.id[newLink.id] = newLink
                 }
                 )
             })
@@ -207,7 +209,7 @@ angular.module('tcApp2App')
         }
 
         m.link = generateLinkTypes(links)
-    console.log(m.link)
+        console.log(m.link)
 
         return m
 

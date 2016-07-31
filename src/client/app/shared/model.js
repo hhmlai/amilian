@@ -7,7 +7,7 @@ angular.module('tcApp2App')
 
     m.all = gdb.all
 
-    m.newLink = function (type, n1) {
+    m.newLink = function (linkFields, n1) {
       return $q(function (resolve, reject) {
         var modalInstance = $uibModal.open({
           templateUrl: 'app/links/link.edit.html',
@@ -15,10 +15,11 @@ angular.module('tcApp2App')
           size: 'lg',
           resolve: {
             link: {
-              id: ('L_' + type + '_' + new Date().toISOString() + '_admin'),
-              type: type,
+              id: ('L_' + linkFields.id + '_' + new Date().toISOString() + '_admin'),
+              type: linkFields.id,
               n1: n1
-            }
+            },
+            linkFields: linkFields
           }
         });
         modalInstance.result
