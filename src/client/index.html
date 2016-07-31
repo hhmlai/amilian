@@ -20,8 +20,9 @@
       <link rel="stylesheet" href="bower_components/medium-editor/dist/css/medium-editor.css" />
       <link rel="stylesheet" href="bower_components/medium-editor/dist/css/themes/default.css" />
       <link rel="stylesheet" href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css" />
-      <link rel="stylesheet" href="bower_components/ui-select/dist/select.css" />
       <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.css" />
+      <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+      <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(src/client) app/app.css -->
@@ -72,7 +73,6 @@
       <script src="bower_components/ngImageEditor/dist/ngImageEditor.js"></script>
       <script src="bower_components/ocLazyLoad/dist/ocLazyLoad.js"></script>
       <script src="bower_components/relational-pouch/dist/pouchdb.relational-pouch.js"></script>
-      <script src="bower_components/ui-select/dist/select.js"></script>
       <script src="bower_components/videogular/videogular.js"></script>
       <script src="bower_components/videogular-buffering/vg-buffering.js"></script>
       <script src="bower_components/videogular-controls/vg-controls.js"></script>
@@ -81,6 +81,8 @@
       <script src="bower_components/angular-formly/dist/formly.js"></script>
       <script src="bower_components/pouchdb-find/dist/pouchdb.find.min.js"></script>
       <script src="bower_components/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js"></script>
+      <script src="bower_components/angular-ui-select/dist/select.js"></script>
+      <script src="bower_components/ng-table/dist/ng-table.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -92,13 +94,16 @@
           <script src="app/shared/veditor/veditor.js"></script>
           <script src="app/shared/veditor/veditor.config.js"></script>
           <script src="app/shared/crop/crop.js"></script>
+          <script src="app/templates/link-table.js"></script>
           <script src="app/tags/tags.model.js"></script>
           <script src="app/tags/tags.controller.js"></script>
           <script src="app/tags/tags.config.js"></script>
           <script src="app/tags/tag.view.js"></script>
           <script src="app/tags/tag.edit.js"></script>
           <script src="app/shared/utils.js"></script>
+          <script src="app/shared/types.js"></script>
           <script src="app/shared/sockets.js"></script>
+          <script src="app/shared/model.js"></script>
           <script src="app/shared/modal.provider.js"></script>
           <script src="app/shared/gdb.js"></script>
           <script src="app/shared/db.js"></script>
@@ -107,24 +112,18 @@
           <script src="app/places/places.config.js"></script>
           <script src="app/places/place.view.js"></script>
           <script src="app/places/place.edit.js"></script>
-          <script src="app/nodes.old/nodes.model.old.js"></script>
-          <script src="app/nodes.old/nodes.controller.old.js"></script>
-          <script src="app/nodes.old/nodes.config.old.js"></script>
-          <script src="app/nodes.old/node.view.old.js"></script>
-          <script src="app/nodes.old/node.edit.old.js"></script>
-          <script src="app/nodes/nodes.model.js"></script>
           <script src="app/nodes/nodes.controller.js"></script>
           <script src="app/nodes/nodes.config.js"></script>
           <script src="app/nodes/node.view.js"></script>
           <script src="app/nodes/node.edit.js"></script>
+          <script src="app/links/links.model.js"></script>
+          <script src="app/links/link.edit.js"></script>
           <script src="app/documents/documents.model.js"></script>
           <script src="app/documents/documents.js"></script>
           <script src="app/documents/documents.config.js"></script>
           <script src="app/documents/documentTag.edit.js"></script>
           <script src="app/documents/document.view.js"></script>
           <script src="app/documents/document.edit.js"></script>
-          <script src="app/links/links.model.js"></script>
-          <script src="app/links/link.edit.js"></script>
           <!-- endinject -->                    
     
           <!-- inject:partials:js -->

@@ -1,33 +1,25 @@
-'use strict'; 
+'use strict';
 
 angular.module('tcApp2App')
-.controller('nodeEditCtrl', function (node, $uibModal, $window, nodesModel, $uibModalInstance) {
+  .controller('nodeEditCtrl', function (node, $uibModal, $window, model, $uibModalInstance, NgTableParams, types) {
 
-  var v = this;
+    var v = this;
 
-  v.m = nodesModel
-  v.node = node
-  console.log(v.node)
-  v.nodeFields = v.m.types[node.type]
-  console.log(v.nodeFields)   
+    v.m = model
+    v.node = node
+    v.nodeFields = types.node[node.type]
 
-  v.ok = function () {
+    v.ok = function () {
       $uibModalInstance.close(v.node);
-  };
-  
-  v.addImage = function() {
-    var modalInstance = $uibModal.open({
-      templateUrl: 'app/shared/crop/crop.html',
-      controller: 'cropCtrl as cropC',
-      size: 'lg'
-    });
-    modalInstance.result.then(function (img) {
+    };
+/*
+    v.m.getLinkedNodes(node._id).then(function (data) {
+      console.log(data)
+      v.tableParams = new NgTableParams({}, { dataset: data });
+    })
+*/
 
-      v.node.picture = img;
-    });
-  };
-      
-  v.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
+    v.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
+    };
+  });

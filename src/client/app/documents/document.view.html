@@ -165,11 +165,11 @@
             Button dropdown <span class="caret"></span>
           </button>
           <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-            <li ng-repeat="linkType in docVC.lm.linkTypes" role="menuitem"><a ng-click="docVC.newLink(linkType)">{{linkType.name}}</a></li>
+            <li ng-repeat="linkType in docVC.m.linkTypes" role="menuitem"><a ng-click="docVC.newLink(linkType)">{{linkType.name}}</a></li>
           </ul>
         </div>
           <table class="table table-striped files ng-cloak">
-            <tr data-ng-repeat="link in MC.lm.allLinks | filter: {docId: docVC.doc.id} track by $index">
+            <tr data-ng-repeat="link in MC.m.allLinks | filter: {docId: docVC.doc.id} track by $index">
               <td class="col-sm-2">
                 <a type="button" class="btn" ng-click="docVC.editLink(link)" >
                   <i class="glyphicon glyphicon-pencil"></i>

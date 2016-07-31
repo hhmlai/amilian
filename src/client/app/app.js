@@ -22,7 +22,8 @@ angular.module('tcApp2App', [
   'ngImgCrop',
   'leaflet-directive',
   'formly',
-  'formlyBootstrap'
+  'formlyBootstrap',
+  'ngTable'
 ])
 
 
@@ -43,14 +44,6 @@ angular.module('tcApp2App', [
         templateUrl: 'app/app.html',
         controller: 'MainCtrl as MC',
         resolve:{
-          docs: function(docsModel) { 
-            return docsModel.getAllDocs},
-          tags: function(tagsModel) { 
-            return tagsModel.getAllTags},
-          places: function(placesModel) { 
-            return placesModel.getAllPlaces},
-          links: function(linksModel) { 
-            return linksModel.getAllLinks},
         }
       })
   })
@@ -117,8 +110,8 @@ angular.module('tcApp2App', [
    docsModel, 
    tagsModel, 
    placesModel, 
-   linksModel,
-   nodesModel
+   model,
+   types
    )
   {
 
@@ -136,8 +129,8 @@ angular.module('tcApp2App', [
   v.dm = docsModel;
   v.tm = tagsModel;
   v.plm = placesModel;
-  v.lm = linksModel;
-  v.nm= nodesModel
+  v.m= model
+  v.nodeTypes = types.node
   
   storage.bind($scope, 'mainList', {defaultValue: {}, storeName: 'videoLists'});
 //  storage.bind($scope, 'mainQueue', {defaultValue: {}, storeName: 'videoQueueLists'})

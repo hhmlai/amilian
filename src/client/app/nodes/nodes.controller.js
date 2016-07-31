@@ -3,8 +3,8 @@
 angular.module('tcApp2App')
   .controller('nodesCtrl', nodesCtrl);
 
-function nodesCtrl  (nodesModel, $stateParams) {
+function nodesCtrl(model, $stateParams) {
   var v = this;
-  v.m = nodesModel
+  v.m = model
   v.type = $stateParams.type;
-};
+}

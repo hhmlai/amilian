@@ -16,7 +16,6 @@ function docViewCtrl(
   utils, 
   db,
   docsModel,
-  linksModel,
   socket,
   hotkeys) 
 {
@@ -26,7 +25,6 @@ function docViewCtrl(
   v.API = null;
 
   v.m = docsModel;
-  v.lm = linksModel;
   v.m.setActiveDoc($stateParams.docId);
   v.doc = docsModel.activeDoc;
   v.videoMsg = false
@@ -36,7 +34,7 @@ function docViewCtrl(
   
 
   
-  v.intervFields = angular.copy(v.lm.linkTypes.entrevistadores.viewFields)
+  v.intervFields = angular.copy(v.m.linkTypes.entrevistadores.viewFields)
   $scope.model = {
     interviewers: "bla bla",
     obs: "ok"
@@ -202,19 +200,19 @@ $scope.initHotkeys = function () {
   };
 
   v.editLink = function(linkId, linkTypeId){
-    var linkType = utils.findDocById(v.lm.links, linkTypeId)
+    var linkType = utils.findDocById(v.m.links, linkTypeId)
     console.log(linkType)
-    v.lm.editLink(linkId, linkType, function() {
+    v.m.editLink(linkId, linkType, function() {
     })
   };
 
   v.newLink = function(linkTypeId){
-    v.lm.newLink(linkTypeId, v.doc.id, function() {
+    v.m.newLink(linkTypeId, v.doc.id, function() {
     })
   };
       
   v.removeLink = function(linkId){
-      v.lm.removeLink(linkId, function() {
+      v.m.removeLink(linkId, function() {
     });
   }
 

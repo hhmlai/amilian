@@ -1,125 +1,91 @@
 'use strict';
 
 angular.module('tcApp2App')
-    .factory('gdb', function ($timeout, $q, pouchDB) {
-
-        console.log('aqui GDB');
+    .factory('gdb', function ($q, pouchDB, utils) {
 
         var gdb = {}
         var db = pouchDB('tcAppGDB');
 
-        db.createIndex({
-            index: {
-                fields: ['n1.id', 'n2.id', 'type.id']
-            }
-        }).then(function (result) {
-            console.log(result);
-        }).catch(function (err) {
-            console.log(error);
-        });
+        gdb.all = { id: {}, type: {} }
 
-        gdb.changes = db.changes({
-            since: 'now',
-            live: true,
-            include_docs: true
-        })
-
-        gdb.getAllNodes = function () {
+        var getAll = function () {
             return $q(function (resolve, reject) {
                 db.allDocs({
-                    include_docs: true,
-                    startkey: 'N',
-                    endkey: 'O',
-                    inclusive_end: false
+                    include_docs: true
                 }).then(function (res) {
-                    var all = {}
-                    res.rows.forEach(function (row) {
-                        all[row.doc.type]= all[row.doc.type]  || {}
-                        all[row.doc.type][row.id] = row.doc
+                    res.rows.map(function (obj) {
+                        obj.doc.id = obj.doc._id
+                        gdb.all.id[obj.doc.id] = obj
+                        gdb.all.type[obj.doc.type] = gdb.all.type[obj.doc.type] || []
+                        gdb.all.type[obj.doc.type].push(gdb.all.id[obj.doc.id])
+                        return
                     })
-                    console.log(all)
-                    resolve(all)
+                    console.log(gdb.all)
+                    resolve('dados carregados')
                 }).catch(function (err) {
                     reject(err)
                 });
             })
         }
 
-        gdb.getAllLinks = function () {
+        getAll().then(function (res) {
+            console.log(res)
+            gdb.changes = db.changes({
+                since: 'now',
+                live: true,
+                include_docs: true
+            })
+            gdb.changes.on('change', function (change) {
+                if (!change.deleted) {
+                    change.doc.id = change.id
+                    if (gdb.all.id.hasOwnProperty(change.id)) {
+                        gdb.all.id[change.id].doc = change.doc
+                    } else {
+                        gdb.all.id[change.id] = change
+                        gdb.all.type[change.doc.type] = gdb.all.type[change.doc.type] || []
+                        gdb.all.type[change.doc.type].push(gdb.all.id[change.id])
+                    }
+                } else {
+                    utils.deleteDocById(gdb.all.type[utils.getTypeById(change.id)], change.id)
+                    delete gdb.all.id[change.id]
+                }
+            })
+        }).catch(function (err) {
+            console.log(err)
+        })
+
+        gdb.create = function (doc) {
             return $q(function (resolve, reject) {
-                db.allDocs({
-                    include_docs: true,
-                    startkey: 'L_',
-                    endkey: 'M_',
-                    inclusive_end: false
-                }).then(function (result) {
-                    var all = {}
-                    result.rows.forEach(function (row) {
-                        all[row.id] = row.doc
-                    })
-                    resolve(all)
+                db.put(doc).then(function (res) {
+                    resolve(res);
                 }).catch(function (err) {
-                    reject(err)
-                })
+                    reject(err);
+                });
             })
         }
 
-        gdb.link = function (node1, node2, obs) {
-            var id = 'L_' + prjID + '_' + Date.now().toJSON()
-            db.put({
-                _id: id,
-                n1: node1,
-                n2: node2,
-                type: type
-            }).then(function (res) {
-                console.log(res);
-            }).catch(function (err) {
-                console.log(err);
-            });
-        }
-
-        gdb.rmLink = function (link) {
-            db.get(link).then(function (res) {
-                return db.remove(res)
-            }).then(function (response) {
-                db.find
-            }).catch(function (err) {
-                console.log(err);
-            });
-        }
-
-        gdb.create = function (doc) {
-            db.put(doc).then(function (res) {
-                console.log(res);
-            }).catch(function (err) {
-                console.log(err);
-            });
-        }
-
         gdb.update = function (mydoc) {
-            db.get(mydoc._id).then(function (res) {
-                return db.put(mydoc);
-            }).then(function (res) {
-                console.log(res);
-            }).catch(function (err) {
-                console.log(err);
-            });
+            return $q(function (resolve, reject) {
+                db.get(mydoc.id).then(function (res) {
+                    db.put(mydoc)
+                }).then(function (res) {
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+            })
         }
 
-        gdb.rmNode = function (mydoc) {
+        gdb.delete = function (mydoc) {
             return $q(function (resolve, reject) {
-                db.get(mydoc._id).then(
+                db.get(mydoc.id).then(
                     function (doc) {
                         return db.remove(doc)
                             .then(function (res) {
                                 resolve(res)
                             })
-                            .catch(function (err) {
-                                reject(err);
-                            })
                     })
                     .catch(function (err) {
-                        console.log(err)
                         reject(err);
                     });
             })

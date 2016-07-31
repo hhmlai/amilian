@@ -1,16 +1,16 @@
 'use strict'; 
 
 angular.module('tcApp2App')
-.controller('linkEditCtrl', function ($scope, link, placesModel, $uibModal, $window, linksModel, $uibModalInstance, utils) {
+.controller('linkEditCtrl', function ($scope, link, $uibModal, $window, model, $uibModalInstance, utils) {
 
   var v = this;
 
-  v.m = linksModel
+  v.m = model
   v.link = link
-  v.linkData = angular.copy(link.linkType) 
- 
- console.log(v.linkFields)
- 
+  console.log(link)
+  
+  v.linkFields = v.m.linkTypes[link.type]
+
   v.ok = function () {
       $uibModalInstance.close(v.link);
   };
@@ -18,4 +18,5 @@ angular.module('tcApp2App')
   v.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+
 });

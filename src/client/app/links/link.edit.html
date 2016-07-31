@@ -6,7 +6,7 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <form novalidate>
-        <formly-form model="linkEC.link" fields="linkEC.linkData.fields" form="linkEC.linkForm">
+        <formly-form model="linkEC.link" fields="linkEC.linkFields.fields" form="linkEC.linkForm">
         </formly-form>
       </form>
     </div>
@@ -15,3 +15,4 @@
 <div class="modal-footer ">
   <button type="button " class="btn btn-primary " ng-click="linkEC.ok()" ng-disabled="linkEC.linkForm.$invalid">Guardar</button>
 </div>
+{{linkEC.link}}

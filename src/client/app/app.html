@@ -16,7 +16,7 @@
             <li> <a ng-click="doBack()"><i class="glyphicon glyphicon-backward"></i> </a></li>
             <li> <a ng-click="doForward()"><i class="glyphicon glyphicon-forward"></i></a></li>
 
-            <li  ng-repeat="type in MC.nm.types" ng-model="page" uib-btn-radio="{{type.id}}" ><a href ui-sref="app.nodes.list({type:type.id})">{{type.name}}</a></li>
+            <li  ng-repeat="type in MC.nodeTypes" ng-model="page" uib-btn-radio="{{type.id}}" ><a href ui-sref="app.nodes.list({type:type.id})">{{type.name}}</a></li>
 
             <li class="pull-right"><a href="#"><i class="glyphicon glyphicon-user"></i> Sign Up</a></li>
             <li class="pull-right"><a href="#"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
