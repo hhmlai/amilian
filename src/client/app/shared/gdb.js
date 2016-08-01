@@ -8,7 +8,6 @@ angular.module('tcApp2App')
 
         gdb.all = { id: {}, type: {}, nodes: [], links: [] }
 
-
         var getAll = function () {
             return $q(function (resolve, reject) {
                 db.allDocs({
