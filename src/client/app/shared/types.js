@@ -1,9 +1,10 @@
 angular.module('tcApp2App')
-    .factory('types', function (model) {
+    .factory('types', function () {
 
         var m = {}
 
-        links = {
+
+        m.links = {
             interview: [
                 {
                     id: 'entrevistado',
@@ -33,46 +34,6 @@ angular.module('tcApp2App')
                 }]
         }
 
-        generateLinkTypes = function (links) {
-            var res = { node: {}, id: {} }
-            angular.forEach(links, function (nodeLinks, nodeTypeId) {
-                res.node[nodeTypeId] = []
-                angular.forEach(nodeLinks, function (link) {
-                    var newLink = {
-                        id: link.id,
-                        n1: nodeTypeId,
-                        n2: link.linkedNode.id,
-                        name: link.linkedNode.label,
-                        fields: [
-                            {
-                                key: "n2",
-                                type: 'ui-select-single',
-                                templateOptions: {
-                                    label: link.linkedNode.label,
-                                    optionsAttr: 'bs-options',
-                                    description: link.linkedNode.description,
-                                    get options() {
-                                        return model.all.type[link.linkedNode.id].map(function (obj) {
-                                            return obj.doc
-                                        })
-                                    },
-                                    valueProp: 'id',
-                                    labelProp: 'name',
-                                    required: true
-                                }
-                            },
-                            { key: "obs", type: 'input', templateOptions: { label: 'Notas' } }
-                        ]
-
-                    }
-                    res.node[nodeTypeId].push(newLink)
-                    res.id[newLink.id] = newLink
-                }
-                )
-            })
-            return res
-        }
-
 
         m.node = {
             person: {
@@ -80,7 +41,7 @@ angular.module('tcApp2App')
                 name: "Pessoa",
                 fields: [
                     {
-                        key: 'name',
+                        key: 'doc.name',
                         type: 'input',
                         className: 'col-md-12',
                         templateOptions: {
@@ -91,7 +52,7 @@ angular.module('tcApp2App')
                         }
                     },
                     {
-                        key: 'inicials',
+                        key: 'doc.inicials',
                         type: 'input',
                         className: 'col-md-6',
                         templateOptions: {
@@ -102,7 +63,7 @@ angular.module('tcApp2App')
                         }
                     },
                     {
-                        key: 'notes',
+                        key: 'doc.notes',
                         type: 'textarea',
                         className: 'col-md-12',
                         templateOptions: {
@@ -122,13 +83,13 @@ angular.module('tcApp2App')
                         }
                     }
                 ]
-            }, place:
-            {
+            },
+            place: {
                 id: "place",
                 name: "Lugar ou localidade",
                 fields: [
                     {
-                        key: 'name',
+                        key: 'doc.name',
                         type: 'input',
                         className: 'col-md-12',
                         templateOptions: {
@@ -138,7 +99,7 @@ angular.module('tcApp2App')
                         }
                     },
                     {
-                        key: 'gps',
+                        key: 'doc.gps',
                         type: 'input',
                         className: 'col-md-6',
                         templateOptions: {
@@ -149,7 +110,7 @@ angular.module('tcApp2App')
                         }
                     },
                     {
-                        key: 'notes',
+                        key: 'doc.notes',
                         type: 'textarea',
                         className: 'col-md-12',
                         templateOptions: {
@@ -169,14 +130,14 @@ angular.module('tcApp2App')
                         }
                     }
                 ]
-            }, interview:
-            {
+            }, 
+            interview: {
                 id: "interview",
                 name: "Entrevista",
                 fields: [
                     {
-                        key: 'name',
-                        type: 'input',
+                        key: 'doc.name',
+                        type: 'doc.input',
                         className: 'col-md-12',
                         templateOptions: {
                             type: 'text',
@@ -185,7 +146,7 @@ angular.module('tcApp2App')
                         }
                     },
                     {
-                        key: 'notes',
+                        key: 'doc.notes',
                         type: 'textarea',
                         className: 'col-md-12',
                         templateOptions: {
@@ -207,9 +168,6 @@ angular.module('tcApp2App')
                 ]
             }
         }
-
-        m.link = generateLinkTypes(links)
-        console.log(m.link)
 
         return m
 

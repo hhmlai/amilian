@@ -14,7 +14,7 @@ angular.module('tcApp2App')
         controller: 'nodesCtrl as nodesC'
       })
      .state('app.nodes.view', {
-        url: '/nodes/:type?id',
+        url: '/nodes/:id',
         templateUrl: 'app/nodes/node.view.html',
         controller: 'nodeViewCtrl as nodeVC'
       })

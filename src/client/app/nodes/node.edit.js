@@ -8,9 +8,8 @@ angular.module('tcApp2App')
     v.m = model
 
     v.node = node
-    console.log(node)
 
-    v.nodeFields = types.node[node.type]
+    v.nodeFields = types.node[node.doc.type]
 
     v.ok = function () {
       $uibModalInstance.close(v.node);

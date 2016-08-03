@@ -1,5 +1,5 @@
 {
-  "strict": true,
+  "strict": false,
   "bitwise": true,
   "curly": true,
   "eqeqeq": true,
@@ -9,6 +9,7 @@
   "unused": true,
   "validthis": true,
   "jasmine": true,
+  "asi" : false,
   "globals": {
     "angular": false,
     "inject": false,

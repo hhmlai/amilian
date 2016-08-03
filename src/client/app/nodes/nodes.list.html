@@ -4,9 +4,9 @@
 
 <div class="container">
     <div class="row">
-        <div deckgrid class="deckgrid" source="nodesC.m.all.type[nodesC.type]" filter="mainFilter">
+        <div deckgrid class="deckgrid" source="nodesC.m.nodeArrByType[nodesC.type]" filter="mainFilter">
             <div class="a-card">
-                <a href ui-sref="app.nodes.view({type:card.doc.type,id:card.id})" class=" list-group-item">
+                <a href ui-sref="app.nodes.view({id:card.id})" class=" list-group-item">
                     <h3> {{card.doc.name}} </h3>
                     <img class="container img-responsive img-circle" ng-src="/app/components/wtp.jpg" ng-show="!card.doc.picture">
                     <img class="container img-responsive img-circle" ng-src="{{card.doc.picture}}" ng-hide="!card.doc.picture">

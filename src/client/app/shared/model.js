@@ -1,13 +1,57 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .factory('model', function ($uibModal, $stateParams, gdb, $q, $filter) {
+  .factory('model', function ($uibModal, $stateParams, gdb, $q, types) {
 
     var m = {};
 
-    m.all = gdb.all
+    m.nodeArrByType = gdb.nodeArrByType
+    m.nodeById = gdb.nodeById
 
-    m.newLink = function (linkFields, n1) {
+    var generateLinkTypes = function (links) {
+      var res = { node: {}, id: {} }
+      angular.forEach(links, function (nodeLinks, nodeTypeId) {
+        res.node[nodeTypeId] = []
+        angular.forEach(nodeLinks, function (link) {
+          var newLink = {
+            id: link.id,
+            name: link.linkedNode.label,
+            fields: [
+              {
+                key: "linkedNode",
+                type: 'ui-select-single',
+                templateOptions: {
+                  label: link.linkedNode.label,
+                  optionsAttr: 'bs-options',
+                  description: link.linkedNode.description,
+                  get options() {
+                    return m.nodeArrByType[link.linkedNode.id].map(function (obj) {
+                      return obj.doc
+                    })
+                  },
+                  valueProp: 'id',
+                  labelProp: 'name',
+                  required: true
+                }
+              },
+              { key: "data", type: 'input', templateOptions: { label: 'Notas' } }
+            ]
+
+          }
+          res.node[nodeTypeId].push(newLink)
+          res.id[newLink.id] = newLink
+        }
+        )
+      })
+      return res
+    }
+
+    console.log(types)
+
+    m.linkTypes = generateLinkTypes(types.links)
+    m.nodeTypes = types.node
+
+    m.newLink = function (linkFields, nodeId) {
       return $q(function (resolve, reject) {
         var modalInstance = $uibModal.open({
           templateUrl: 'app/links/link.edit.html',
@@ -17,15 +61,19 @@ angular.module('tcApp2App')
             link: {
               id: ('L_' + linkFields.id + '_' + new Date().toISOString() + '_admin'),
               type: linkFields.id,
-              n1: n1
+              originNode: nodeId
             },
             linkFields: linkFields
           }
         });
         modalInstance.result
           .then(function (link) {
-            if (link.n2) {
-              gdb.create(link).then(function () {
+            if (link.linkedNode) {
+              m.nodeById[nodeId].doc.links.push(link)
+              m.nodeById[link.linkedNode].doc.linked.push(link)
+              gdb.update(m.nodeById[nodeId]).then(function () {
+                gdb.update(m.nodeById[link.linkedNode])
+              }).then(function () {
                 console.log('link criado')
                 resolve(link)
               })
@@ -52,7 +100,6 @@ angular.module('tcApp2App')
       })
     }
 
-
     m.editNode = function (node) {
       var modalInstance = $uibModal.open({
         templateUrl: 'app/nodes/node.edit.html',
@@ -67,31 +114,25 @@ angular.module('tcApp2App')
       });
     }
 
-    m.newNode = function (type, callback) {
+    m.newNode = function (type) {
+      console.log(type)
       var modalInstance = $uibModal.open({
         templateUrl: 'app/nodes/node.edit.html',
         controller: 'nodeEditCtrl as nodeEC',
         size: 'lg',
         resolve: {
           node: {
-            id: ('N_' + type + '_' + new Date().toISOString() + '_admin'),
-            type: type
+            doc: {
+              id: ('N_' + type + '_' + new Date().toISOString() + '_admin'),
+              type: type,
+              links: [],
+              linked: []
+            }
           }
         }
       });
       modalInstance.result.then(function (node) {
-        gdb.create(node);
-      })
-    }
-
-    m.getAllLinksOfNode = function (nodeId) {
-      console.log('vou testar')
-      console.log(nodeId)
-      return $filter('filter')(m.all.links, { doc: { n1: nodeId } }).map(function (obj) {
-        var newObj = obj.doc
-        if (obj.doc.n2) {
-          return newObj
-        }
+        gdb.create(node.doc);
       })
     }
 

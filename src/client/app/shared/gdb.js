@@ -1,12 +1,17 @@
 'use strict';
 
 angular.module('tcApp2App')
-    .factory('gdb', function ($q, pouchDB, utils) {
+    .factory('gdb', function ($q, pouchDB, utils, $filter, types) {
 
         var gdb = {}
         var db = pouchDB('tcAppGDB');
 
-        gdb.all = { id: {}, type: {}, nodes: [], links: [] }
+        gdb.nodeById = {}
+        gdb.nodeArrByType = {}
+
+        Object.keys(types.node).forEach(function (key) {
+            gdb.nodeArrByType[key] = []
+        })
 
         var getAll = function () {
             return $q(function (resolve, reject) {
@@ -14,18 +19,23 @@ angular.module('tcApp2App')
                     include_docs: true
                 }).then(function (res) {
                     res.rows.map(function (obj) {
-                        obj.doc.id = obj.doc._id
-                        let type = obj.id.charAt(0)
-                        gdb.all.id[obj.doc.id] = obj
-                        gdb.all.type[obj.doc.type] = gdb.all.type[obj.doc.type] || []
-                        gdb.all.type[obj.doc.type].push(gdb.all.id[obj.doc.id])
-                        if (type === 'N') {
-                            gdb.all.nodes.push(gdb.all.id[obj.doc.id])
-                        } else if (type === 'L')
-                            gdb.all.links.push(gdb.all.id[obj.doc.id])
+                        obj.links = []
+                        obj.linked = []
+                        let type = obj.id.split('_')[1]
+                        gdb.nodeById[obj.doc.id] = obj
+                        gdb.nodeArrByType[type].push(gdb.nodeById[obj.doc.id])
                         return
                     })
-                    console.log(gdb.all)
+                    console.log(gdb.nodeArrByType)
+                    Object.keys(gdb.nodeById).forEach(function (id) {
+                        let node = gdb.nodeById[id]
+                        node.doc.links.forEach(function (link) {
+                            node.links.push({ id: link.id, node: gdb.nodeById[link.nodeId], data: link.data })
+                        })
+                        node.doc.linked.forEach(function (link) {
+                            node.linked.push({ id: link.id, node: gdb.nodeById[link.nodeId], data: link.data })
+                        })
+                    })
                     resolve('dados carregados')
                 }).catch(function (err) {
                     reject(err)
@@ -41,19 +51,50 @@ angular.module('tcApp2App')
                 include_docs: true
             })
             gdb.changes.on('change', function (change) {
+                console.log('algo mudou:')
+                console.log(change)
+                let type = change.id.split('_')[1]
                 if (!change.deleted) {
-                    change.doc.id = change.id
-                    if (gdb.all.id.hasOwnProperty(change.id)) {
-                        gdb.all.id[change.id].doc = change.doc
+                    let node = {}
+                    if (gdb.nodeById.hasOwnProperty(change.id)) {
+                        node = gdb.nodeById[change.id]
+                        node.doc = change.doc
                     } else {
-                        gdb.all.id[change.id] = change
-                        gdb.all.type[change.doc.type] = gdb.all.type[change.doc.type] || []
-                        gdb.all.type[change.doc.type].push(gdb.all.id[change.id])
+                        gdb.nodeById[change.id] = change
+                        node = gdb.nodeById[change.id]
+                        gdb.nodeArrByType[type].push(node)
                     }
+                    node.links = []
+                    node.linked = []
+                console.log('algo mudou:2')
+
+                console.log(node.doc)
+                    node.doc.links.forEach(function (link) {
+                console.log('algo mudou:3')
+                        console.log(link)
+                        node.links.push({ id: link.id, node: gdb.nodeById[link.linkedNode], data: link.data })
+                    })
+                    node.doc.linked.forEach(function (link) {
+                        console.log(link)
+                        node.linked.push({ id: link.id, node: gdb.nodeById[link.originNode], data: link.data })
+                    })
                 } else {
-                    utils.deleteDocById(gdb.all.type[utils.getTypeById(change.id)], change.id)
-                    delete gdb.all.id[change.id]
+                    delete gdb.nodeById[change.id]
+                    $filter('filter')(gdb.nodeArrByType[type], { $: { id: change.id } }).forEach(function (node) {
+                        gdb.nodeArrByType[type].splice(gdb.nodeArrByType[type].indexOf(node), 1)
+                    })
+                    console.log(gdb.nodeArrByType)
+                    Object.keys(gdb.nodeById).forEach(function (id) {
+                        $filter('filter')(gdb.nodeById[id].doc.links, { nodeId: change.id }).forEach(function (link) {
+                            gdb.nodeById[id].doc.links.splice(node.doc.links.indexOf(link), 1)
+                        })
+                        $filter('filter')(gdb.nodeById[id].doc.linked, { nodeId: change.id }).forEach(function (link) {
+                            gdb.nodeById[id].doc.linked.splice(node.doc.linked.indexOf(link), 1)
+                        })
+                    })
                 }
+                console.log('terminei')
+                console.log(gdb.nodeById[change.id])
             })
         }).catch(function (err) {
             console.log(err)
@@ -73,8 +114,10 @@ angular.module('tcApp2App')
         gdb.update = function (mydoc) {
             return $q(function (resolve, reject) {
                 db.get(mydoc.id).then(function (res) {
-                    db.put(mydoc)
+                    db.put(mydoc.doc)
                 }).then(function (res) {
+                    console.log('link criado')
+                    console.log(res)
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);

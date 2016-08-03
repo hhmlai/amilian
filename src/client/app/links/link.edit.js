@@ -7,10 +7,8 @@ angular.module('tcApp2App')
 
   v.m = model
   v.link = link
-  console.log(link)
   
   v.linkFields = linkFields
-  console.log(link)
   
 
   v.ok = function () {

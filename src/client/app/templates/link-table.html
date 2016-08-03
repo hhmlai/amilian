@@ -1,21 +1,25 @@
 <div>
     <ui-select ng-model="ltC.link.selected" theme="bootstrap" on-select="ltC.m.newLink($item,ltC.node.id)">
         <ui-select-match placeholder="Select or search a link type in the list...">{{$select.selected.name}}</ui-select-match>
-        <ui-select-choices repeat="item in ltC.linkTypes | filter: $select.search">
+        <ui-select-choices repeat="item in ltC.linkTypesOfNode | filter: $select.search">
             <div ng-bind-html="item.name | highlight: $select.search"></div>
             <small ng-bind-html="item.obs | highlight: $select.search"></small>
         </ui-select-choices>
     </ui-select>
-    {{ltC.linktypes}}
-    <table ng-table="ltC.tableParams" class="table" show-filter="false">
+    <table ng-table="ltC.linksTableParams" class="table" show-filter="false">
         <tr ng-repeat="link in $data">
-
             <td title="'Tipo'">
-                {{ltC.types.link.id[link.type].name}}</td>
-            <td title="'Nome'">
-                {{ltC.m.all.id[link.n2].doc.name}}</td>
+            link:{{link}}
+                {{ltC.types.link.id[link.doc.type].name}}</td>
+            <td title="'Nome'"><a href ui-sref="app.nodes.view({id:ltC.m.nodeById[link.doc.n2].id})">
+                {{ltC.m.nodeById[link.doc.n2].doc.name}}
+                </td></a>
             <td title="'notas'">
-                {{link.obs}}</td>
+                {{link.doc.obs}}
+                </td>   
+            <td title="'apagar'">
+        <button type="button" class="btn btn-xs pull-right" ng-click="ltC.deleteLink(link)">Apagar</button>
+                </td>   
         </tr>
     </table>
 </div>
