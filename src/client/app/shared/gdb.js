@@ -19,14 +19,24 @@ angular.module('tcApp2App')
                     include_docs: true
                 }).then(function (res) {
                     res.rows.map(function (obj) {
-                        var node = { id: obj.id, doc: obj.doc }
+                        var node = {
+                            id: obj.id,
+                            doc: obj.doc,
+                            get links() {
+                                return this.doc.links.map(function (link) {
+                                    return { id: link.id, node: gdb.nodeById[link.linkedNode].doc, data: link.data }
+                                })
+                            },
+                            get linked() {
+                                return this.doc.linked.map(function (link) {
+                                    return { id: link.id, node: gdb.nodeById[link.originNode].doc, data: link.data }
+                                })
+                            }
+                        }
                         let type = obj.id.split('_')[1]
                         gdb.nodeById[obj.id] = node
                         gdb.nodeArrByType[type].push(node)
                         return
-                    })
-                    Object.keys(gdb.nodeById).forEach(function (id) {
-                        initLinks(gdb.nodeById[id])
                     })
                     resolve('dados carregados')
                     console.log(gdb.nodeById)
@@ -37,21 +47,6 @@ angular.module('tcApp2App')
             })
         }
 
-        
-
-        var initLinks = function (node) {
-
-            node.deepLinks = []
-            node.deepLinked = []
-
-            node.doc.links.forEach(function (link) {
-                node.deepLinks.push({ id: link.id, node: gdb.nodeById[link.linkedNode], data: link.data })
-            })
-            node.doc.linked.forEach(function (link) {
-                node.deepLinked.push({ id: link.id, node: gdb.nodeById[link.originNode], data: link.data })
-            })
-            return node
-        }
 
         getAll().then(function (res) {
             gdb.changes = db.changes({
@@ -67,16 +62,14 @@ angular.module('tcApp2App')
                     let node = gdb.nodeById[change.id]
                     if (node) {
                         node.doc = change.doc
-                        initLinks(node)
                     } else {
                         node = { id: change.id, doc: change.doc }
-                        initLinks(node)
                         gdb.nodeArrByType[type].push(node)
                     }
                 } else {
                     delete gdb.nodeById[change.id]
                     var nodeArr = gdb.nodeArrByType[type]
-                    $filter('filter')(nodeArr, { id: change.id } ).forEach(function (node) {
+                    $filter('filter')(nodeArr, { id: change.id }).forEach(function (node) {
                         nodeArr.splice(nodeArr.indexOf(node), 1)
                     })
                     Object.keys(gdb.nodeById).forEach(function (id) {
@@ -98,10 +91,10 @@ angular.module('tcApp2App')
             console.log(err)
         })
 
-        gdb.create = function (doc) {
+        gdb.create = function (node) {
             return $q(function (resolve, reject) {
-                doc._id = doc.id
-                db.put(doc).then(function (res) {
+                node.doc._id = node.doc.id
+                db.put(node.doc).then(function (res) {
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
@@ -109,15 +102,22 @@ angular.module('tcApp2App')
             })
         }
 
-        gdb.update = function (doc) {
+        gdb.update = function (node) {
             return $q(function (resolve, reject) {
-                db.get(doc.id).then(function (res) {
-                    db.put(doc)
+                console.log('vou actualizar')
+                console.log(node.doc)
+                db.get(node.id).then(function (res) {
+                    console.log('vou gravar')
+                    console.log(node.doc)
+                    db.put(node.doc)
                 }).then(function (res) {
+                    console.log('gravado')
+                    console.log(res)
                     resolve(res);
                 }).catch(function (err) {
+                    console.log(err)
                     if (err.name === "not_found") {
-                        gdb.create(doc)
+                        gdb.create(node)
                         resolve()
                     } else {
                         reject(err);
@@ -126,11 +126,11 @@ angular.module('tcApp2App')
             })
         }
 
-        gdb.delete = function (mydoc) {
+        gdb.delete = function (node) {
             return $q(function (resolve, reject) {
-                db.get(mydoc.id).then(
+                db.get(node.id).then(
                     function (doc) {
-                        return db.remove(doc)
+                        return db.remove(node.doc)
                             .then(function (res) {
                                 resolve(res)
                             })

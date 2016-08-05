@@ -88,9 +88,9 @@ angular.module('tcApp2App')
       })
     }
 
-    m.remove = function (doc) {
+    m.remove = function (node) {
       return $q(function (resolve, reject) {
-        gdb.delete(doc)
+        gdb.delete(node)
           .then(function (res) {
             resolve(doc)
           })
@@ -109,8 +109,8 @@ angular.module('tcApp2App')
           node: function () { return node }
         }
       })
-      modalInstance.result.then(function (doc) {
-        gdb.update(doc);
+      modalInstance.result.then(function (node) {
+        gdb.update(node);
       });
     }
 
@@ -132,7 +132,7 @@ angular.module('tcApp2App')
         }
       });
       modalInstance.result.then(function (node) {
-        gdb.create(node.doc);
+        gdb.create(node);
       })
     }
 
