@@ -1,25 +1,38 @@
 <div>
-    <ui-select ng-model="ltC.link.selected" theme="bootstrap" on-select="ltC.m.newLink($item,ltC.node.id)">
+    <ui-select ng-model="ltC.link.selected" theme="bootstrap" on-select="ltC.createLink($item); ltC.link.selected=''">
         <ui-select-match placeholder="Select or search a link type in the list...">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="item in ltC.linkTypesOfNode | filter: $select.search">
             <div ng-bind-html="item.name | highlight: $select.search"></div>
             <small ng-bind-html="item.obs | highlight: $select.search"></small>
         </ui-select-choices>
     </ui-select>
+    <h3>Ligações</h3>
     <table ng-table="ltC.linksTableParams" class="table" show-filter="false">
-        <tr ng-repeat="link in $data">
-            <td title="'Tipo'">
-            link:{{link}}
-                {{ltC.types.link.id[link.doc.type].name}}</td>
-            <td title="'Nome'"><a href ui-sref="app.nodes.view({id:ltC.m.nodeById[link.doc.n2].id})">
-                {{ltC.m.nodeById[link.doc.n2].doc.name}}
+        <tr ng-repeat="linkData in $data">
+            <td>
+                {{ltC.m.linkTypes.id[linkData.link.type].name}}
+                <td><a href ui-sref="app.nodes.view({id:linkData.linkedNode.id})">
+            {{linkData.linkedNode.doc.name}}
+                </a></td>
+                <td>
+                    {{linkData.link.data}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-xs pull-right" ng-click="ltC.deleteLink(linkData)">Apagar</button>
+                </td>
+        </tr>
+    </table>
+    <h3>Relacionados</h3>
+    <table ng-table="ltC.linkedTableParams" class="table" show-filter="false">
+        <tr ng-repeat="linkData in $data">
+            <td>
+                {{ltC.m.linkTypes.id[linkData.link.type].linkLabel}}
+                <td><a href ui-sref="app.nodes.view({id:linkData.originNode.id})">
+            {{linkData.originNode.doc.name}}
                 </td></a>
-            <td title="'notas'">
-                {{link.doc.obs}}
-                </td>   
-            <td title="'apagar'">
-        <button type="button" class="btn btn-xs pull-right" ng-click="ltC.deleteLink(link)">Apagar</button>
-                </td>   
+                    <td title="'notas'">
+                        {{linkData.link.data}}
+                    </td>
         </tr>
     </table>
 </div>

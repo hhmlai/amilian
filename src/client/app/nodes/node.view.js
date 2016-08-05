@@ -20,7 +20,7 @@ function nodeViewCtrl($stateParams, model, $window, $state, types) {
     console.log('vou apagar')
     var confirmMsg = 'Quer mesmo apagar?'
     if ($window.confirm(confirmMsg)) {
-      v.m.remove(v.node.doc).then(function () {
+      v.m.remove(v.node).then(function () {
         $state.go('app.nodes.list', { type: v.node.doc.type})
       }).catch(function (err) {
         console.log(err);

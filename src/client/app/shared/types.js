@@ -3,7 +3,6 @@ angular.module('tcApp2App')
 
         var m = {}
 
-
         m.links = {
             interview: [
                 {
@@ -137,7 +136,7 @@ angular.module('tcApp2App')
                 fields: [
                     {
                         key: 'doc.name',
-                        type: 'doc.input',
+                        type: 'input',
                         className: 'col-md-12',
                         templateOptions: {
                             type: 'text',

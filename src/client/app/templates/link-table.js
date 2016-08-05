@@ -1,37 +1,43 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .controller('linkTableCtrl', function ($scope, model, NgTableParams,  $filter) {
+  .controller('linkTableCtrl', function ($scope, model, NgTableParams, $filter, $timeout) {
 
     var v = this;
 
-    v.m = model    
+    v.m = model
     v.node = $scope.model
-    console.log(v.node.doc.type)
+
     v.linkTypesOfNode = v.m.linkTypes.node[v.node.doc.type]
-    console.log(v.m.linkTypes)
     v.nodeFields = v.m.nodeTypes[v.node.doc.type]
 
-    v.createLink = function (typeId) {
-      v.m.newLink(typeId, node.id).then(function (res) {
-        console.log(res)
+    v.createLink = function (type) {
+      v.m.newLink(type, v.node.id).then(function (res) {
+        v.loadTables();
       }).catch(function (err) {
         console.log(err)
       })
     }
 
-    v.deleteLink = function(linkId){
-      console.log('vou apagar')
-      v.m.remove(linkId).then(function(res){
-        console.log(res)
-      }).catch(function(err){
+    v.deleteLink = function (linkData) {
+      v.m.removeLink(linkData).then(function (res) {
+        v.loadTables();
+      }).catch(function (err) {
         console.log(err)
       })
     }
 
-console.log(v.node.links)
+    v.loadTables = function () {
+      var linksData = v.node.doc.links.map(function (link) {
+        return { link: link, linkedNode: v.m.nodeById[link.linkedNode], originNode: v.node }
+      })
+      var linkedData = v.node.doc.linked.map(function (link) {
+        return { link: link, linkedNode: v.node, originNode: v.m.nodeById[link.originNode] }
+      })
+      v.linksTableParams = new NgTableParams({}, { dataset: linksData });
+      v.linkedTableParams = new NgTableParams({}, { dataset: linkedData });
+    }
 
-    v.LinksTableParams = new NgTableParams({}, { dataset: v.node.links });
-    v.LinkedTableParams = new NgTableParams({}, { dataset: v.node.linked });
+    v.loadTables()
 
-  });
+  })

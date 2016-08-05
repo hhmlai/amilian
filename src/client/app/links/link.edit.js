@@ -7,10 +7,8 @@ angular.module('tcApp2App')
 
   v.m = model
   v.link = link
-  
   v.linkFields = linkFields
   
-
   v.ok = function () {
     console.log(v.link)
       $uibModalInstance.close(v.link);
