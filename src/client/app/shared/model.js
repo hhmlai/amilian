@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .factory('model', function ($uibModal, $stateParams, gdb, $q, types) {
+  .factory('model', function ($uibModal, $state, $stateParams, gdb, $q, types) {
 
     var m = {};
 
@@ -51,6 +51,17 @@ angular.module('tcApp2App')
     m.linkTypes = generateLinkTypes(types.links)
     m.nodeTypes = types.node
 
+    m.updateNode = function (node) {
+      return $q(function (resolve, reject) {
+        gdb.update(node).then(function (res) {
+          resolve(res)
+        }).catch(function (err) {
+          reject(err)
+        })
+
+      })
+    }
+
     m.newLink = function (linkFields, nodeId) {
       return $q(function (resolve, reject) {
         var modalInstance = $uibModal.open({
@@ -68,7 +79,6 @@ angular.module('tcApp2App')
         });
         modalInstance.result
           .then(function (link) {
-            console.log(link)
             if (link.linkedNode) {
               m.nodeById[nodeId].doc.links.push(link)
               m.nodeById[link.linkedNode].doc.linked.push(link)
@@ -105,33 +115,19 @@ angular.module('tcApp2App')
 
     m.removeNode = function (node) {
       return $q(function (resolve, reject) {
-            gdb.delete(node).then(function (res) {
-              resolve(node)
-            }).catch(function (err) {
-              reject(err)
-            })
+        gdb.delete(node).then(function (res) {
+          resolve(node)
+        }).catch(function (err) {
+          reject(err)
+        })
       })
-    }
-
-    m.editNode = function (node) {
-      var modalInstance = $uibModal.open({
-        templateUrl: 'app/nodes/node.edit.html',
-        controller: 'nodeEditCtrl as nodeEC',
-        size: 'lg',
-        resolve: {
-          node: function () { return node }
-        }
-      })
-      modalInstance.result.then(function (node) {
-        gdb.update(node);
-      });
     }
 
     m.newNode = function (type) {
       console.log(type)
       var modalInstance = $uibModal.open({
-        templateUrl: 'app/nodes/node.edit.html',
-        controller: 'nodeEditCtrl as nodeEC',
+        templateUrl: 'app/nodes/node.new.html',
+        controller: 'nodeNewCtrl as nodeNC',
         size: 'lg',
         resolve: {
           node: {
@@ -145,7 +141,7 @@ angular.module('tcApp2App')
         }
       });
       modalInstance.result.then(function (node) {
-        gdb.create(node);
+        gdb.create(node)
       })
     }
 

@@ -6,7 +6,7 @@
             <small ng-bind-html="item.obs | highlight: $select.search"></small>
         </ui-select-choices>
     </ui-select>
-    <h3>Ligações</h3>
+    <h4>Está relacionado com</h4>
     <table ng-table="ltC.linksTableParams" class="table" show-filter="false">
         <tr ng-repeat="linkData in $data">
             <td>
@@ -22,7 +22,7 @@
                 </td>
         </tr>
     </table>
-    <h3>Relacionados</h3>
+    <h4>Outras relações</h4>
     <table ng-table="ltC.linkedTableParams" class="table" show-filter="false">
         <tr ng-repeat="linkData in $data">
             <td>
@@ -30,7 +30,7 @@
                 <td><a href ui-sref="app.nodes.view({id:linkData.originNode.id})">
             {{linkData.originNode.doc.name}}
                 </td></a>
-                    <td title="'notas'">
+                    <td>
                         {{linkData.link.data}}
                     </td>
         </tr>

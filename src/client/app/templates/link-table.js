@@ -22,7 +22,7 @@ angular.module('tcApp2App')
     v.deleteLink = function (link) {
       console.log('apagar')
       v.m.removeLink(link).then(function (res) {
-        console.log('recarregar')
+        v.node.doc.links = v.m.nodeById[v.node.id].doc.links
         v.loadTables();
       }).catch(function (err) {
         console.log(err)

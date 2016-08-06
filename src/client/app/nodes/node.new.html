@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="nodeNC.cancel();" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">{{nodeNC.nodeFields.name}}</h4>
+</div>
+<div class="modal-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+        <form novalidate>
+          <formly-form model="nodeNC.node" fields="nodeNC.nodeFields.fields" form="nodeNC.nodeForm">
+          </formly-form>
+        </form>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer ">
+  <button type="button " class="btn btn-primary " ng-click="nodeNC.ok()" ng-disabled="nodeNC.nodeForm.$invalid">Guardar</button>
+</div>
