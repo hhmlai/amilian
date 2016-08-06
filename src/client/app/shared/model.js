@@ -68,6 +68,7 @@ angular.module('tcApp2App')
         });
         modalInstance.result
           .then(function (link) {
+            console.log(link)
             if (link.linkedNode) {
               m.nodeById[nodeId].doc.links.push(link)
               m.nodeById[link.linkedNode].doc.linked.push(link)
@@ -88,15 +89,27 @@ angular.module('tcApp2App')
       })
     }
 
-    m.remove = function (node) {
+    m.removeLink = function (link) {
       return $q(function (resolve, reject) {
-        gdb.delete(node)
-          .then(function (res) {
-            resolve(doc)
-          })
-          .catch(function (err) {
-            resolve(err)
-          })
+        let refNode = gdb.nodeById[link.linkedNode]
+        refNode.doc.linked.splice(refNode.doc.linked.indexOf(link), 1)
+        let node = gdb.nodeById[link.originNode]
+        node.doc.links.splice(node.doc.links.indexOf(link), 1)
+        gdb.update(refNode)
+        gdb.update(node)
+        resolve()
+      }).catch(function (err) {
+        reject(err)
+      })
+    }
+
+    m.removeNode = function (node) {
+      return $q(function (resolve, reject) {
+            gdb.delete(node).then(function (res) {
+              resolve(node)
+            }).catch(function (err) {
+              reject(err)
+            })
       })
     }
 

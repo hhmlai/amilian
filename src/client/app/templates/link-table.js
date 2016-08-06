@@ -19,8 +19,10 @@ angular.module('tcApp2App')
       })
     }
 
-    v.deleteLink = function (linkData) {
-      v.m.removeLink(linkData).then(function (res) {
+    v.deleteLink = function (link) {
+      console.log('apagar')
+      v.m.removeLink(link).then(function (res) {
+        console.log('recarregar')
         v.loadTables();
       }).catch(function (err) {
         console.log(err)
