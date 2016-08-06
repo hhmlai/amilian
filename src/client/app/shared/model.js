@@ -62,41 +62,25 @@ angular.module('tcApp2App')
       })
     }
 
-    m.newLink = function (linkFields, nodeId) {
+    m.newLink = function (link) {
       return $q(function (resolve, reject) {
-        var modalInstance = $uibModal.open({
-          templateUrl: 'app/links/link.edit.html',
-          controller: 'linkEditCtrl as linkEC',
-          size: 'lg',
-          resolve: {
-            link: {
-              id: ('L_' + linkFields.id + '_' + new Date().toISOString() + '_admin'),
-              type: linkFields.id,
-              originNode: nodeId
-            },
-            linkFields: linkFields
-          }
-        });
-        modalInstance.result
-          .then(function (link) {
-            if (link.linkedNode) {
-              m.nodeById[nodeId].doc.links.push(link)
-              m.nodeById[link.linkedNode].doc.linked.push(link)
-              gdb.update(m.nodeById[nodeId]).then(function () {
-                gdb.update(m.nodeById[link.linkedNode])
-              }).then(function () {
-                console.log('link criado')
-                resolve(link)
-              })
-            } else {
-              console.log('link sem segundo parametro')
-              reject('link sem segundo parametro')
-            }
+        if (link.linkedNode) {
+          m.nodeById[link.originNode].doc.links.push(link)
+          m.nodeById[link.linkedNode].doc.linked.push(link)
+          gdb.update(m.nodeById[link.originNode]).then(function () {
+            gdb.update(m.nodeById[link.linkedNode])
+          }).then(function () {
+            console.log('link criado')
+            resolve(link)
           })
-          .catch(function (err) {
-            resolve(err)
-          })
+        } else {
+          console.log('link sem segundo parametro')
+          reject('link sem segundo parametro')
+        }
       })
+        .catch(function (err) {
+          resolve(err)
+        })
     }
 
     m.removeLink = function (link) {

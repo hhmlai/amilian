@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="linkNC.cancel();" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">{{linkEC.linkData.name}}</h4>
+</div>
+<div class="modal-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form novalidate>
+        <formly-form model="linkNC.link" fields="linkNC.linkFields.fields" form="linkNC.linkForm">
+        </formly-form>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-footer ">
+  <button type="button " class="btn btn-primary " ng-click="linkNC.ok()" ng-disabled="linkNC.linkForm.$invalid">Guardar</button>
+</div>
+{{linkEC.link}}

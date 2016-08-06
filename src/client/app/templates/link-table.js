@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tcApp2App')
-  .controller('linkTableCtrl', function ($scope, model, NgTableParams, $filter, $timeout) {
+  .controller('linkTableCtrl', function ($scope, $uibModal, model, NgTableParams, $filter, $timeout) {
 
     var v = this;
 
@@ -12,11 +12,29 @@ angular.module('tcApp2App')
     v.nodeFields = v.m.nodeTypes[v.node.doc.type]
 
     v.createLink = function (type) {
-      v.m.newLink(type, v.node.id).then(function (res) {
-        v.loadTables();
-      }).catch(function (err) {
-        console.log(err)
-      })
+      var modalInstance = $uibModal.open({
+        templateUrl: 'app/links/link.new.html',
+        controller: 'linkNewCtrl as linkNC',
+        size: 'lg',
+        resolve: {
+          link: {
+            id: ('L_' + type.id + '_' + new Date().toISOString() + '_admin'),
+            type: type.id,
+            originNode: v.node.id
+          },
+          linkFields: type
+        }
+      });
+      
+      modalInstance.result
+        .then(function (link) {
+          v.m.newLink(link).then(function (res) {
+            v.node.doc.links = v.m.nodeById[v.node.id].doc.links
+            v.loadTables();
+          }).catch(function (err) {
+            console.log(err)
+          })
+        })
     }
 
     v.deleteLink = function (link) {

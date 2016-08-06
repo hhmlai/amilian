@@ -28,9 +28,17 @@ angular.module('tcApp2App')
                         id: "place",
                         label: "Local de nascimento",
                         description: "Selecione o local onde a pessoa nasceu",
-                    },
-                    unique: true
-                }]
+                    }
+                },
+                {
+                    id: 'datNas',
+                    linkedNode: {
+                        id: "event",
+                        label: "data de nascimento",
+                        description: "Selecione a data de nascimento da pessoa",
+                    }
+                },
+                ]
         }
 
 
@@ -51,23 +59,23 @@ angular.module('tcApp2App')
                         }
                     },
                     {
-                        key: 'doc.inicials',
-                        type: 'input',
-                        className: 'col-md-6',
+                        key: 'doc.birthDate',
+                        type: 'datepicker',
+                        className: 'col-md-2',
                         templateOptions: {
+                            label: 'Data de nascimento',
                             type: 'text',
-                            label: 'Iniciais',
-                            placeholder: 'Entrar as iniciais',
-                            required: true
+                            datepickerPopup: 'dd-MM-yyyy',
+                            required: false
                         }
                     },
                     {
                         key: 'doc.notes',
                         type: 'textarea',
-                        className: 'col-md-12',
+                        className: 'col-md-10',
                         templateOptions: {
                             type: 'text',
-                            cols: 5,
+                            cols: 2,
                             label: 'Observações',
                             placeholder: 'Escrever aqui',
                             required: false
@@ -129,7 +137,7 @@ angular.module('tcApp2App')
                         }
                     }
                 ]
-            }, 
+            },
             interview: {
                 id: "interview",
                 name: "Entrevista",
@@ -140,7 +148,54 @@ angular.module('tcApp2App')
                         className: 'col-md-12',
                         templateOptions: {
                             type: 'text',
-                            label: 'Nome do Entrevistado',
+                            label: 'Titulo da Entrevista',
+                            required: true
+                        }
+                    },
+                    {
+                        key: 'doc.notes',
+                        type: 'textarea',
+                        className: 'col-md-12',
+                        templateOptions: {
+                            type: 'text',
+                            cols: 5,
+                            label: 'Observações',
+                            placeholder: 'Escrever aqui',
+                            required: false
+                        }
+                    },
+                    {
+                        key: 'links',
+                        type: 'link-table',
+                        className: 'col-md-12',
+                        templateOptions: {
+                            required: false
+                        }
+                    }
+                ]
+            },
+            event: {
+                id: "event",
+                name: "Acontecimento",
+                fields: [
+                    {
+                        key: 'doc.name',
+                        type: 'input',
+                        className: 'col-md-12',
+                        templateOptions: {
+                            type: 'text',
+                            label: 'Titulo do Acontecimento',
+                            required: true
+                        }
+                    },
+                    {
+                        key: 'doc.date',
+                        type: 'datepicker',
+                        className: 'col-md-12',
+                        templateOptions: {
+                            label: 'Data do acontecimento',
+                            type: 'text',
+                            datepickerPopup: 'dd-MMMM-yyyy',
                             required: true
                         }
                     },
@@ -166,6 +221,7 @@ angular.module('tcApp2App')
                     }
                 ]
             }
+
         }
 
         return m
