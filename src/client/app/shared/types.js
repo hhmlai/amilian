@@ -7,38 +7,31 @@ angular.module('tcApp2App')
             interview: [
                 {
                     id: 'entrevistado',
-                    linkedNode: {
-                        id: "person",
-                        label: "Entrevistado",
-                        description: "Selecione a pessoa que foi entrevistada",
-                    }
+                    linkedNodeType: "person",
+                    label: "Entrevistado",
+                    description: "Selecione a pessoa que foi entrevistada",
                 },
                 {
                     id: 'entrevistador',
-                    linkedNode: {
-                        id: "person",
-                        label: "Entrevistador",
-                        description: "Selecione a pessoa que entrevistou",
-                    },
-                }],
+                    linkedNodeType: "person",
+                    label: "Entrevistador",
+                    description: "Selecione a pessoa que entrevistou",
+                }
+            ],
             person: [
                 {
                     id: 'locNas',
-                    linkedNode: {
-                        id: "place",
-                        label: "Local de nascimento",
-                        description: "Selecione o local onde a pessoa nasceu",
-                    }
+                    linkedNodeType: "place",
+                    label: "Local de nascimento",
+                    description: "Selecione o local onde a pessoa nasceu",
                 },
                 {
                     id: 'datNas',
-                    linkedNode: {
-                        id: "event",
-                        label: "data de nascimento",
-                        description: "Selecione a data de nascimento da pessoa",
-                    }
+                    linkedNodeType: "event",
+                    label: "data de nascimento",
+                    description: "Selecione a data de nascimento da pessoa",
                 },
-                ]
+            ]
         }
 
 

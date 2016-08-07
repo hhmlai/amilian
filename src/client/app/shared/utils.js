@@ -218,6 +218,11 @@ angular.module('tcApp2App')
       controller: 'linkTableCtrl as ltC'
     });
     formlyConfig.setType({
+      name: 'select-link',
+      templateUrl: 'app/templates/link-select.html',
+      controller: 'linkSelectCtrl as lsC'
+    });
+    formlyConfig.setType({
       name: 'datepicker',
       templateUrl: 'app/templates/datepicker.html',
       wrapper: ['bootstrapLabel', 'bootstrapHasError'],

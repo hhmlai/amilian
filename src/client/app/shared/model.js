@@ -8,6 +8,40 @@ angular.module('tcApp2App')
     m.nodeArrByType = gdb.nodeArrByType
     m.nodeById = gdb.nodeById
 
+
+    var newLinks = {
+      person: {
+        id: 'bornPlace',
+        name: 'Local de Nascimento',
+        fields: [
+          {
+            key: 'selectedPerson',
+            type: "select-link",
+            templateOptions: {
+              linkedType: 'place',
+              label: 'local de Nascimento',
+              optionsAttr: 'bs-options',
+              description: 'Selecione o Local de Nascimento da Pessoa',
+              get options() {
+                return m.nodeArrByType['place'].map(function (obj) {
+                  return obj.doc
+                })
+              }
+            }
+          },
+          {
+            key: "data",
+            type: 'input',
+            templateOptions: {
+              label: 'Notas'
+            }
+          }
+        ]
+      }
+    }
+
+
+
     var generateLinkTypes = function (links) {
       var res = { node: {}, id: {} }
       angular.forEach(links, function (nodeLinks, nodeTypeId) {
@@ -15,17 +49,18 @@ angular.module('tcApp2App')
         angular.forEach(nodeLinks, function (link) {
           var newLink = {
             id: link.id,
-            name: link.linkedNode.label,
+            name: link.label,
             fields: [
               {
-                key: "linkedNode",
-                type: 'ui-select-single',
+                key: 'linkedNode',
+                type: 'select-link',
                 templateOptions: {
-                  label: link.linkedNode.label,
+                  label: link.label,
+                  linkedType: link.linkedNodeType,
                   optionsAttr: 'bs-options',
-                  description: link.linkedNode.description,
+                  description: link.description,
                   get options() {
-                    return m.nodeArrByType[link.linkedNode.id].map(function (obj) {
+                    return m.nodeArrByType[link.linkedNodeType].map(function (obj) {
                       return obj.doc
                     })
                   },
@@ -34,7 +69,7 @@ angular.module('tcApp2App')
                   required: true
                 }
               },
-              { key: "data", type: 'input', templateOptions: { label: 'Notas' } }
+              { key: "data", type: 'input', templateOptions: { label: 'Observações' } }
             ]
 
           }
@@ -46,10 +81,27 @@ angular.module('tcApp2App')
       return res
     }
 
-    console.log(types)
-
     m.linkTypes = generateLinkTypes(types.links)
+    m.newlinkTypes = newLinks
     m.nodeTypes = types.node
+
+
+    m.newLink = function (link) {
+      return $q(function (resolve, reject) {
+        m.nodeById[link.originNode].doc.links.push(link)
+        m.nodeById[link.linkedNode].doc.linked.push(link)
+        gdb.update(m.nodeById[link.originNode]).then(function () {
+          gdb.update(m.nodeById[link.linkedNode])
+        }).then(function () {
+          console.log('link criado')
+          resolve(link)
+        }).catch(function (err) {
+          console.log(err)
+          reject(err)
+        })
+      })
+    }
+
 
     m.updateNode = function (node) {
       return $q(function (resolve, reject) {
@@ -62,26 +114,6 @@ angular.module('tcApp2App')
       })
     }
 
-    m.newLink = function (link) {
-      return $q(function (resolve, reject) {
-        if (link.linkedNode) {
-          m.nodeById[link.originNode].doc.links.push(link)
-          m.nodeById[link.linkedNode].doc.linked.push(link)
-          gdb.update(m.nodeById[link.originNode]).then(function () {
-            gdb.update(m.nodeById[link.linkedNode])
-          }).then(function () {
-            console.log('link criado')
-            resolve(link)
-          })
-        } else {
-          console.log('link sem segundo parametro')
-          reject('link sem segundo parametro')
-        }
-      })
-        .catch(function (err) {
-          resolve(err)
-        })
-    }
 
     m.removeLink = function (link) {
       return $q(function (resolve, reject) {

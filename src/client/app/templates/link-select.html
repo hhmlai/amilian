@@ -1,24 +1,11 @@
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label class="control-label">Link</label>
-            <div class="controls">
-                <ui-select ng-model="lsC.link.selected" theme="bootstrap" on-select="lsC.selected = $item">
-                    <ui-select-match placeholder="Select or search in the list...">{{$select.selected.name}}</ui-select-match>
-                    <ui-select-choices repeat="item in lsC.nodesList | filter: $select.search">
-                        <div ng-bind-html="item.name | highlight: $select.search"></div>
-                        <small ng-bind-html="item.obs | highlight: $select.search"></small>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label class="control-label">Observações</label>
-            <div class="controls">
-                <input class="form-control" type="number" ng-model="lsC.obs">
-            </div>
-        </div>
-    </div>
+<div class="input-group">
+    <ui-select data-ng-model="model.linkedNode" data-required="true" theme="bootstrap">
+        <ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices data-repeat="option.id as option in to.options | filter: $select.search">
+            <div ng-bind-html="option.name | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
+    <span class="input-group-btn">
+    <button class="btn btn-default" type="button" ng-click = "lsC.newNode()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    </span>
 </div>

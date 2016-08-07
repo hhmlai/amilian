@@ -11,21 +11,22 @@ angular.module('tcApp2App')
     v.linkTypesOfNode = v.m.linkTypes.node[v.node.doc.type]
     v.nodeFields = v.m.nodeTypes[v.node.doc.type]
 
-    v.createLink = function (type) {
+    v.createLink = function (typeFields) {
+      console.log(typeFields)
       var modalInstance = $uibModal.open({
         templateUrl: 'app/links/link.new.html',
         controller: 'linkNewCtrl as linkNC',
         size: 'lg',
         resolve: {
           link: {
-            id: ('L_' + type.id + '_' + new Date().toISOString() + '_admin'),
-            type: type.id,
+            id: ('L_' + typeFields.id + '_' + new Date().toISOString() + '_admin'),
+            type: typeFields.id,
             originNode: v.node.id
           },
-          linkFields: type
+          typeFields: typeFields          
         }
       });
-      
+
       modalInstance.result
         .then(function (link) {
           v.m.newLink(link).then(function (res) {
