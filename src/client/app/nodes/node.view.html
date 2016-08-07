@@ -3,6 +3,7 @@
     <button type="button" class="close" ng-click="nodeVC.cancel();" aria-hidden="true">&times;</button>
     <h4 class="modal-title">{{nodeVC.nodeFields.name}}</h4>
   </div>
+  {{nodeVC.node}}
   <div class="body">
     <div class="panel panel-default">
       <div class="panel panel-default">
@@ -13,7 +14,7 @@
         <div class="panel-body">
           <row>
             <form novalidate>
-              <formly-form model="nodeVC.node" fields="nodeVC.nodeFields.fields" form="nodeVC.nodeForm">
+              <formly-form ng-disable="true" model="nodeVC.node" fields="nodeVC.fields" form="nodeVC.mainForm">
               </formly-form>
             </form>
           </row>

@@ -3,7 +3,7 @@
 angular.module('tcApp2App')
   .controller('nodeViewCtrl', nodeViewCtrl);
 
-function nodeViewCtrl($stateParams, model, $window, $state, types) {
+function nodeViewCtrl($stateParams, model, $window, $state) {
 
 
   var v = this;
@@ -12,13 +12,13 @@ function nodeViewCtrl($stateParams, model, $window, $state, types) {
 
   v.node = angular.copy(v.m.nodeById[$stateParams.id]);
 
-  v.nodeFields = types.node[v.node.doc.type]
+  v.fields = v.m.nodeTypes[v.node.doc.type].fields
 
-  v.cancel = function(){
-        $state.go('app.nodes.list', { type: v.node.doc.type })
+  v.cancel = function () {
+    $state.go('app.nodes.list', { type: v.node.doc.type })
   }
 
-  v.save = function(){
+  v.save = function () {
     v.m.updateNode(v.node)
   }
 

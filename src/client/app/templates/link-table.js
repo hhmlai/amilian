@@ -26,7 +26,6 @@ angular.module('tcApp2App')
           typeFields: typeFields          
         }
       });
-
       modalInstance.result
         .then(function (link) {
           v.m.newLink(link).then(function (res) {

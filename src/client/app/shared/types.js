@@ -6,7 +6,8 @@ angular.module('tcApp2App')
         m.links = {
             interview: [
                 {
-                    id: 'entrevistado',
+                    id: 'interviewed',
+                    originNodeType: 'interview',
                     linkedNodeType: "person",
                     label: "Entrevistado",
                     description: "Selecione a pessoa que foi entrevistada",
@@ -39,7 +40,7 @@ angular.module('tcApp2App')
             person: {
                 id: "person",
                 name: "Pessoa",
-                fields: [
+                mainFields: [
                     {
                         key: 'doc.name',
                         type: 'input',
@@ -73,7 +74,8 @@ angular.module('tcApp2App')
                             placeholder: 'Escrever aqui',
                             required: false
                         }
-                    },
+                    }],
+                 relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -87,7 +89,7 @@ angular.module('tcApp2App')
             place: {
                 id: "place",
                 name: "Lugar ou localidade",
-                fields: [
+                mainFields: [
                     {
                         key: 'doc.name',
                         type: 'input',
@@ -120,7 +122,8 @@ angular.module('tcApp2App')
                             placeholder: 'Escrever aqui',
                             required: false
                         }
-                    },
+                    }],
+                 relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -134,16 +137,14 @@ angular.module('tcApp2App')
             interview: {
                 id: "interview",
                 name: "Entrevista",
-                fields: [
+                editFields: [
                     {
-                        key: 'doc.name',
-                        type: 'input',
-                        className: 'col-md-12',
-                        templateOptions: {
-                            type: 'text',
-                            label: 'Titulo da Entrevista',
-                            required: true
-                        }
+                        isLink: true,
+                        id: 'entrevistado',
+                        originNodeType: 'interview',
+                        linkedNodeType: "person",
+                        label: "Entrevistado",
+                        description: "Selecione a pessoa que foi entrevistada",
                     },
                     {
                         key: 'doc.notes',
@@ -156,7 +157,8 @@ angular.module('tcApp2App')
                             placeholder: 'Escrever aqui',
                             required: false
                         }
-                    },
+                    }],
+                 relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -203,7 +205,8 @@ angular.module('tcApp2App')
                             placeholder: 'Escrever aqui',
                             required: false
                         }
-                    },
+                    }],
+                 relFields: [
                     {
                         key: 'links',
                         type: 'link-table',

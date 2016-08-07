@@ -40,7 +40,64 @@ angular.module('tcApp2App')
       }
     }
 
+    var generateNodeTypes = function (nodes) {
+      var res = {}
+      angular.forEach(nodes, function (nodeFields, nodeTypeId) {
+        res[nodeTypeId] =
+          {
+            id: nodeFields.id,
+            name: nodeFields.name,
+            mainFields: [],
+            relFields: []
+          }
 
+        var replaceFields = function (fields, type) {
+          angular.forEach(fields, function (field) {
+            if (field.isLink) {
+              var newFields = generateNewLink(field)
+              newFields.forEach(function (linkField) {
+                res[nodeTypeId][type].push(linkField)
+              })
+            } else {
+              res[nodeTypeId][type].push(field)
+            }
+          })
+        }
+        replaceFields(nodeFields.mainFields, 'mainFields')
+        replaceFields(nodeFields.relFields, 'relFields')
+        var newMain =  angular.copy(res[nodeTypeId].mainFields)
+        newMain.forEach(function(field){
+          field.templateOptions.disabled = true
+        })
+        res[nodeTypeId].fields = newMain.concat(res[nodeTypeId].relFields)
+      })
+      return res
+    }
+
+    var generateNewLink = function (link) {
+      console.log(link)
+      return [
+        {
+          key: 'linkedNode',
+          type: 'select-link',
+          templateOptions: {
+            label: link.label,
+            linkedType: link.linkedNodeType,
+            optionsAttr: 'bs-options',
+            description: link.description,
+            get options() {
+              return m.nodeArrByType[link.linkedNodeType].map(function (obj) {
+                return obj.doc
+              })
+            },
+            valueProp: 'id',
+            labelProp: 'name',
+            required: link.required
+          }
+        },
+        { key: "data", type: 'input', templateOptions: { label: 'Observações' } }
+      ]
+    }
 
     var generateLinkTypes = function (links) {
       var res = { node: {}, id: {} }
@@ -59,6 +116,7 @@ angular.module('tcApp2App')
                   linkedType: link.linkedNodeType,
                   optionsAttr: 'bs-options',
                   description: link.description,
+                  disabled: true,
                   get options() {
                     return m.nodeArrByType[link.linkedNodeType].map(function (obj) {
                       return obj.doc
@@ -73,7 +131,6 @@ angular.module('tcApp2App')
             ]
 
           }
-          res.node[nodeTypeId].push(newLink)
           res.id[newLink.id] = newLink
         }
         )
@@ -82,8 +139,7 @@ angular.module('tcApp2App')
     }
 
     m.linkTypes = generateLinkTypes(types.links)
-    m.newlinkTypes = newLinks
-    m.nodeTypes = types.node
+    m.nodeTypes = generateNodeTypes(types.node)
 
 
     m.newLink = function (link) {
@@ -106,13 +162,20 @@ angular.module('tcApp2App')
     m.updateNode = function (node) {
       return $q(function (resolve, reject) {
         gdb.update(node).then(function (res) {
+          node.doc.links.forEach(function (link) {
+            var doc = m.nodeById[link.linkedNode].doc
+            if (doc.linked.indexOf(link) === -1) {
+              doc.linked.push(link)
+              gdb.update(m.nodeById[link.linkedNode])
+            }
+          })
           resolve(res)
         }).catch(function (err) {
           reject(err)
         })
-
       })
     }
+
 
 
     m.removeLink = function (link) {
