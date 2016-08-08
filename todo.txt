@@ -1,7 +1,7 @@
 Lançamento Protótipo
 
 Formularios JSON na BD
-Interface GraphDB com PouchDB
+Estabelecer critérios minimos para elementos
 
 
 
