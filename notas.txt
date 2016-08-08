@@ -1,39 +1,3 @@
-Estrutura de definição de elementos:
-
-1. descritores:
-    id
-    name (nome que aparece nos menus)
-    type ('main' ou 'secondary') - só os 'main' são acessiveis directamente
-
-2. Formulários 
-    newForm (formulário que a aparece quando se cria forma - obrigatório)
-    viewForm (formulário que a aparece quando se visualisa - quando não definido = newForm)
-    editForm (formulário que a aparece quando se edita - quando não definido = newForm)
-    relForm (formulário que apresenta as relações do elemento - obrigatório)
-    é possivel criar outros formulários
-
-Regras de estilo
-    O nº de campos a utilizar deve ser limitado a 3 ou 4. Em caso de extruturas complexas são criados tipos próprios do formy.
-    Podem ser criados formulários tipos que são reutilizaveis (POR EXEMPLO, MAPA DE RELAÇÕES)
-
-
-
-Tipos formly a pré-definir: 
-
-    todos os elmentos pré-definidos recebem um modelo node, que depois é acedido a partir do controlador do tipos
-
-    tipos genérios:
-
-    1. link-table - tabela de relações do elemento, como elementos ligados e a ligar. 
-        Premite associar e expandir as relações - Genérico, permite adicionar e apagar mas não editar links. 
-        recebe lista de relações que poderão ser adicionadas
-
-    2. link-select - campo simples onde se pode associar uma relação e notas ao lado. Pode ser aberto editável ou não. 
-        a) Se não, é possivel editar com clique duplo ou botão, activando botão de gravar, que permite retomar modo visualização. Gravação é na BD.
-        b) Se sim, o botão de gravar está invisivel (gravação na BD fica responsabilidade do controlador pai)
-
-    2. link-multi-select - baseado no link-select, mas com botão para adicionar selects adicionais (com comentários)
-
     m.node = {
             person: {
                 id: "person",

@@ -12,7 +12,7 @@ function nodeViewCtrl($stateParams, model, $window, $state) {
 
   v.node = angular.copy(v.m.nodeById[$stateParams.id]);
 
-  v.fields = v.m.nodeTypes[v.node.doc.type].fields
+  v.fields = v.m.nodeTypes[v.node.doc.type].viewForm
 
   v.cancel = function () {
     $state.go('app.nodes.list', { type: v.node.doc.type })

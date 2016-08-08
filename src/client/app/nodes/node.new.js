@@ -9,7 +9,7 @@ angular.module('tcApp2App')
 
     v.node = node
 
-    var newFields = types.node[node.doc.type].mainFields
+    var newFields = types.node[node.doc.type].newForm
     
     v.nodeFields = angular.copy(types.node[node.doc.type])
 

@@ -138,8 +138,7 @@ angular.module('tcApp2App')
       return res
     }
 
-    m.linkTypes = generateLinkTypes(types.links)
-    m.nodeTypes = generateNodeTypes(types.node)
+    m.nodeTypes = types.node
 
 
     m.newLink = function (link) {

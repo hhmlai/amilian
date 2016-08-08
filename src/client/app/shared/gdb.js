@@ -25,7 +25,9 @@ angular.module('tcApp2App')
                         }
                         let type = obj.id.split('_')[1]
                         gdb.nodeById[obj.id] = node
-                        gdb.nodeArrByType[type].push(node)
+                        if (gdb.nodeArrByType[type]) {
+                            gdb.nodeArrByType[type].push(node)
+                        }
                         return
                     })
                     resolve('dados carregados')

@@ -33,7 +33,18 @@ Tipos formly a pré-definir:
 
     2. link-multi-select - baseado no link-select, mas com botão para adicionar link-selects adicionais
 
+Possivel já esteder
+                extendForm: [{
+                    form: 'viewForm',
+                    withForm: 'newForm',
+                    replaceToValues: [
+                        { key: 'disabled', value: true }
+                    ]
+                }]
+
+
 */
+
 angular.module('tcApp2App')
     .factory('types', function () {
 
@@ -42,9 +53,9 @@ angular.module('tcApp2App')
         typeDef = {
             person: {
                 params: {
-                id: 'person',
-                name: "pessoa",
-                type: 'main'
+                    id: 'person',
+                    name: "pessoa",
+                    type: 'main'
                 },
                 forms: {
                     newForm: [
@@ -82,39 +93,81 @@ angular.module('tcApp2App')
                         }
                     ]
                 },
-                extendForms: [{
+                extendForm: [{
+                    form: 'viewForm',
+                    withForm: 'newForm'
+                }]
+            },
+            place: {
+                params: {
+                    id: 'place',
+                    name: "Lugar",
+                    type: 'main'
+                },
+                forms: {
+                    newForm: [
+                        {
+                            key: 'doc.name',
+                            type: 'input',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                type: 'text',
+                                label: 'Nome do lugar',
+                                placeholder: 'Introduzir o nome do lugar',
+                                required: true
+                            }
+                        },
+                        {
+                            key: 'doc.notes',
+                            type: 'textarea',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                type: 'text',
+                                cols: 4,
+                                label: 'Observações',
+                                placeholder: 'Introduzir observações sobre o lugar',
+                                required: false
+                            }
+                        }]
+                },
+                extendForm: [{
                     form: 'viewForm',
                     withForm: 'newForm',
-                    replaceValues: [
-                        { key: 'templateOptions.disabled', value: true }
-                    ]
-                }],
-                extendTypes: [{
-                    type: 'links',
-                    replaceValues: [
-                        { key: 'className', value: 'col-md-12' }
-                    ]
                 }]
             }
         }
 
         generateTypes = function (types) {
             var res = {}
-            types.keys().forEach(function (nodeType) {
+            Object.keys(types).forEach(function (nodeType) {
                 var myTypeDef = typeDef[nodeType]
-                res[nodetype] = myTypeDef.params
-                myTypeDef.forms.keys().forEach(function(formId){
-                    res[nodetype][formId] = myTypeDef.forms[formId]
+                res[nodeType] = myTypeDef.params
+                Object.keys(myTypeDef.forms).forEach(function (formId) {
+                    res[nodeType][formId] = myTypeDef.forms[formId]
                 })
-                res[nodetype].newFields = myTypeDef.newFields  
-                res[nodetype].viewFields = myTypeDef.viewFields || myTypeDef.newFields 
-
+                if (!myTypeDef.forms.viewForm) {
+                    res[nodeType].viewForm = angular.copy(res[nodeType].newForm)
+                } else {
+                    myTypeDef.extendForm.forEach(function (extend) {
+                        res[nodeType][extend.form] = angular.copy(res[nodeType][extend.withForm].concat(res[nodeType][extend.form]))
+                        if (extend.replacetoValues) {
+                            extend.replaceToValues.forEach(function (newVal) {
+                                res[nodeType][extend.form].forEach(function (field) {
+                                    field.templateOptions[newVal.key] = newVal.value
+                                })
+                            })
+                        }
+                    })
+                }
             })
+
+            return res
         }
 
+        m.node = generateTypes(typeDef)
 
 
-        m.node = {
+        m.oldNode = {
             person: {
                 id: "person",
                 name: "Pessoa",
