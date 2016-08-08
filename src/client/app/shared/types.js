@@ -1,39 +1,117 @@
+/* 
+Estrutura de definição de elementos:
+
+1. descritores:
+    id
+    name (nome que aparece nos menus)
+    type ('main' ou 'secondary') - só os 'main' são acessiveis directamente
+
+2. Formulários 
+    newForm (formulário que a aparece quando se cria forma - obrigatório)
+    viewForm (formulário que a aparece quando se visualisa - quando não definido = newForm)
+    é possivel criar outros formulários
+
+Regras de estilo
+    O nº de campos a utilizar deve ser limitado a 3 ou 4. Em caso de extruturas complexas são criados tipos próprios do formy.
+    Podem ser criados formulários tipos que são reutilizaveis (POR EXEMPLO, MAPA DE RELAÇÕES)
+
+
+
+Tipos formly a pré-definir: 
+
+    todos os elmentos pré-definidos recebem um modelo node, que depois é acedido a partir do controlador do tipos
+
+    tipos genérios:
+
+    1. link-table - tabela de relações do elemento, como elementos ligados e a ligar. 
+        Premite associar e expandir as relações - Genérico, permite adicionar e apagar mas não editar links. 
+        recebe lista de relações que poderão ser adicionadas
+
+    2. link-select - campo simples onde se pode associar uma relação e notas ao lado. Pode ser aberto editável ou não. 
+        a) Se não, é possivel editar com clique duplo ou botão, activando botão de gravar, que permite retomar modo visualização. Gravação é na BD.
+        b) Se sim, o botão de gravar está invisivel (gravação na BD fica responsabilidade do controlador pai)
+
+    2. link-multi-select - baseado no link-select, mas com botão para adicionar link-selects adicionais
+
+*/
 angular.module('tcApp2App')
     .factory('types', function () {
 
         var m = {}
 
-        m.links = {
-            interview: [
-                {
-                    id: 'interviewed',
-                    originNodeType: 'interview',
-                    linkedNodeType: "person",
-                    label: "Entrevistado",
-                    description: "Selecione a pessoa que foi entrevistada",
+        typeDef = {
+            person: {
+                params: {
+                id: 'person',
+                name: "pessoa",
+                type: 'main'
                 },
-                {
-                    id: 'entrevistador',
-                    linkedNodeType: "person",
-                    label: "Entrevistador",
-                    description: "Selecione a pessoa que entrevistou",
-                }
-            ],
-            person: [
-                {
-                    id: 'locNas',
-                    linkedNodeType: "place",
-                    label: "Local de nascimento",
-                    description: "Selecione o local onde a pessoa nasceu",
+                forms: {
+                    newForm: [
+                        {
+                            key: 'doc.name',
+                            type: 'input',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                type: 'text',
+                                label: 'Nome Completo',
+                                placeholder: 'Introduzir o nome completo',
+                                required: true
+                            }
+                        },
+                        {
+                            key: 'doc.notes',
+                            type: 'textarea',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                type: 'text',
+                                cols: 4,
+                                label: 'Observações',
+                                placeholder: 'Introduzir observações sobre a pessoa',
+                                required: false
+                            }
+                        }],
+                    viewForm: [
+                        {
+                            key: 'links',
+                            type: 'link-table',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                required: false
+                            }
+                        }
+                    ]
                 },
-                {
-                    id: 'datNas',
-                    linkedNodeType: "event",
-                    label: "data de nascimento",
-                    description: "Selecione a data de nascimento da pessoa",
-                },
-            ]
+                extendForms: [{
+                    form: 'viewForm',
+                    withForm: 'newForm',
+                    replaceValues: [
+                        { key: 'templateOptions.disabled', value: true }
+                    ]
+                }],
+                extendTypes: [{
+                    type: 'links',
+                    replaceValues: [
+                        { key: 'className', value: 'col-md-12' }
+                    ]
+                }]
+            }
         }
+
+        generateTypes = function (types) {
+            var res = {}
+            types.keys().forEach(function (nodeType) {
+                var myTypeDef = typeDef[nodeType]
+                res[nodetype] = myTypeDef.params
+                myTypeDef.forms.keys().forEach(function(formId){
+                    res[nodetype][formId] = myTypeDef.forms[formId]
+                })
+                res[nodetype].newFields = myTypeDef.newFields  
+                res[nodetype].viewFields = myTypeDef.viewFields || myTypeDef.newFields 
+
+            })
+        }
+
 
 
         m.node = {
@@ -75,7 +153,7 @@ angular.module('tcApp2App')
                             required: false
                         }
                     }],
-                 relFields: [
+                relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -123,7 +201,7 @@ angular.module('tcApp2App')
                             required: false
                         }
                     }],
-                 relFields: [
+                relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -158,7 +236,7 @@ angular.module('tcApp2App')
                             required: false
                         }
                     }],
-                 relFields: [
+                relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -206,7 +284,7 @@ angular.module('tcApp2App')
                             required: false
                         }
                     }],
-                 relFields: [
+                relFields: [
                     {
                         key: 'links',
                         type: 'link-table',
@@ -219,6 +297,110 @@ angular.module('tcApp2App')
             }
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        m.links = {
+            interview: [
+                {
+                    id: 'interviewed',
+                    originNodeType: 'interview',
+                    linkedNodeType: "person",
+                    label: "Entrevistado",
+                    description: "Selecione a pessoa que foi entrevistada",
+                },
+                {
+                    id: 'entrevistador',
+                    linkedNodeType: "person",
+                    label: "Entrevistador",
+                    description: "Selecione a pessoa que entrevistou",
+                }
+            ],
+            person: [
+                {
+                    id: 'locNas',
+                    linkedNodeType: "place",
+                    label: "Local de nascimento",
+                    description: "Selecione o local onde a pessoa nasceu",
+                },
+                {
+                    id: 'datNas',
+                    linkedNodeType: "event",
+                    label: "data de nascimento",
+                    description: "Selecione a data de nascimento da pessoa",
+                },
+            ]
+        }
+
+
 
         return m
 
