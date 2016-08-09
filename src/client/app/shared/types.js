@@ -43,6 +43,8 @@ Possivel já esteder
                 }]
 
 
+
+
 */
 
 angular.module('tcApp2App')
@@ -134,7 +136,45 @@ angular.module('tcApp2App')
                     form: 'viewForm',
                     withForm: 'newForm',
                 }]
+            },
+            interview: {
+                params: {
+                    id: 'interview',
+                    name: "Entrevistas",
+                    type: 'main'
+                },
+                forms: {
+                    newForm: [
+                        {
+                            key: 'link',
+                            type: 'link-select',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                type: 'interviewed',
+                                label: 'Nome do entrevistado',
+                                placeholder: 'Introduzir o nome do entrevistado',
+                                required: true
+                            }
+                        },
+                        {
+                            key: 'doc.notes',
+                            type: 'textarea',
+                            className: 'col-md-12',
+                            templateOptions: {
+                                type: 'text',
+                                cols: 4,
+                                label: 'Observações',
+                                placeholder: 'Introduzir observações sobre o lugar',
+                                required: false
+                            }
+                        }]
+                },
+                extendForm: [{
+                    form: 'viewForm',
+                    withForm: 'newForm',
+                }]
             }
+
         }
 
         generateTypes = function (types) {
@@ -164,7 +204,50 @@ angular.module('tcApp2App')
             return res
         }
 
-        m.node = generateTypes(typeDef)
+        m.nodes = generateTypes(typeDef)
+
+        m.links = {
+            interviewed:
+            {
+                id: 'interviewed',
+                originNodeType: 'interview',
+                linkedNodeType: "person",
+                label: "Entrevistado",
+                description: "Selecione a pessoa que foi entrevistada",
+            },
+            entrevistador:
+            {
+                id: 'entrevistador',
+                linkedNodeType: "person",
+                label: "Entrevistador",
+                description: "Selecione a pessoa que entrevistou",
+            },
+            locNas:
+            {
+                id: 'locNas',
+                linkedNodeType: "place",
+                label: "Local de nascimento",
+                description: "Selecione o local onde a pessoa nasceu",
+            },
+            datNas:
+            {
+                id: 'datNas',
+                linkedNodeType: "event",
+                label: "data de nascimento",
+                description: "Selecione a data de nascimento da pessoa",
+            },
+
+        }
+
+
+
+
+        return m
+
+    })
+
+
+/*  REMOVIDO
 
 
         m.oldNode = {
@@ -356,105 +439,133 @@ angular.module('tcApp2App')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        m.links = {
-            interview: [
-                {
-                    id: 'interviewed',
-                    originNodeType: 'interview',
-                    linkedNodeType: "person",
-                    label: "Entrevistado",
-                    description: "Selecione a pessoa que foi entrevistada",
-                },
-                {
-                    id: 'entrevistador',
-                    linkedNodeType: "person",
-                    label: "Entrevistador",
-                    description: "Selecione a pessoa que entrevistou",
-                }
-            ],
-            person: [
-                {
-                    id: 'locNas',
-                    linkedNodeType: "place",
-                    label: "Local de nascimento",
-                    description: "Selecione o local onde a pessoa nasceu",
-                },
-                {
-                    id: 'datNas',
-                    linkedNodeType: "event",
-                    label: "data de nascimento",
-                    description: "Selecione a data de nascimento da pessoa",
-                },
-            ]
+    var newLinks = {
+      person: {
+        id: 'bornPlace',
+        name: 'Local de Nascimento',
+        fields: [
+          {
+            key: 'selectedPerson',
+            type: "select-link",
+            templateOptions: {
+              linkedType: 'place',
+              label: 'local de Nascimento',
+              optionsAttr: 'bs-options',
+              description: 'Selecione o Local de Nascimento da Pessoa',
+              get options() {
+                return m.nodeArrByType['place'].map(function (obj) {
+                  return obj.doc
+                })
+              }
+            }
+          },
+          {
+            key: "data",
+            type: 'input',
+            templateOptions: {
+              label: 'Notas'
+            }
+          }
+        ]
+      }
+    }
+
+    var generateNodeTypes = function (nodes) {
+      var res = {}
+      angular.forEach(nodes, function (nodeFields, nodeTypeId) {
+        res[nodeTypeId] =
+          {
+            id: nodeFields.id,
+            name: nodeFields.name,
+            mainFields: [],
+            relFields: []
+          }
+
+        var replaceFields = function (fields, type) {
+          angular.forEach(fields, function (field) {
+            if (field.isLink) {
+              var newFields = generateNewLink(field)
+              newFields.forEach(function (linkField) {
+                res[nodeTypeId][type].push(linkField)
+              })
+            } else {
+              res[nodeTypeId][type].push(field)
+            }
+          })
         }
+        replaceFields(nodeFields.mainFields, 'mainFields')
+        replaceFields(nodeFields.relFields, 'relFields')
+        var newMain =  angular.copy(res[nodeTypeId].mainFields)
+        newMain.forEach(function(field){
+          field.templateOptions.disabled = true
+        })
+        res[nodeTypeId].fields = newMain.concat(res[nodeTypeId].relFields)
+      })
+      return res
+    }
 
+    var generateNewLink = function (link) {
+      console.log(link)
+      return [
+        {
+          key: 'linkedNode',
+          type: 'select-link',
+          templateOptions: {
+            label: link.label,
+            linkedType: link.linkedNodeType,
+            optionsAttr: 'bs-options',
+            description: link.description,
+            get options() {
+              return m.nodeArrByType[link.linkedNodeType].map(function (obj) {
+                return obj.doc
+              })
+            },
+            valueProp: 'id',
+            labelProp: 'name',
+            required: link.required
+          }
+        },
+        { key: "data", type: 'input', templateOptions: { label: 'Observações' } }
+      ]
+    }
 
+    var generateLinkTypes = function (links) {
+      var res = { node: {}, id: {} }
+      angular.forEach(links, function (nodeLinks, nodeTypeId) {
+        res.node[nodeTypeId] = []
+        angular.forEach(nodeLinks, function (link) {
+          var newLink = {
+            id: link.id,
+            name: link.label,
+            fields: [
+              {
+                key: 'linkedNode',
+                type: 'select-link',
+                templateOptions: {
+                  label: link.label,
+                  linkedType: link.linkedNodeType,
+                  optionsAttr: 'bs-options',
+                  description: link.description,
+                  disabled: true,
+                  get options() {
+                    return m.nodeArrByType[link.linkedNodeType].map(function (obj) {
+                      return obj.doc
+                    })
+                  },
+                  valueProp: 'id',
+                  labelProp: 'name',
+                  required: true
+                }
+              },
+              { key: "data", type: 'input', templateOptions: { label: 'Observações' } }
+            ]
 
-        return m
+          }
+          res.id[newLink.id] = newLink
+        }
+        )
+      })
+      return res
+    }
 
-    })
+*/

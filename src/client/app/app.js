@@ -130,7 +130,7 @@ angular.module('tcApp2App', [
   v.tm = tagsModel;
   v.plm = placesModel;
   v.m= model
-  v.nodeTypes = types.node
+  v.nodeTypes = types.nodes
   
   storage.bind($scope, 'mainList', {defaultValue: {}, storeName: 'videoLists'});
 //  storage.bind($scope, 'mainQueue', {defaultValue: {}, storeName: 'videoQueueLists'})

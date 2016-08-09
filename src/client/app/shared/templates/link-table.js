@@ -8,7 +8,7 @@ angular.module('tcApp2App')
     v.m = model
     v.node = $scope.model
 
-    v.linkTypesOfNode = v.m.linkTypes.node[v.node.doc.type]
+    v.linkTypesOfNode = v.m.linkTypes.nodes[v.node.doc.type]
     v.nodeFields = v.m.nodeTypes[v.node.doc.type]
 
     v.createLink = function (typeFields) {

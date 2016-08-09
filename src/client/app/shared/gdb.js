@@ -9,7 +9,7 @@ angular.module('tcApp2App')
         gdb.nodeById = {}
         gdb.nodeArrByType = {}
 
-        Object.keys(types.node).forEach(function (key) {
+        Object.keys(types.nodes).forEach(function (key) {
             gdb.nodeArrByType[key] = []
         })
 
