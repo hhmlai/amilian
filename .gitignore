@@ -2,7 +2,9 @@
 dist/
 data
 node_modules
+src/node_modules
 src/server/node_modules
 src/client/bower_components
 src/data
 electron
+.vscode
